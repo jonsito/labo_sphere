@@ -6,7 +6,7 @@ class VboxClientHandler extends ClientHandler {
         if ($this->status($vm)['online']) return true;
         $args = "";
         if ($vm["vncport"] > 0) $args .= " -n -m " . $vm["vncport"];
-        system("nohup VBoxHeadless -s '" . $vm["name"] . "'" . $args . " > /dev/null 2>&1 &");
+        system("nohup /usr/bin/VBoxHeadless -s '" . $vm["name"] . "'" . $args . " > /dev/null 2>&1 &");
         return true;
     }
 
@@ -16,7 +16,7 @@ class VboxClientHandler extends ClientHandler {
         $count = 1;
         if ($vm["type"] == "windows") $count = 3;
         for ($i = 0; $i < $count; $i++) {
-            system("VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
+            system("sudo su jantonio /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
             sleep(10);
         }
         return true;
@@ -24,7 +24,7 @@ class VboxClientHandler extends ClientHandler {
 
     function pause($vm) {
         if (!$this->status($vm)['online'])  return true;
-        system("VBoxManage controlvm '" . $vm["name"] . "' savestate");
+        system("sudo su jantonio /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' savestate");
         return true;
     }
 
@@ -34,7 +34,7 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function status($vm) {
-        $fp = popen("VBoxManage list runningvms", "r");
+        $fp = popen("sudo su jantonio /usr/bin/VBoxManage list runningvms", "r");
         if(!$fp) return null;
         while ($line = trim(fgets($fp))) {
             $name = substr($line, 1, strpos($line, "\"", 1)-1);
@@ -53,8 +53,9 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function enumerate($running) {
-        $r=($running)?"runing":"";
-        $fp = popen("VBoxManage list {$r}vms", "r");
+        $r=($running==true)?"runningvms":"vms";
+        $command="sudo su jantonio /usr/bin/VBoxManage list {$r}";
+        $fp = popen($command, "r");
         if (!$fp) return null;
         $res=array();
         while ($line = trim(fgets($fp))) {
