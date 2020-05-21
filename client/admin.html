@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Tabs with Images - jQuery EasyUI Demo</title>
+    <title>CdC Labo Sphere</title>
     <link rel="stylesheet" type="text/css" href="../libs/jquery-easyui-1.9.5/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="../libs/jquery-easyui-1.9.5/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="../libs/jquery-easyui-1.9.5/demo/demo.css">
@@ -10,20 +10,30 @@
     <script type="text/javascript" src="../libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
 </head>
 <body>
-<h2>Tabs with Images</h2>
-<p>The tab strip can display big images.</p>
+<img src="../images/cdcTitle.png" alt="cdc logo header" style="width:800px">
+<h2>Administraci&oacute;n de equipos del laboratorio</h2>
 <div style="margin:20px 0;"></div>
-<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:60" style="width:700px;height:250px">
-    <div title="<span class='tt-inner'><img src='images/modem.png'/><br>Modem</span>" style="padding:10px">
-        <p>A modem (modulator-demodulator) is a device that modulates an analog carrier signal to encode digital information, and also demodulates such a carrier signal to decode the transmitted information.</p>
+<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:800px;height:600px">
+    <div title="<span class='tt-inner'><img src='../images/clients.png'/><br>Clients</span>" style="padding:5px">
+        <table id="tt" class="easyui-treegrid" style="width:100%;height:400px"
+               data-options="url:'../ajax/viewFunctions.php?Operation=clients',rownumbers:true,idField:'id',treeField:'name'">
+            <thead>
+                <tr>
+                    <th data-options="field:'name',width:'50%',align:'left'">Name</th>
+                    <th data-options="field:'ip',width:'10%',align:'center'">IP Addr</th>
+                    <th data-options="field:'status',width:'10%',align:'center'">Status</th>
+                    <th data-options="field:'actions',width:'30%'">Actions</th>
+                </tr>
+            </thead>
+        </table>
     </div>
-    <div title="<span class='tt-inner'><img src='images/scanner.png'/><br>Scanner</span>" style="padding:10px">
+    <div title="<span class='tt-inner'><img src='../images/servers.png'/><br>Servers</span>" style="padding:10px">
         <p>In computing, an image scanner—often abbreviated to just scanner—is a device that optically scans images, printed text, handwriting, or an object, and converts it to a digital image.</p>
     </div>
-    <div title="<span class='tt-inner'><img src='images/pda.png'/><br>Pda</span>" style="padding:10px">
+    <div title="<span class='tt-inner'><img src='../images/config.png'/><br>Config</span>" style="padding:10px">
         <p>A personal digital assistant (PDA), also known as a palmtop computer, or personal data assistant, is a mobile device that functions as a personal information manager. PDAs are largely considered obsolete with the widespread adoption of smartphones.</p>
     </div>
-    <div title="<span class='tt-inner'><img src='images/tablet.png'/><br>Tablet</span>" style="padding:10px">
+    <div title="<span class='tt-inner'><img src='../images/tools.png'/><br>Tools</span>" style="padding:10px">
         <p>A tablet computer, or simply tablet, is a one-piece mobile computer. Devices typically have a touchscreen, with finger or stylus gestures replacing the conventional computer mouse.</p>
     </div>
 </div>
