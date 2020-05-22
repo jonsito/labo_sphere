@@ -8,7 +8,7 @@ class Configuration {
      */
     static $vbox_vms = array(
         "VM Server 1" => "jantonio@localhost",
-        "VM Server 2" => "root@osito.local"
+        "VM Server 2" => "jantonio@osito.local"
     );
 
     /*
@@ -46,7 +46,7 @@ class Configuration {
      */
     static $servers = array(
         "Servidor Web labo" => "cdc@www.lab.dit.upm.es",
-        "maestro3" => "cdc@maestro3.lab.dit.upm.es",
+        "Maestro" => "cdc@maestro3.lab.dit.upm.es",
         "Binario 1" => "cdc@binario1.lab.dit.upm.es",
         "Binario 2" => "cdc@binario2.lab.dit.upm.es",
         "Binario 3" => "cdc@binario3.lab.dit.upm.es",

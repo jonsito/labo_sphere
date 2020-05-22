@@ -6,7 +6,7 @@ class VboxClientHandler extends ClientHandler {
         if ($this->status($vm)['online']) return true;
         $args = "";
         if ($vm["vncport"] > 0) $args .= " -n -m " . $vm["vncport"];
-        system("ssh {$this->location} nohup /usr/bin/VBoxHeadless -s '{$vm["name"]}' {$args} > /dev/null 2>&1 &");
+        system("{$this->ssh_cmd} {$this->location} nohup /usr/bin/VBoxHeadless -s '{$vm["name"]}' {$args} > /dev/null 2>&1 &");
         return true;
     }
 
@@ -16,7 +16,7 @@ class VboxClientHandler extends ClientHandler {
         $count = 1;
         if ($vm["type"] == "windows") $count = 3;
         for ($i = 0; $i < $count; $i++) {
-            system("ssh {$this->location} /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
+            system("{$this->ssh_cmd} {$this->location} /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
             sleep(10);
         }
         return true;
@@ -34,10 +34,13 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function status($vm,$id=0) {
-        $fp = popen("ssh {$this->location} /usr/bin/VBoxManage guestproperty get Ubuntu-20.04 /VirtualBox/GuestInfo/Net/0/V4/IP", "r");
-        if(!$fp) return null;
+        $command="usr/bin/VBoxManage guestproperty get {$vm} /VirtualBox/GuestInfo/Net/0/V4/IP";
+        $a=explode("@",$this->location);
+        $fp=$this->ssh_exec($a[0],$a[1],$command);
+        if(!$fp) return array();
         $ip="";
         $status="Off";
+        stream_set_blocking($fp, true);
         while ($line = trim(fgets($fp))) {
             $name = substr($line, 1, strpos($line, " ", 1)-1);
             if ( strpos($line,"No value") === FALSE ) {
@@ -45,8 +48,8 @@ class VboxClientHandler extends ClientHandler {
                 $ip=str_replace("Value: ","",$line);
             }
         }
-        pclose($fp);
-        return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>$status,'actions'=>'','children'=>array());
+        fclose($fp);
+        return array('id'=>$id,'name'=>$vm,'ip'=>$ip,'status'=>$status,'actions'=>'','children'=>array());
     }
 
     function destroy($vm) {
@@ -54,14 +57,16 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function enumerate() {
-        $command="ssh {$this->location} /usr/bin/VBoxManage list vms";
-        $fp = popen($command, "r");
-        if (!$fp) return null;
         $res=array();
+        $command="/usr/bin/VBoxManage list vms";
+        $a=explode("@",$this->location);
+        $fp=$this->ssh_exec($a[0],$a[1],$command);
+        if (!$fp) return $res;
+        stream_set_blocking($fp, true);
         while ($line = trim(fgets($fp))) {
-            $res[] = substr($line, 1, strpos($line, "\"", 1)-1);
+            array_push($res,substr($line, 1, strpos($line, "\"", 1)-1));
         }
-        pclose($fp);
+        fclose($fp);
         return $res;
     }
 }

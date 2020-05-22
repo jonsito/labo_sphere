@@ -11,8 +11,24 @@ abstract class ClientHandler {
     }
 
     public static function getInstance($type,$location) {
-        $a=new $type($location);
-        return $a;
+        switch ($type) {
+            case "VboxClientHandler" : return new VboxClientHandler($location);
+            case "DesktopClientHandler" : return new DesktopClientHandler($location);
+            case "ServerClientHandler" : return new ServerClientHandler($location);
+            case "VMWareClientHandler" : return new VMWareClientHandler($location);
+        }
+        return null; //error
+    }
+
+    protected function ssh_exec( $user,$host,$command) {
+        $connection = ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
+        if ( ! ssh2_auth_pubkey_file($connection, $user,
+            '/usr/share/httpd/.ssh/id_rsa.pub',
+            '/usr/share/httpd/.ssh/id_rsa') ) {
+            return null;
+        }
+        $fp= ssh2_exec($connection,$command);
+        return $fp;
     }
 
     // list clients at current location

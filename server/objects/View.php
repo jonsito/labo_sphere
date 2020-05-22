@@ -13,13 +13,13 @@ class View {
     function enumerate() {
         $data=array();
         // obtenemos la raiz de servicios
-        $serviceID=0; /* ids from 0 to 9 */
+        $serviceID=1; /* ids from 1 to 9 !dont use zero! */
         foreach ($this->servicios as $serviceName => $serviceData) {
             // serviceData = (handler,serverlist)
             $service=array('id'=>$serviceID,'name'=>$serviceName,'ip'=>'','status'=>'','actions'=>'','children'=>array());
             // para cada servicio obtenemos la lista de servidores
             $serverID=100*$serviceID;
-            $handler=$serviceData[0];
+            $className=$serviceData[0];
             $servers=$serviceData[1];
             foreach($servers as $serverName => $serverData) {
                 // vemos si $data corresponde a una macro o a una maquina
@@ -31,9 +31,10 @@ class View {
                 }
                 $server=array('id'=>$serverID,'name'=>$serverName,'ip'=>$ip,'status'=>'','actions'=>'','children'=>array());
                 // para cada server buscamos los hosts
-                $handler=ClientHandler::getInstance($handler,$serverData);
-                $hostID=1000*$serverID;
-                foreach($handler->enumerate() as $hostName) {
+                $handler=ClientHandler::getInstance($className,$serverData);
+                $hostID=100*$serverID;
+                $hosts=$handler->enumerate();
+                foreach($hosts as $hostName) {
                     $host=$handler->status($hostName);
                     // add host to server tree
                     array_push($server['children'],$host);
