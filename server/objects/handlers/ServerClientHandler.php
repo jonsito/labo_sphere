@@ -1,9 +1,9 @@
 <?php
-class DesktopClientHandler extends ClientHandler {
+class ServerClientHandler extends ClientHandler {
 
     // list clients at current location
-    function enumerate($running){
-
+    function enumerate(){
+        return array();
     }
 
     // start/wakeup client
@@ -32,7 +32,7 @@ class DesktopClientHandler extends ClientHandler {
     }
 
     // get running status, ip address, machine type and so
-    function status($name){
-
+    function status($name,$id=0){
+        return array();
     }
 }

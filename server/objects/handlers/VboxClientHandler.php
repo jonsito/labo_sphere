@@ -6,7 +6,7 @@ class VboxClientHandler extends ClientHandler {
         if ($this->status($vm)['online']) return true;
         $args = "";
         if ($vm["vncport"] > 0) $args .= " -n -m " . $vm["vncport"];
-        system("nohup /usr/bin/VBoxHeadless -s '" . $vm["name"] . "'" . $args . " > /dev/null 2>&1 &");
+        system("ssh {$this->location} nohup /usr/bin/VBoxHeadless -s '{$vm["name"]}' {$args} > /dev/null 2>&1 &");
         return true;
     }
 
@@ -16,7 +16,7 @@ class VboxClientHandler extends ClientHandler {
         $count = 1;
         if ($vm["type"] == "windows") $count = 3;
         for ($i = 0; $i < $count; $i++) {
-            system("sudo -u jantonio /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
+            system("ssh {$this->location} /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
             sleep(10);
         }
         return true;
@@ -33,28 +33,29 @@ class VboxClientHandler extends ClientHandler {
         return $this->start($vm);
     }
 
-    function status($vm) {
-        $fp = popen("sudo -u jantonio /usr/bin/VBoxManage list runningvms", "r");
+    function status($vm,$id=0) {
+        $fp = popen("ssh {$this->location} /usr/bin/VBoxManage guestproperty get Ubuntu-20.04 /VirtualBox/GuestInfo/Net/0/V4/IP", "r");
         if(!$fp) return null;
+        $ip="";
+        $status="Off";
         while ($line = trim(fgets($fp))) {
-            $name = substr($line, 1, strpos($line, "\"", 1)-1);
-            if ($name == $vm["name"]) {
-                pclose($fp);
-                // PENDING: retrieve type, IP, and so
-                return array('name'=>$name,'status'=>'On');
+            $name = substr($line, 1, strpos($line, " ", 1)-1);
+            if ( strpos($line,"No value") === FALSE ) {
+                $status="On";
+                $ip=str_replace("Value: ","",$line);
             }
         }
         pclose($fp);
-        return null;
+        return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>$status,'actions'=>'','children'=>array());
     }
 
     function destroy($vm) {
         return true;
     }
 
-    function enumerate($running) {
+    function enumerate() {
         $r=($running==true)?"runningvms":"vms";
-        $command="sudo -u jantonio /usr/bin/VBoxManage list {$r}";
+        $command="ssh {$this->location} /usr/bin/VBoxManage list {$r}";
         $fp = popen($command, "r");
         if (!$fp) return null;
         $res=array();

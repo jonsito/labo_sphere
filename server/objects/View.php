@@ -1,34 +1,51 @@
 <?php
-require_once(__DIR__."/ClientHandler.php");
-require_once(__DIR__."/VboxClientHandler.php");
-require_once(__DIR__."/DesktopClientHandler.php");
+require_once(__DIR__."/Config.php");
+require_once(__DIR__."/handlers/ClientHandler.php");
 
 class View {
-    function enumerate() {
-        $data=array(
-            array( 'id'=>1,'name'=>'M&aacute;quinas Virtuales','ip'=>'','status'=>'','actions'=>'','children'=>array()),
-            array( 'id'=>2,'name'=>'Lab. B-123-1','ip'=>'','status'=>'','actions'=>'','children'=>array()),
-            array( 'id'=>3,'name'=>'Lab. B-123-2','ip'=>'','status'=>'','actions'=>'','children'=>array()),
-            array( 'id'=>4,'name'=>'Lab. A-127-4','ip'=>'','status'=>'','actions'=>'','children'=>array()),
-            array( 'id'=>5,'name'=>'Lab. A-127-3','ip'=>'','status'=>'','actions'=>'','children'=>array()),
-            array( 'id'=>6,'name'=>'Lab. A-127-2','ip'=>'','status'=>'','actions'=>'','children'=>array()),
-            array( 'id'=>7,'name'=>'Despachos','ip'=>'','status'=>'','actions'=>'','children'=>array()),
-        );
+    var $config;
+    var $servicios;
 
-        $vb=new VboxClientHandler("Maquinas Virtuales");
-        $vms=$vb->enumerate(false);
-        $rvms=$vb->enumerate(true);
-        if (!is_array($vms)) return $data;
-        $childrens=&$data[0]['children'];
-        $count=0;
-        foreach ($vms as $vm) {
-            $ip="";
-            $status=in_array($vm,$rvms)?"On":"Off";
-            if ($status=="On") {
-                // PENDING get ip, type and so
-                $ip="10.0.0.".$count++;
+    function __construct() {
+        $this->config=new Config();
+        $this->servicios=$this->config->getServices();
+    }
+    function enumerate() {
+        $data=array();
+        // obtenemos la raiz de servicios
+        $serviceID=0; /* ids from 0 to 9 */
+        foreach ($this->servicios as $serviceName => $serviceData) {
+            // serviceData = (handler,serverlist)
+            $service=array('id'=>$serviceID,'name'=>$serviceName,'ip'=>'','status'=>'','actions'=>'','children'=>array());
+            // para cada servicio obtenemos la lista de servidores
+            $serverID=100*$serviceID;
+            $handler=$serviceData[0];
+            $servers=$serviceData[1];
+            foreach($servers as $serverName => $serverData) {
+                // vemos si $data corresponde a una macro o a una maquina
+                // las maquinas vienen precedidas por user@ ; esto es, el usuario con que se hara ssh
+                // las macros no tienen @
+                $ip="";
+                if (strpos($serverData,"@")!==FALSE) {
+                    $ip=preg_replace(".*@","",$serverData);
+                }
+                $server=array('id'=>$serverID,'name'=>$serverName,'ip'=>$ip,'status'=>'','actions'=>'','children'=>array());
+                // para cada server buscamos los hosts
+                $handler=ClientHandler::getInstance($handler,$serverData);
+                $hostID=1000*$serverID;
+                foreach($handler->enumerate() as $hostName) {
+                    $host=$handler->status($hostName);
+                    // add host to server tree
+                    array_push($server['children'],$host);
+                    $hostID++;
+                }
+                // ad server to service
+                array_push($service['children'],$server);
+                $serverID++;
             }
-            $childrens[]=array('id'=>1000+$count,'name'=>$vm,'ip'=>$ip,'status'=>$status,'actions'=>'','children'=>array());
+            // add service to main tree
+            array_push($data,$service);
+            $serviceID++;
         }
         return $data;
     }

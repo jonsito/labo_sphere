@@ -6,8 +6,16 @@ abstract class ClientHandler {
     public function ClientHandler($location) {
         $this->location=$location;
     }
+
+    public static function getInstance($type,$location) {
+        $a=new $type($location);
+        return $a;
+    }
+
     // list clients at current location
-    abstract protected function enumerate($running);
+    abstract protected function enumerate();
+    // get running status, ip address, machine type and so
+    abstract protected function status($name,$id=0);
     // start/wakeup client
     abstract protected function start($name);
     // stop/shutdown client
@@ -18,6 +26,4 @@ abstract class ClientHandler {
     abstract protected function resume($name);
     // remove client
     abstract protected function destroy($name);
-    // get running status, ip address, machine type and so
-    abstract protected function status($name);
 }
