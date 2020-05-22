@@ -10,6 +10,18 @@ class NetworkInterfaces {
         $this->osName = strtoupper(PHP_OS);
     }
 
+    // Function to check response time to http connect request
+    // also used as tcp ping test
+    static function isHostAlive($host){
+        $starttime = microtime(true);
+        $file      = @fsockopen ($host, 80, $errno, $errstr, 5);
+        $stoptime  = microtime(true);
+        if (!$file) return -1;  // Site is down
+        fclose($file);
+        $status = ($stoptime - $starttime) * 1000;
+        return floor($status);
+    }
+
     /**
      * Ping to requested host with provided ( or defaulted ) parameters
      * @return int Latency, in ms.

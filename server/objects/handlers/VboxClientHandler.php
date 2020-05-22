@@ -33,11 +33,24 @@ class VboxClientHandler extends ClientHandler {
         return $this->start($vm);
     }
 
-    function status($vm,$id=0) {
-        $command="usr/bin/VBoxManage guestproperty get {$vm} /VirtualBox/GuestInfo/Net/0/V4/IP";
+    function serverStatus($name,$id=0) {
+        $command="/usr/bin/lsb_release -d";
         $a=explode("@",$this->location);
         $fp=$this->ssh_exec($a[0],$a[1],$command);
-        if(!$fp) return array();
+        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'Off','actions'=>'','comments'=>'','children'=>array());
+        $ip=$a[1];
+        $status="Off";
+        stream_set_blocking($fp, true);
+        $line=preg_replace("/.*:[\t]/","",trim(fgets($fp)));
+        fclose($fp);
+        return array('id'=>$id,'name'=>$name,'ip'=>$a[1],'status'=>'On','actions'=>'','comments'=>$line,'children'=>array());
+    }
+
+    function status($vm,$id=0) {
+        $command="/usr/bin/VBoxManage guestproperty get {$vm} /VirtualBox/GuestInfo/Net/0/V4/IP";
+        $a=explode("@",$this->location);
+        $fp=$this->ssh_exec($a[0],$a[1],$command);
+        if(!$fp) return array('id'=>$id,'name'=>$vm,'ip'=>'','status'=>'Off','actions'=>'','comments'=>'','children'=>array());
         $ip="";
         $status="Off";
         stream_set_blocking($fp, true);
@@ -49,7 +62,7 @@ class VboxClientHandler extends ClientHandler {
             }
         }
         fclose($fp);
-        return array('id'=>$id,'name'=>$vm,'ip'=>$ip,'status'=>$status,'actions'=>'','children'=>array());
+        return array('id'=>$id,'name'=>$vm,'ip'=>$ip,'status'=>$status,'actions'=>'','comments'=>'','children'=>array());
     }
 
     function destroy($vm) {

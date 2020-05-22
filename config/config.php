@@ -1,14 +1,21 @@
 <?php
 class Configuration {
     /*
+     * directory path where public and private rsa keys reside
+     * must be readable by "apache" user
+     * But MUST NOT be able to retrieve from web browser
+     */
+    static $ssh_keypath="/usr/share/httpd/.ssh";
+
+    /*
      * Lista de servidores de maquinas virtuales VirtualBox
      * formato usuario@maquina
      * debe permitir el acceso sin password por ssh (authorized keys)
      * al usuario "apache" del servidor donde se ejecuta esta aplicacion
      */
     static $vbox_vms = array(
-        "VM Server 1" => "jantonio@localhost",
-        "VM Server 2" => "jantonio@osito.local"
+        "Local VBox Server" => "jantonio@localhost",
+        "Remote VB Server 1" => "jantonio@pepino.local"
     );
 
     /*

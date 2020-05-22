@@ -8,21 +8,23 @@
     <link rel="stylesheet" type="text/css" href="../libs/jquery-easyui-1.9.5/demo/demo.css">
     <script type="text/javascript" src="../libs/jquery-easyui-1.9.5/jquery.min.js"></script>
     <script type="text/javascript" src="../libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../libs/formatters.js"></script>
 </head>
 <body>
-<img src="../images/cdcTitle.png" alt="cdc logo header" style="width:800px">
+<img src="../images/cdcTitle.png" alt="cdc logo header" style="width:900px">
 <h2>Administraci&oacute;n de equipos del laboratorio</h2>
 <div style="margin:20px 0;"></div>
-<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:800px;height:640px">
+<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:900px;height:640px">
     <div title="<span class='tt-inner'><img src='../images/clients.png'/><br>Clients</span>" style="padding:5px">
         <table id="tt" class="easyui-treegrid" style="width:100%;height:550px"
                data-options="url:'../ajax/viewFunctions.php?Operation=clients',rownumbers:true,idField:'id',treeField:'name'">
             <thead>
                 <tr>
-                    <th data-options="field:'name',width:'40%',align:'left'">Name</th>
+                    <th data-options="field:'name',width:'30%',align:'left'">Nombre</th>
                     <th data-options="field:'ip',width:'20%',align:'center'">IP Addr</th>
-                    <th data-options="field:'status',width:'10%',align:'center'">Status</th>
-                    <th data-options="field:'actions',width:'25%'">Actions</th>
+                    <th data-options="field:'status',width:'7%',align:'center',styler:statusStyler">Estado</th>
+                    <th data-options="field:'actions',width:'15%',align:'center'">Acciones</th>
+                    <th data-options="field:'comments',width:'28%'">Observaciones</th>
                 </tr>
             </thead>
         </table>

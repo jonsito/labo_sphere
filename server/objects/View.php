@@ -13,12 +13,11 @@ class View {
     function enumerate() {
         $data=array();
         // obtenemos la raiz de servicios
-        $serviceID=1; /* ids from 1 to 9 !dont use zero! */
+        $index=1; /* ids from 1 to 9 !dont use zero! */
         foreach ($this->servicios as $serviceName => $serviceData) {
             // serviceData = (handler,serverlist)
-            $service=array('id'=>$serviceID,'name'=>$serviceName,'ip'=>'','status'=>'','actions'=>'','children'=>array());
+            $service=array('id'=>$index++,'name'=>$serviceName,'ip'=>'','status'=>'','actions'=>'','children'=>array());
             // para cada servicio obtenemos la lista de servidores
-            $serverID=100*$serviceID;
             $className=$serviceData[0];
             $servers=$serviceData[1];
             foreach($servers as $serverName => $serverData) {
@@ -29,24 +28,22 @@ class View {
                 if (strpos($serverData,"@")!==FALSE) {
                     $ip=preg_replace("/.*@/","",$serverData);
                 }
-                $server=array('id'=>$serverID,'name'=>$serverName,'ip'=>$ip,'status'=>'','actions'=>'','children'=>array());
-                // para cada server buscamos los hosts
                 $handler=ClientHandler::getInstance($className,$serverData);
-                $hostID=100*$serverID;
+                $server=$handler->serverStatus($serverName,$index++);
+                if($server['ip']==="") $server['ip']=$ip; // fill if no provided ip
+                // para cada server buscamos los hosts
                 $hosts=$handler->enumerate();
                 foreach($hosts as $hostName) {
-                    $host=$handler->status($hostName);
+                    set_time_limit(30);
+                    $host=$handler->status($hostName,$index++);
                     // add host to server tree
                     array_push($server['children'],$host);
-                    $hostID++;
                 }
                 // ad server to service
                 array_push($service['children'],$server);
-                $serverID++;
             }
             // add service to main tree
             array_push($data,$service);
-            $serviceID++;
         }
         return $data;
     }

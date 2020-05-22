@@ -1,4 +1,6 @@
 <?php
+require_once(__DIR__."/../../../config/config.php");
+require_once(__DIR__."/../NetworkInterfaces.php");
 require_once(__DIR__."/VboxClientHandler.php");
 require_once(__DIR__."/DesktopClientHandler.php");
 require_once(__DIR__."/ServerClientHandler.php");
@@ -21,28 +23,57 @@ abstract class ClientHandler {
     }
 
     protected function ssh_exec( $user,$host,$command) {
-        $connection = ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
+        if (NetworkInterfaces::isHostAlive($host)<0) return null;
+        $connection = @ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
+        if (!$connection) return null;
         if ( ! ssh2_auth_pubkey_file($connection, $user,
-            '/usr/share/httpd/.ssh/id_rsa.pub',
-            '/usr/share/httpd/.ssh/id_rsa') ) {
+            Configuration::$ssh_keypath.'/id_rsa.pub',
+            Configuration::$ssh_keypath.'/id_rsa') ) {
             return null;
         }
         $fp= ssh2_exec($connection,$command);
         return $fp;
     }
 
-    // list clients at current location
-    abstract protected function enumerate();
-    // get running status, ip address, machine type and so
+    /**
+     * List clients at current location
+     */
+    protected function enumerate() { return array(); }
+
+    /**
+     * get status of server
+     */
+    function serverStatus($name,$id=0) {
+        return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'','actions'=>'','comments'=>'','children'=>array());
+    }
+
+    /**
+     * get status of client, ip address, machine type and so
+     */
     abstract protected function status($name,$id=0);
-    // start/wakeup client
-    abstract protected function start($name);
-    // stop/shutdown client
-    abstract protected function stop($name);
-    // pause/suspend client ( use with care )
-    abstract protected function pause($name);
-    // resume paused/suspended client
-    abstract protected function resume($name);
-    // remove client
-    abstract protected function destroy($name);
+
+    /**
+     * start/wakeup client
+     */
+    protected function start($name) { return true; }
+
+    /**
+     * stop/shutdown client
+     */
+    protected function stop($name) { return true; }
+
+    /**
+     * pause/suspend client ( use with care )
+     */
+    protected function pause($name) { return true; }
+
+    /**
+     * resume paused/suspended client
+     */
+    protected function resume($name) { return true; }
+
+    /**
+     * remove client
+     */
+    protected function destroy($name) { return true; }
 }
