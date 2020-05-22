@@ -1,11 +1,11 @@
-<?
+<?php
+require_once(__DIR__."/../../config/config.php");
 
 class Config {
     var $servicios;
 
     function __construct() {
-        include(__DIR__."/../../config/config.php");
-        $this->servicios=$servicios;
+        $this->servicios=Configuration::getServicios();
     }
 
     function getService($service) {

@@ -1,9 +1,12 @@
 <?php
-
+require_once(__DIR__."/VboxClientHandler.php");
+require_once(__DIR__."/DesktopClientHandler.php");
+require_once(__DIR__."/ServerClientHandler.php");
+require_once(__DIR__."/VMWareClientHandler.php");
 
 abstract class ClientHandler {
     protected $location;
-    public function ClientHandler($location) {
+    public function __construct($location) {
         $this->location=$location;
     }
 

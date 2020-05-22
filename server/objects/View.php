@@ -27,7 +27,7 @@ class View {
                 // las macros no tienen @
                 $ip="";
                 if (strpos($serverData,"@")!==FALSE) {
-                    $ip=preg_replace(".*@","",$serverData);
+                    $ip=preg_replace("/.*@/","",$serverData);
                 }
                 $server=array('id'=>$serverID,'name'=>$serverName,'ip'=>$ip,'status'=>'','actions'=>'','children'=>array());
                 // para cada server buscamos los hosts

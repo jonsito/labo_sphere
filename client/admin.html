@@ -13,16 +13,16 @@
 <img src="../images/cdcTitle.png" alt="cdc logo header" style="width:800px">
 <h2>Administraci&oacute;n de equipos del laboratorio</h2>
 <div style="margin:20px 0;"></div>
-<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:800px;height:600px">
+<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:800px;height:640px">
     <div title="<span class='tt-inner'><img src='../images/clients.png'/><br>Clients</span>" style="padding:5px">
-        <table id="tt" class="easyui-treegrid" style="width:100%;height:400px"
+        <table id="tt" class="easyui-treegrid" style="width:100%;height:550px"
                data-options="url:'../ajax/viewFunctions.php?Operation=clients',rownumbers:true,idField:'id',treeField:'name'">
             <thead>
                 <tr>
-                    <th data-options="field:'name',width:'50%',align:'left'">Name</th>
-                    <th data-options="field:'ip',width:'10%',align:'center'">IP Addr</th>
+                    <th data-options="field:'name',width:'40%',align:'left'">Name</th>
+                    <th data-options="field:'ip',width:'20%',align:'center'">IP Addr</th>
                     <th data-options="field:'status',width:'10%',align:'center'">Status</th>
-                    <th data-options="field:'actions',width:'30%'">Actions</th>
+                    <th data-options="field:'actions',width:'25%'">Actions</th>
                 </tr>
             </thead>
         </table>

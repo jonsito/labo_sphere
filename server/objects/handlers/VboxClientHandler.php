@@ -54,8 +54,7 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function enumerate() {
-        $r=($running==true)?"runningvms":"vms";
-        $command="ssh {$this->location} /usr/bin/VBoxManage list {$r}";
+        $command="ssh {$this->location} /usr/bin/VBoxManage list vms";
         $fp = popen($command, "r");
         if (!$fp) return null;
         $res=array();
