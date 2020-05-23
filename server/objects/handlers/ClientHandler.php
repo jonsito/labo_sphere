@@ -37,6 +37,7 @@ abstract class ClientHandler {
 
     /**
      * List clients at current location
+     * @return array list of client names
      */
     protected function enumerate() { return array(); }
 

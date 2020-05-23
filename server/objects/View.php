@@ -10,13 +10,19 @@ class View {
         $this->config=new Config();
         $this->servicios=$this->config->getServices();
     }
+
+    function defaultEntry($name,$level,$status='???') {
+        static $index=1;
+        return array('id'=>$index++,'level'=>$level,'name'=>$name,'ip'=>'','status'=>$status,'actions'=>'','children'=>array());
+    }
+
     function enumerate() {
         $data=array();
         // obtenemos la raiz de servicios
         $index=1; /* ids from 1 to 9 !dont use zero! */
         foreach ($this->servicios as $serviceName => $serviceData) {
             // serviceData = (handler,serverlist)
-            $service=array('id'=>$index++,'name'=>$serviceName,'ip'=>'','status'=>'','actions'=>'','children'=>array());
+            $service=$this->defaultEntry($serviceName,1,'');
             // para cada servicio obtenemos la lista de servidores
             $className=$serviceData[0];
             $servers=$serviceData[1];
@@ -29,13 +35,12 @@ class View {
                     $ip=preg_replace("/.*@/","",$serverData);
                 }
                 $handler=ClientHandler::getInstance($className,$serverData);
-                $server=$handler->serverStatus($serverName,$index++);
-                if($server['ip']==="") $server['ip']=$ip; // fill if no provided ip
+                $server=$this->defaultEntry($serverName,2,'');
+                $server['ip']=$ip;
                 // para cada server buscamos los hosts
                 $hosts=$handler->enumerate();
                 foreach($hosts as $hostName) {
-                    set_time_limit(30);
-                    $host=$handler->status($hostName,$index++);
+                    $host=$this->defaultEntry($hostName,3);
                     // add host to server tree
                     array_push($server['children'],$host);
                 }
