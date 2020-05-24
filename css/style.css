@@ -1,0 +1,10 @@
+
+.tt-inner{
+    display:inline-block;
+    line-height:12px;
+    padding-top:5px;
+}
+
+.tt-inner img{
+    border:0;
+}

@@ -16,6 +16,26 @@ class View {
         return array('id'=>$index++,'level'=>$level,'name'=>$name,'ip'=>'','status'=>$status,'actions'=>'','children'=>array());
     }
 
+    function checkGroup($id,$name,$children) {
+        // find class handler
+        $classHandler="";
+        foreach ($this->servicios as $serviceName => $serviceData) {
+            $services=$serviceData[1];
+            foreach($services as $serviceName =>$item) {
+                if($serviceName===$name) {
+                    $classHandler=$serviceData[0];
+                    break 2;
+                }
+            }
+        }
+        if ($classHandler==="") {
+            return array("success"=>false,"errorMsg"=>"Invalid family name {$family}");
+        }
+        $handler=ClientHandler::getInstance($classHandler,$name);
+        sleep(3); // remove when code completed
+        return array("success"=>true,"data"=>"Parsed ID:{$id} Name:{$name} Family:{$classHandler}");
+    }
+
     function enumerate() {
         $data=array();
         // obtenemos la raiz de servicios

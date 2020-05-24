@@ -44,7 +44,7 @@ class Configuration {
      * la lista se obtiene desde maestro por ssh
      */
     static $extra_pcs = array(
-        "Despachos" => "extra"
+        "Despachos y Acc. Remoto" => "extra"
     );
 
     /**
