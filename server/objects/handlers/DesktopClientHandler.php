@@ -23,6 +23,47 @@ class DesktopClientHandler extends ClientHandler {
         return $res;
     }
 
+    /**
+     * comprueba el estado de los clientes
+     * @param {integer} $id tree node id
+     * @param {string} $name tree node name
+     * @param {string} $children node children list BEGIN,ID:name:status,...,END
+     * @return array datos de los clientes que cambian
+     */
+    function groupStatus($id, $name, $children) {
+        $result=array();
+        /*
+        $hostList=explode(",",$children);
+        foreach($hostList as $host) {
+            if ($host==="BEGIN") continue;
+            if ($host==="END") continue;
+            list($id,$name,$status) = explode(":",$host);
+            $data=$this->hostStatus($id,$name);
+            // only return data on changed elements
+            if($data['status']!==$status) array_push($result,$data);
+        }
+        */
+        return $result;
+    }
+
+    /**
+     * get running status, ip address, machine type and so
+     * @param {integer} $id tree node id
+     * @param {string} $name tree node name
+     * @return array contents on evaluated node
+     */
+    function hostStatus($id,$name){
+        $command="/usr/bin/who";
+        $ip=gethostbyname("{$name}.lab.dit.upm.es");
+        $fp=$this->ssh_exec('cdc',$ip,$command);
+        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off','actions'=>'','comments'=>'','children'=>array());
+        $status="On";
+        stream_set_blocking($fp, true);
+        $line=trim(fgets($fp));
+        fclose($fp);
+        if ($line!=="") $status="Busy";
+        return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>$status);
+    }
     // start/wakeup client
     function start($name){
 
@@ -46,19 +87,5 @@ class DesktopClientHandler extends ClientHandler {
     // remove client
     function destroy($name){
 
-    }
-
-    // get running status, ip address, machine type and so
-    function status($name,$id=0){
-        $command="/usr/bin/who";
-        $ip=gethostbyname("{$name}.lab.dit.upm.es");
-        $fp=$this->ssh_exec('cdc',$ip,$command);
-        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off','actions'=>'','comments'=>'','children'=>array());
-        $status="On";
-        stream_set_blocking($fp, true);
-        $line=trim(fgets($fp));
-        fclose($fp);
-        if ($line!=="") $status="Busy";
-        return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>$status,'actions'=>'','comments'=>'','children'=>array());
     }
 }

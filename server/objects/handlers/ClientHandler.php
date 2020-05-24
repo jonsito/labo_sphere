@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__."/../../logging.php");
 require_once(__DIR__."/../../../config/config.php");
 require_once(__DIR__."/../NetworkInterfaces.php");
 require_once(__DIR__."/VboxClientHandler.php");
@@ -8,8 +9,10 @@ require_once(__DIR__."/VMWareClientHandler.php");
 
 abstract class ClientHandler {
     protected $location;
+    protected $myLogger;
     public function __construct($location) {
         $this->location=$location;
+        $this->myLogger=new Logger("ClientHandler",LEVEL_TRACE);
     }
 
     public static function getInstance($type,$location) {
@@ -25,13 +28,18 @@ abstract class ClientHandler {
     protected function ssh_exec( $user,$host,$command) {
         if (NetworkInterfaces::isHostAlive($host)<0) return null;
         $connection = @ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
-        if (!$connection) return null;
+        if (!$connection) {
+            $this->myLogger->notice("Cannot ssh connect to server {$host}");
+            return null;
+        }
         if ( ! ssh2_auth_pubkey_file($connection, $user,
             Configuration::$ssh_keypath.'/id_rsa.pub',
             Configuration::$ssh_keypath.'/id_rsa') ) {
+            $this->myLogger->notice("Cannot ssh auth with server {$host}");
             return null;
         }
         $fp= ssh2_exec($connection,$command);
+        if (!$fp) $this->myLogger->error("Execution of ssh {$user}@{$host} {$command} failed");
         return $fp;
     }
 
@@ -42,16 +50,18 @@ abstract class ClientHandler {
     protected function enumerate() { return array(); }
 
     /**
-     * get status of server
+     * get status of server group
+     * should be overriden
      */
-    function serverStatus($name,$id=0) {
-        return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'','actions'=>'','comments'=>'','children'=>array());
+    function groupStatus($id,$name,$children) {
+        sleep(3); // remove when code completed
+        return array("success"=>true,"data"=>array());
     }
 
     /**
      * get status of client, ip address, machine type and so
      */
-    abstract protected function status($name,$id=0);
+    abstract protected function hostStatus($id,$name);
 
     /**
      * start/wakeup client

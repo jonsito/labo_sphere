@@ -32,7 +32,7 @@ class ServerClientHandler extends ClientHandler {
     }
 
     // get running status, ip address, machine type and so
-    function status($name,$id=0){
+    function hostStatus($id,$name){
         return array();
     }
 }

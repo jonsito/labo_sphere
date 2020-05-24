@@ -33,20 +33,77 @@ class VboxClientHandler extends ClientHandler {
         return $this->start($vm);
     }
 
-    function serverStatus($name,$id=0) {
+    /**
+     * obtiene el estado del servidor actual y de todos los subnodos disponibles
+     * Si un nodo no estaba presente crea y lo pone con id=0
+     * Si un nodo ya no esta, lo devuelve con status "erased"
+     * @param $id
+     * @param $name
+     * @param $children
+     * @return array con el estado de los nodos
+     */
+    function groupStatus($id,$name,$children) {
+        $result=array();
+        // obtenemos usuario y direccion del servidor
+        $userhost=Configuration::$vbox_vms[$name];
+        list($serverUser,$serverHost)=explode("@",$userhost);
+        // generamos lista de clientes actual
+        $vhostList=explode(",",$children);
+        // fase 1 comprobamos el estado del servidor
         $command="/usr/bin/lsb_release -d";
-        $a=explode("@",$this->location);
-        $fp=$this->ssh_exec($a[0],$a[1],$command);
-        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'Off','actions'=>'','comments'=>'','children'=>array());
-        $ip=$a[1];
-        $status="Off";
+        $fp=$this->ssh_exec($serverUser,$serverHost,$command);
+        if (!$fp) {
+            // marcamos el servidor de maquinas virtuales como off
+            array_push($result,array("id"=>$id,"name"=>$name,"status"=>'Off'));
+            // y marcamos todas las maquinas recibidas como "desconocido"
+            foreach($vhostList as $host) {
+                if ($host==='BEGIN') continue;
+                if ($host==='END') continue;
+                list($vid,$vname,$status)=explode(":",$host);
+                array_push($result,array("vid"=>$id,"vname"=>$name,"status"=>'???'));
+            }
+            return $result;
+        }
+        // si llegamos aqui, el servidor de maquinas virtuales está activo.
+
+        // obtenemos datos del servidor
+        $ip=gethostbyname($serverHost);
         stream_set_blocking($fp, true);
         $line=preg_replace("/.*:[\t]/","",trim(fgets($fp)));
         fclose($fp);
-        return array('id'=>$id,'name'=>$name,'ip'=>$a[1],'status'=>'On','actions'=>'','comments'=>$line,'children'=>array());
+        array_push($result,array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'On','comments'=>$line));
+        // y ahora obtenemos datos de las maquinas que estan corriendo en dicho servidor
+
+        // primero generamos la lista por defecto, poniendo todos a 'Out'
+        // usamos un array asociativo para facilitar las busquedas
+        $data=array();
+        foreach($vhostList as $host) {
+            if ($host==='BEGIN') continue;
+            if ($host==='END') continue;
+            list($vid,$vname,$status)=explode(":",$host);
+            $data[$vname]=array("id"=>$vid,"name"=>$vname,"status"=>'Out');
+        }
+
+        // ahora preguntamos al servidor la lista de maquinas
+        // completamos la lista por defecto, poniendo a "Off" las encontradas
+        // si hay alguna nueva, la creamos con id=0 y status a Off
+        $vcurrent=$this->enumerateRunning("vms",$userhost);
+        foreach($vcurrent as $host) {
+            if(array_key_exists($host,$data)) $data[$host]['status']='Off';
+            else $data[$host]=array("id"=>0,"name"=>$host,"status"=>'Off');
+        }
+        // finalmente vemos que maquinas estan activas
+        // y volvemos a repasar la lista anterior, poniendo a "On" las encontradas
+        $vrunning=$this->enumerateRunning("runningvms",$userhost);
+        foreach($vrunning as $host) { $data[$host]['status']='On'; }
+
+        //hora de retornar el resultado :-)
+        // convertimos el array asociativo en array normal quitando las claves y lo retornamos
+        foreach($data as $host => $value) array_push($result,$value);
+        return $result;
     }
 
-    function status($vm,$id=0) {
+    function hostStatus($id,$vm) {
         $command="/usr/bin/VBoxManage guestproperty get {$vm} /VirtualBox/GuestInfo/Net/0/V4/IP";
         $a=explode("@",$this->location);
         $fp=$this->ssh_exec($a[0],$a[1],$command);
@@ -62,7 +119,7 @@ class VboxClientHandler extends ClientHandler {
             }
         }
         fclose($fp);
-        return array('id'=>$id,'name'=>$vm,'ip'=>$ip,'status'=>$status,'actions'=>'','comments'=>'','children'=>array());
+        return array('id'=>$id,'name'=>$vm,'ip'=>$ip,'status'=>$status);
     }
 
     function destroy($vm) {
@@ -70,9 +127,13 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function enumerate() {
+        return $this->enumerateRunning("vms",$this->location);
+    }
+
+    private function enumerateRunning($mode,$location) {
         $res=array();
-        $command="/usr/bin/VBoxManage list vms";
-        $a=explode("@",$this->location);
+        $command="/usr/bin/VBoxManage list {$mode}";
+        $a=explode("@",$location);
         $fp=$this->ssh_exec($a[0],$a[1],$command);
         if (!$fp) return $res;
         stream_set_blocking($fp, true);

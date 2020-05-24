@@ -5,17 +5,15 @@ var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
  * llamada a comprobar el estado de un grupo de servidores. puede estar vacio,
  * en cuyo caso hay que verificar si es un servidor o un grupo vacio
  * @param node selected treenode node
- * @param index node index
- * @param root list of childrens of parent node
  */
 function checkNode(node) {
     if(typeof(pending_nodes[node.id])=="undefined") pending_nodes[node.id]=0; // initialize if not yet
     if (pending_nodes[node.id]!==0) return; // still busy do nothing
     pending_nodes[node.id]=1;
     // retrieve and compose children list
-    hosts=node.children;
-    hostList="BEGIN";
-    hosts.forEach(function(item) { hostList = hostList+","+item.id+":"+item.name; });
+    var hosts=node.children;
+    var hostList="BEGIN";
+    hosts.forEach(function(item) { hostList = hostList+","+item.id+":"+item.name+":"+item.status; });
     hostList=hostList+",END";
     // call server to retrieve status
     $.ajax({
@@ -40,13 +38,13 @@ function checkNode(node) {
 
 function pollNodes() {
     if($('#poll_running').val()==="1") {
-        roots=$('#labo_treegrid').treegrid('getRoots');
+        var roots=$('#labo_treegrid').treegrid('getRoots');
         roots.forEach(function(node,index,parent) {
-            children=node['children'];
+            var children=node['children'];
             children.forEach(checkNode);
         });
     }
-    setTimeout(pollNodes,250)
+    setTimeout(pollNodes,30000); // 30 seconds
 }
 
 function enablePolling(val) { $('#poll_running').val(val); }

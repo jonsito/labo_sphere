@@ -29,11 +29,10 @@ class View {
             }
         }
         if ($classHandler==="") {
-            return array("success"=>false,"errorMsg"=>"Invalid family name {$family}");
+            return array("success"=>false,"errorMsg"=>"Cannot find handler for  {$name}");
         }
         $handler=ClientHandler::getInstance($classHandler,$name);
-        sleep(3); // remove when code completed
-        return array("success"=>true,"data"=>"Parsed ID:{$id} Name:{$name} Family:{$classHandler}");
+        return $handler->groupStatus($id,$name,$children);
     }
 
     function enumerate() {

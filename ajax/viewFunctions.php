@@ -19,4 +19,7 @@ switch ($operation) {
         $res=[];
         break;
 }
+if($res==null) $res=array("success"=>true);
+else if($res=="") $res=array("success"=>true);
+else if(is_string($res)) $res=array("success"=>false,"errorMsg"=>$res);
 echo json_encode($res);
