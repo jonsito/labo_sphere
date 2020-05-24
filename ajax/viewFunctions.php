@@ -7,6 +7,8 @@ $v=new View();
 switch ($operation) {
     case "clients":
         $res=$v->enumerate();
+        echo json_encode($res);
+        return;
         break;
     case "checkgroup":
         $id=http_request("id","i",0);
@@ -19,7 +21,8 @@ switch ($operation) {
         $res=[];
         break;
 }
-if($res==null) $res=array("success"=>true);
-else if($res=="") $res=array("success"=>true);
+if($res==null) $res=array("success"=>true,"data"=>array());
+else if($res=="") $res=array("success"=>true,"data"=>array());
 else if(is_string($res)) $res=array("success"=>false,"errorMsg"=>$res);
+else if(is_array($res)) $res=array("success"=>true,"data"=>$res);
 echo json_encode($res);

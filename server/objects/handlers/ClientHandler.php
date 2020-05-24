@@ -55,7 +55,7 @@ abstract class ClientHandler {
      */
     function groupStatus($id,$name,$children) {
         sleep(3); // remove when code completed
-        return array("success"=>true,"data"=>array());
+        return array();
     }
 
     /**

@@ -11,7 +11,7 @@ class View {
         $this->servicios=$this->config->getServices();
     }
 
-    function defaultEntry($name,$level,$status='???') {
+    static function defaultEntry($name,$level,$status='???') {
         static $index=1;
         return array('id'=>$index++,'level'=>$level,'name'=>$name,'ip'=>'','status'=>$status,'actions'=>'','children'=>array());
     }
@@ -29,7 +29,7 @@ class View {
             }
         }
         if ($classHandler==="") {
-            return array("success"=>false,"errorMsg"=>"Cannot find handler for  {$name}");
+            return "Cannot find handler for  {$name}";
         }
         $handler=ClientHandler::getInstance($classHandler,$name);
         return $handler->groupStatus($id,$name,$children);
@@ -41,7 +41,7 @@ class View {
         $index=1; /* ids from 1 to 9 !dont use zero! */
         foreach ($this->servicios as $serviceName => $serviceData) {
             // serviceData = (handler,serverlist)
-            $service=$this->defaultEntry($serviceName,1,'');
+            $service=View::defaultEntry($serviceName,1,'');
             // para cada servicio obtenemos la lista de servidores
             $className=$serviceData[0];
             $servers=$serviceData[1];
@@ -54,12 +54,12 @@ class View {
                     $ip=preg_replace("/.*@/","",$serverData);
                 }
                 $handler=ClientHandler::getInstance($className,$serverData);
-                $server=$this->defaultEntry($serverName,2,'');
+                $server=View::defaultEntry($serverName,2,'');
                 $server['ip']=$ip;
                 // para cada server buscamos los hosts
                 $hosts=$handler->enumerate();
                 foreach($hosts as $hostName) {
-                    $host=$this->defaultEntry($hostName,3);
+                    $host=View::defaultEntry($hostName,3);
                     // add host to server tree
                     array_push($server['children'],$host);
                 }

@@ -1,5 +1,5 @@
 <?php
-
+require_once(__DIR__."/../View.php");
 class VboxClientHandler extends ClientHandler {
 
     function start($vm) {
@@ -74,14 +74,14 @@ class VboxClientHandler extends ClientHandler {
         array_push($result,array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'On','comments'=>$line));
         // y ahora obtenemos datos de las maquinas que estan corriendo en dicho servidor
 
-        // primero generamos la lista por defecto, poniendo todos a 'Out'
+        // primero generamos la lista por defecto, poniendo todos a 'Old'
         // usamos un array asociativo para facilitar las busquedas
         $data=array();
         foreach($vhostList as $host) {
             if ($host==='BEGIN') continue;
             if ($host==='END') continue;
             list($vid,$vname,$status)=explode(":",$host);
-            $data[$vname]=array("id"=>$vid,"name"=>$vname,"status"=>'Out');
+            $data[$vname]=array("id"=>$vid,"name"=>$vname,"status"=>'Old');
         }
 
         // ahora preguntamos al servidor la lista de maquinas
@@ -90,7 +90,7 @@ class VboxClientHandler extends ClientHandler {
         $vcurrent=$this->enumerateRunning("vms",$userhost);
         foreach($vcurrent as $host) {
             if(array_key_exists($host,$data)) $data[$host]['status']='Off';
-            else $data[$host]=array("id"=>0,"name"=>$host,"status"=>'Off');
+            else $data[$host]=View::defaultEntry($host,2,'New');
         }
         // finalmente vemos que maquinas estan activas
         // y volvemos a repasar la lista anterior, poniendo a "On" las encontradas

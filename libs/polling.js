@@ -1,6 +1,22 @@
 
-var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
+function updateTree(data,parentid){
+    var tg=$('#labo_treegrid');
+    for(n=0;n<data.length;n++) {
+        var item=data[n];
+        if (item.status==="Old") { // remove node
+            tg.treegrid('remove',node.id);
+            // setTimeout(function() {tg.treegrid('reload',parentid);},0);
+        } else if (item.status==="New") { // create node an insert into parent
+            tg.treegrid('append',{'node':parentid,'data':item});
+            // setTimeout(function() {tg.treegrid('reload',parentid);},0);
+        } else { // update node
+            tg.treegrid('update',{'id':item.id,'row':item});
+            // setTimeout(function() {tg.treegrid('refresh',item.id);},0);
+        }
+    }
+}
 
+var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
 /**
  * llamada a comprobar el estado de un grupo de servidores. puede estar vacio,
  * en cuyo caso hay que verificar si es un servidor o un grupo vacio
@@ -30,7 +46,7 @@ function checkNode(node) {
             if (result.hasOwnProperty('errorMsg')) {
                 $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
             } else {// on submit success, reload results
-                console.log(result.data);
+                setTimeout(function() {updateTree(result.data,node.id);},0);
             }
         }
     }).always(function(){ pending_nodes[node.id]=0 });
