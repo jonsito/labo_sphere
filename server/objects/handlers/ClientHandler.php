@@ -19,7 +19,7 @@ abstract class ClientHandler {
         $f=file(__DIR__."/../../../config/maquinas_labo.txt",FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($f as $line) {
             list($host,$ip,$ether)=explode(" ",$line);
-            $tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
+            $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
         }
     }
 
@@ -34,7 +34,7 @@ abstract class ClientHandler {
     }
 
     protected function ssh_exec( $user,$host,$command) {
-        if (NetworkInterfaces::isHostAlive($host)<0) return null;
+        // if (NetworkInterfaces::isHostAlive($host)<0) return null;
         $connection = @ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
         if (!$connection) {
             $this->myLogger->notice("Cannot ssh connect to server {$host}");

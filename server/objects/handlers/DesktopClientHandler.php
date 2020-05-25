@@ -52,8 +52,11 @@ class DesktopClientHandler extends ClientHandler {
      */
     function hostStatus($id,$name){
         $command="/usr/bin/who";
-        if (array_key_exists($name,$this->tablanumeros)) $ip=$host=$this->tablanumeros[$name]['ip'];
+        $ip=$this->tablanumeros[$name]['ip'];
+        /*
+        if (array_key_exists($name,$this->tablanumeros)) $ip=$this->tablanumeros[$name]['ip'];
         else $ip=gethostbyname("{$name}.lab.dit.upm.es");
+        */
         $fp=$this->ssh_exec('root',$ip,$command);
         if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
         $status="On";

@@ -15,12 +15,11 @@ class NetworkInterfaces {
     // also used as tcp ping test
     static function isHostAlive($host){
         $starttime = microtime(true);
-        $file      = @fsockopen ($host, 22, $errno, $errstr, 5);
+        $file      = @fsockopen ($host, 22, $errno, $errstr, 3);
         $stoptime  = microtime(true);
-        if (!$file) return -1;  // Site is down
+        if (!$file) return -1000 * ($stoptime - $starttime);  // Site is down
         fclose($file);
-        $status = ($stoptime - $starttime) * 1000;
-        return floor($status);
+        return 1000 * ($stoptime - $starttime);
     }
 
     /**
