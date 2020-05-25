@@ -27,7 +27,7 @@ abstract class ClientHandler {
     }
 
     protected function ssh_exec( $user,$host,$command) {
-        // if (NetworkInterfaces::isHostAlive($host)<0) return null;
+        if (NetworkInterfaces::isHostAlive($host)<0) return null;
         $connection = @ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
         if (!$connection) {
             $this->myLogger->notice("Cannot ssh connect to server {$host}");

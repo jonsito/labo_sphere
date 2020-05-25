@@ -14,6 +14,7 @@ switch ($operation) {
         $id=http_request("id","i",0);
         $name=http_request("name","s","");
         $children=http_request("children","s","BEGIN,END");
+        set_time_limit(0);
         $res=$v->checkGroup($id,$name,$children);
         break;
     case "checkhost":

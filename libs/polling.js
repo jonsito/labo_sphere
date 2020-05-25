@@ -29,7 +29,7 @@ function checkNode(node) {
     var hosts=node.children;
 
     // split host list in groups of 10 hosts
-    var i,j,temparray,chunk = 10;
+    var i,j,temparray,chunk = 5;
     for (i=0,j=hosts.length; i<j; i+=chunk) {
         pending_nodes[node.id]++;
         temparray = hosts.slice(i,i+chunk);

@@ -39,7 +39,7 @@ class DesktopClientHandler extends ClientHandler {
             for($i=149;$i<=186;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='a127_3') { // 187-220
             for($i=187;$i<=220;$i++) array_push($res,sprintf("l%03d",$i));
-        } else if ($this->location=='a127_3') { // 221-254
+        } else if ($this->location=='a127_2') { // 221-254
             for($i=221;$i<=254;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='extra') { // equipos de los despachos
             foreach(array(50,51,52,53,54,55,123,125,126) as $item) array_push($res,sprintf("l%03d",$item));
