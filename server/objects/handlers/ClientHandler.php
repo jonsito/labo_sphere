@@ -10,9 +10,17 @@ require_once(__DIR__."/VMWareClientHandler.php");
 abstract class ClientHandler {
     protected $location;
     protected $myLogger;
+    protected $tablanumeros=array();
+
     public function __construct($location) {
         $this->location=$location;
         $this->myLogger=new Logger("ClientHandler",LEVEL_TRACE);
+
+        $f=file(__DIR__."/../../../config/maquinas_labo.txt",FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($f as $line) {
+            list($host,$ip,$ether)=explode(" ",$line);
+            $tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
+        }
     }
 
     public static function getInstance($type,$location) {
@@ -26,6 +34,7 @@ abstract class ClientHandler {
     }
 
     protected function ssh_exec( $user,$host,$command) {
+        if (array_key_exists($host,$this->tablanumeros)) $host=$this->tablanumeros[$host]['ip'];
         if (NetworkInterfaces::isHostAlive($host)<0) return null;
         $connection = @ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
         if (!$connection) {

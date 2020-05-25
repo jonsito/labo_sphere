@@ -5,6 +5,7 @@
 class NetworkInterfaces {
     var $osName;
     var $interfaces;
+    var $tablanumeros=array();
 
     function __construct() {
         $this->osName = strtoupper(PHP_OS);
@@ -14,7 +15,7 @@ class NetworkInterfaces {
     // also used as tcp ping test
     static function isHostAlive($host){
         $starttime = microtime(true);
-        $file      = @fsockopen ($host, 80, $errno, $errstr, 5);
+        $file      = @fsockopen ($host, 22, $errno, $errstr, 5);
         $stoptime  = microtime(true);
         if (!$file) return -1;  // Site is down
         fclose($file);

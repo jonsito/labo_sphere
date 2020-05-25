@@ -32,7 +32,6 @@ class DesktopClientHandler extends ClientHandler {
      */
     function groupStatus($id, $name, $children) {
         $result=array();
-        /*
         $hostList=explode(",",$children);
         foreach($hostList as $host) {
             if ($host==="BEGIN") continue;
@@ -42,7 +41,6 @@ class DesktopClientHandler extends ClientHandler {
             // only return data on changed elements
             if($data['status']!==$status) array_push($result,$data);
         }
-        */
         return $result;
     }
 
@@ -55,8 +53,8 @@ class DesktopClientHandler extends ClientHandler {
     function hostStatus($id,$name){
         $command="/usr/bin/who";
         $ip=gethostbyname("{$name}.lab.dit.upm.es");
-        $fp=$this->ssh_exec('cdc',$ip,$command);
-        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off','actions'=>'','comments'=>'','children'=>array());
+        $fp=$this->ssh_exec('root',$ip,$command);
+        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
         $status="On";
         stream_set_blocking($fp, true);
         $line=trim(fgets($fp));
