@@ -10,17 +10,10 @@ require_once(__DIR__."/VMWareClientHandler.php");
 abstract class ClientHandler {
     protected $location;
     protected $myLogger;
-    protected $tablanumeros=array();
 
     public function __construct($location) {
         $this->location=$location;
         $this->myLogger=new Logger("ClientHandler",LEVEL_TRACE);
-
-        $f=file(__DIR__."/../../../config/maquinas_labo.txt",FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($f as $line) {
-            list($host,$ip,$ether)=explode(" ",$line);
-            $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
-        }
     }
 
     public static function getInstance($type,$location) {

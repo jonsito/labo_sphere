@@ -1,6 +1,15 @@
 <?php
 class DesktopClientHandler extends ClientHandler {
 
+    protected $tablanumeros=array();
+    public function __construct($location) {
+        parent::__construct($location);
+        $f=file(__DIR__."/../../../config/maquinas_labo.txt",FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($f as $line) {
+            list($host,$ip,$ether)=explode(" ",$line);
+            $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
+        }
+    }
     // list clients at current location
     function enumerate(){
         $res=array();

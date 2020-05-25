@@ -5,7 +5,6 @@
 class NetworkInterfaces {
     var $osName;
     var $interfaces;
-    var $tablanumeros=array();
 
     function __construct() {
         $this->osName = strtoupper(PHP_OS);
