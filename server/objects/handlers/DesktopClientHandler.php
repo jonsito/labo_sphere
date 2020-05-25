@@ -10,7 +10,7 @@ class DesktopClientHandler extends ClientHandler {
             for($i=101;$i<=124;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='macs') { // l134-l148
             for($i=134;$i<=148;$i++) array_push($res,sprintf("l%03d",$i));
-        } else if ($this->location=='a127_4') { // 113,149-186.
+        } else if ($this->location=='a127_4') { // 133,149-186.
             array_push($res,"l133");
             for($i=149;$i<=186;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='a127_3') { // 187-220
@@ -52,7 +52,8 @@ class DesktopClientHandler extends ClientHandler {
      */
     function hostStatus($id,$name){
         $command="/usr/bin/who";
-        $ip=gethostbyname("{$name}.lab.dit.upm.es");
+        if (array_key_exists($name,$this->tablanumeros)) $ip=$host=$this->tablanumeros[$name]['ip'];
+        else $ip=gethostbyname("{$name}.lab.dit.upm.es");
         $fp=$this->ssh_exec('root',$ip,$command);
         if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
         $status="On";
