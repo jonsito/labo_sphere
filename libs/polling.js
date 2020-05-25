@@ -25,31 +25,38 @@ var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
 function checkNode(node) {
     if(typeof(pending_nodes[node.id])=="undefined") pending_nodes[node.id]=0; // initialize if not yet
     if (pending_nodes[node.id]!==0) return; // still busy do nothing
-    pending_nodes[node.id]=1;
     // retrieve and compose children list
     var hosts=node.children;
-    var hostList="BEGIN";
-    hosts.forEach(function(item) { hostList = hostList+","+item.id+":"+item.name+":"+item.status; });
-    hostList=hostList+",END";
-    // call server to retrieve status
-    $.ajax({
-        type: 'GET',
-        url:'../ajax/viewFunctions.php',
-        data: {
-            Operation:'checkgroup',
-            id:node.id,
-            name:node.name,
-            children:hostList /* id:name comma separated list. may be empty */
-        },
-        dataType: 'json',
-        success: function (result) {
-            if (result.hasOwnProperty('errorMsg')) {
-                $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
-            } else {// on submit success, reload results
-                setTimeout(function() {updateTree(result.data,node.id);},0);
+
+    // split host list in groups of 10 hosts
+    var i,j,temparray,chunk = 10;
+    for (i=0,j=hosts.length; i<j; i+=chunk) {
+        pending_nodes[node.id]++;
+        temparray = hosts.slice(i,i+chunk);
+
+        var hostList="BEGIN";
+        temparray.forEach(function(item) { hostList = hostList+","+item.id+":"+item.name+":"+item.status; });
+        hostList=hostList+",END";
+        // call server to retrieve status
+        $.ajax({
+            type: 'GET',
+            url:'../ajax/viewFunctions.php',
+            data: {
+                Operation:'checkgroup',
+                id:node.id,
+                name:node.name,
+                children:hostList /* id:name comma separated list. may be empty */
+            },
+            dataType: 'json',
+            success: function (result) {
+                if (result.hasOwnProperty('errorMsg')) {
+                    $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
+                } else {// on submit success, reload results
+                    setTimeout(function() {updateTree(result.data,node.id);},0);
+                }
             }
-        }
-    }).always(function(){ pending_nodes[node.id]=0 });
+        }).always(function(){ pending_nodes[node.id]--; });
+    }
 }
 
 function pollNodes() {

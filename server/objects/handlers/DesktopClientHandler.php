@@ -2,6 +2,9 @@
 class DesktopClientHandler extends ClientHandler {
 
     protected $tablanumeros=array();
+    var $maxThreads = 10;
+    var $child = 0;
+
     public function __construct($location) {
         parent::__construct($location);
         $f=file(__DIR__."/../../../config/maquinas_labo.txt",FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -9,7 +12,19 @@ class DesktopClientHandler extends ClientHandler {
             list($host,$ip,$ether)=explode(" ",$line);
             $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
         }
+        /*
+        pcntl_signal(SIGCHLD, function ($signo) {
+            global $child;
+            if ($signo === SIGCLD) {
+                while (($pid = pcntl_wait($signo, WNOHANG)) > 0) {
+                    $signal = pcntl_wexitstatus($signo);
+                    $child--;
+                }
+            }
+        });
+        */
     }
+
     // list clients at current location
     function enumerate(){
         $res=array();
@@ -46,11 +61,26 @@ class DesktopClientHandler extends ClientHandler {
             if ($host==="BEGIN") continue;
             if ($host==="END") continue;
             list($id,$name,$status) = explode(":",$host);
+            /*
+            $this->execute_in_parallel($result,$status,$id,$name);
+            while ($this->child != 0) { sleep(3); }
+            */
+            // get host status and add only when return data shows changed elements
             $data=$this->hostStatus($id,$name);
-            // only return data on changed elements
             if($data['status']!==$status) array_push($result,$data);
         }
         return $result;
+    }
+
+    private function execute_in_parallel(&$result,$status,$id,$name) {
+        while ($this->child >= $this->maxThreads) { sleep(1); }
+        $this->child++;
+        $pid = pcntl_fork();
+        if ($pid==0) { // child
+            $data=$this->hostStatus($id,$name);
+            if($data['status']!==$status) array_push($result,$data);
+            exit(0);
+        }
     }
 
     /**
