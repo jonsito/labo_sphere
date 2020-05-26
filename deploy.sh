@@ -2,19 +2,19 @@
 
 INSTDIR=/var/www/html/labo_sphere
 
-#
-# vemos si estamos en ubuntu o en fedora
-# para ajustar usuarios y ubicacion de las claves ssh
-OSNAME=`lsb_release -i -s`
-case $OSNAME in
-  "[Uu]buntu" )
-    WEB_USER="www-data"
-    WEB_SSHDIR="/var/www/.ssh"
-    ;;
-  "[Ff]edora" )
-    WEB_USER="httpd"
-    WEB_SSHDIR="/usr/share/httpd/.ssh"
-    ;;
+  #
+  # vemos si estamos en ubuntu o en fedora
+  # para ajustar usuarios y ubicacion de las claves ssh
+  OSNAME=`lsb_release -i -s`
+  case $OSNAME in
+    "Ubuntu" )
+      WEB_USER="www-data"
+      WEB_SSHDIR="/var/www/.ssh"
+      ;;
+    "Fedora" )
+      WEB_USER="httpd"
+      WEB_SSHDIR="/usr/share/httpd/.ssh"
+      ;;
   esac
 
   function yesno() {
