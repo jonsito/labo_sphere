@@ -30,7 +30,9 @@ case $OSNAME in
   }
 
   # nos aseguramos de que la carpeta de instalación de las claves ssh existe
-  install -m 700 -o ${WEB_USER} -g ${WEB_USER} -d ${WEB_SSHDIR}
+  mkdir -p ${WEB_SSHDIR}
+  chown ${WEB_USER}.${WEB_USER} ${WEB_SSHDIR}
+  chmod 700 ${WEB_SSHDIR}
 
   # si existe instalacion antigua, guardamos la configuracion
   if  [ -d ${INSTDIR}/config ]; then
@@ -40,7 +42,7 @@ case $OSNAME in
   fi
 
   # nos aseguramos de que la carpeta de instalacion de la aplicacion existe
-  install -m 755 -o ${USER} -g ${WEB_USER} -d ${INSTDIR}
+  mkdir -p ${INSTDIR}
 
   # Copiamos las carpetas
   cp -r config logs server web LICENSE README.md index.html denied.html ${INSTDIR}
