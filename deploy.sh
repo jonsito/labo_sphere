@@ -36,7 +36,7 @@ INSTDIR=/var/www/html/labo_sphere
 
   # si existe instalacion antigua, guardamos la configuracion
   if  [ -d ${INSTDIR}/config ]; then
-    a= $(yesno "labo_sphere is already installed. Preserve configuration? ")
+    a=$(yesno "labo_sphere is already installed. Preserve configuration? ")
     if [ $a -eq 1 ]; then mkdir -p /tmp/labo_sphere.$$; cp ${INSTDIR}/config/* /tmp/labo_sphere.$$; fi
     rm -rf ${INSTDIR}.old && mv ${INSTDIR} ${INSTDIR}.old
   fi

@@ -4,8 +4,12 @@ class Configuration {
      * directory path where public and private rsa keys reside
      * must be readable by "apache" user
      * But MUST NOT be able to retrieve from web browser
+     * By default choose default home dir for apache user
      */
+    // for Fedora
     static $ssh_keypath="/usr/share/httpd/.ssh";
+    // for Ubuntu
+    // static $ssh_keypath="/var/www/.ssh";
 
     /*
      * Lista de servidores de maquinas virtuales VirtualBox
