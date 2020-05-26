@@ -30,7 +30,7 @@ case $OSNAME in
   }
 
   # nos aseguramos de que la carpeta de instalación de las claves ssh existe
-  install -d -m 700 -o ${WEB_USER} -g ${WEB_USER} ${WEB_SSHDIR}
+  install -m 700 -o ${WEB_USER} -g ${WEB_USER} -d ${WEB_SSHDIR}
 
   # si existe instalacion antigua, guardamos la configuracion
   if  [ -d ${INSTDIR}/config ]; then
@@ -40,7 +40,7 @@ case $OSNAME in
   fi
 
   # nos aseguramos de que la carpeta de instalacion de la aplicacion existe
-  install -d -m 755 -o ${USER} -g ${WEB_USER} ${INSTDIR}
+  install -m 755 -o ${USER} -g ${WEB_USER} -d ${INSTDIR}
 
   # Copiamos las carpetas
   cp -r config logs server web LICENSE README.md index.html denied.html ${INSTDIR}
@@ -58,19 +58,19 @@ case $OSNAME in
   # la clave publica debera ser exportada al authorized keys de todos las maquinas a controlar
   if [ ! -f ${WEB_SSHDIR}/id_rsa ]; then
       a=$(yesno "There is no public/private SSH key installed for user ${WEB_USER}. Create? ")
-      if  $a -eq 1 ]; then
+      if [ $a -eq 1 ]; then
         ssh-keygen -t rsa -b 4096 -C "labo_sphere@lab.dit.upm.es" -f ${WEB_SSHDIR}/id_rsa -q -N ""
       fi
   fi
 
   # copiamos fichero de configuracion de apache
   # y reiniciamos el servidor apache
-  if [ "$OSNAME" = "Fedora" ]; then
+  if [ "${OSNAME}" = "Fedora" ]; then
     cp -f labo_sphere_httpd.conf /etc/httpd/conf.d
     systemctl restart httpd
   else
     cp -f labo_sphere_httpd.conf /etc/apache2/sites-available
-    a2ensite labo_sphere_httpd.conf
+    a2ensite labo_sphere_httpd
     systemctl restart apache2
   fi
 
