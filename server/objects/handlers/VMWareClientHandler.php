@@ -6,27 +6,27 @@ class VMWareClientHandler extends ClientHandler {
         return array();
     }
 
-    // start/wakeup client
+    // start/wakeup web
     function start($name){
 
     }
 
-    // stop/shutdown client
+    // stop/shutdown web
     function stop($name){
 
     }
 
-    // pause/suspend client ( use with care )
+    // pause/suspend web ( use with care )
     function pause($name){
 
     }
 
-    // resume paused/suspended client
+    // resume paused/suspended web
     function resume($name){
 
     }
 
-    // remove client
+    // remove web
     function destroy($name){
 
     }

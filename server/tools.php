@@ -118,7 +118,7 @@ function leaveCriticalRegion($sem) {
 /* add a new line in echo sentence */
 function echon($str) { echo $str . "\n"; }
 
-/* disable send compressed data to client from apache */
+/* disable send compressed data to web from apache */
 function disable_gzip() {
     @ini_set('zlib.output_compression', 'Off');
     @ini_set('output_buffering', 'Off');
@@ -365,8 +365,8 @@ function random_password($chars = 8) {
 function aleatorio($a) { shuffle($a); return $a; }
 
 /**
- * Generate a default client session name
- * generate string random(8)@client.ip.address
+ * Generate a default web session name
+ * generate string random(8)@web.ip.address
  * take care on ipv6 address by replace ':' with ';'
  * @return {string} default session name
  */
@@ -479,8 +479,8 @@ function getIconPath($name) {
     static $iconPathTable = array(); // prepare array on first call
     $name=basename($name); // to avoid sniffing extract name from path and force use own iconpaths
     $iconpath=array(
-        __DIR__. "/../images", // standard club icon location
-        __DIR__. "/../images/icons", // standard club icon location
+        __DIR__ . "/../images", // standard club icon location
+        __DIR__ . "/../images/icons", // standard club icon location
         __DIR__. "/../lib/jquery-easyui-1.4.2/themes/icons", // library app logos
     );
     // if logo already in cache return it
@@ -492,7 +492,7 @@ function getIconPath($name) {
         return "{$path}/{$name}";
     }
     // arriving here means not found. Use enterprise logo :-)
-    return __DIR__."/../images/dit_logo.png";
+    return __DIR__ . "/../images/dit_logo.png";
 }
 
 /**

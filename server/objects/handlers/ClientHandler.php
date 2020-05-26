@@ -46,7 +46,7 @@ abstract class ClientHandler {
 
     /**
      * List clients at current location
-     * @return array list of client names
+     * @return array list of web names
      */
     protected function enumerate() { return array(); }
 
@@ -60,32 +60,32 @@ abstract class ClientHandler {
     }
 
     /**
-     * get status of client, ip address, machine type and so
+     * get status of web, ip address, machine type and so
      */
     abstract protected function hostStatus($id,$name);
 
     /**
-     * start/wakeup client
+     * start/wakeup web
      */
     protected function start($name) { return true; }
 
     /**
-     * stop/shutdown client
+     * stop/shutdown web
      */
     protected function stop($name) { return true; }
 
     /**
-     * pause/suspend client ( use with care )
+     * pause/suspend web ( use with care )
      */
     protected function pause($name) { return true; }
 
     /**
-     * resume paused/suspended client
+     * resume paused/suspended web
      */
     protected function resume($name) { return true; }
 
     /**
-     * remove client
+     * remove web
      */
     protected function destroy($name) { return true; }
 }

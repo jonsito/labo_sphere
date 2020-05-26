@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>
+        Lab-Dit Gestor de acceso remoto
+    </title>
+    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/demo/demo.css">
+    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/css/style.css">
+    <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript">
+        function acceder() {
+            // authenticate
+            // if ok then ask for selected session/option
+            var mode=$('input:radio[name=sesion]:checked').val();
+            if (mode==="g") window.location.href="/labo_sphere/web/admin.html";
+        }
+
+        function selectSession() {
+            // show session type buttons according choosen access mode
+        }
+    </script>
+</head>
+<body>
+<img src="web/images/cdcTitle.png" alt="header dit">
+<h1>Servicio de acceso remoto a los laboratorios docentes</h1>
+<p>
+    Selecciona opción:
+</p>
+<ul>
+    <li><input type="radio" name="sesion" id="sesion_a" value="a" onselect="selectSession('a');"/>
+        <label for="sesion_a">Abrir sesi&oacute;n en el Laboratorio del Edificio A</label>
+    </li>
+    <li><input type="radio" name="sesion" id="sesion_b" value="b" onselect="selectSession('b');"/>
+        <label for="sesion_b">Abrir sesi&oacute;n el el Laboratorio del Edificio B</label>
+    </li>
+    <li><input type="radio" name="sesion" id="sesion_v" value="v" onselect="selectSession('v');"/>
+        <label for="sesion_v">Crear y ejecutar m&aacute;quina virtual</label>
+    </li>
+    <li><input type="radio" name="sesion" id="sesion_g" value="g" onselect="selectSession('v');"/>
+        <label for="sesion_g">Acceso al interfaz de gesti&oacute;n</label>
+    </li>
+</ul>
+<p>
+    Indique tipo de sesión a desplegar:
+
+</p>
+<p>
+    Por favor: intruduzca los credenciales de su cuenta del laboratorio<br/>
+    Si no tiene cuenta, o no recuerda la contraseña, pulse <a href="http://www.lab.dit.upm.es/labng">aqu&iacute;</a>
+    <br/>&nbsp;<br/>
+    <span style="display:inline-block;width:400px;text-align:right;padding-right:50px">
+        <label for="userid">Nombre de usuario</label>
+        <input type="text" id="userid" value=""/>
+        <br/>
+        <label for="password">Contrase&ntilde;a</label>
+        <input type="password" id="password" value=""/>
+    </span>
+    <span style="display:inline-block;width:400px;text-align:left;padding-left:50px">
+        <input type="button" onclick="acceder();" value="Acceder"/>
+    </span>
+
+</p>
+
+<footer>
+    <hr/>
+    P&aacute;gina principal del <a href="http://www.lab.dit.upm.es">Laboratorio</a><br/>
+    P&aacute;gina web del <a href="http://www.dit.upm.es">Departamento</a>
+</footer>
+</body>
+</html>
