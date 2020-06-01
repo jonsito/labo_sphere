@@ -43,13 +43,31 @@
         <p>A tablet computer, or simply tablet, is a one-piece mobile computer. Devices typically have a touchscreen, with finger or stylus gestures replacing the conventional computer mouse.</p>
     </div>
 </div>
+<!-- BARRA DE TAREAS DEL ARBOL DE MAQUINAS-->
+<div id="labo_treegrid_toolbar">
+    <span style="float:left;padding:5px">
+        <strong>Despliegue de equipos</strong>
+    </span>
+	<span style="float:right;padding:5px">
+		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-start'"
+           onclick="labo_action('start');">Start</a>
+   		<a id="labo-stopBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-stop'"
+           onclick="labo_action('stop');">Stop</a>
+   		<a id="labo-statusBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-info'"
+           onclick="labo_action">Status</a>
+   		<a id="labo-consoleBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-console'"
+           onClick="labo_action('console');">SSH Console</a>
+   	</span>
+</div>
+
 <script type="text/javascript">
     $('#labo_treegrid').treegrid( {
-        method:'get',
-        url:'/labo_sphere/web/ajax/viewFunctions.php?Operation=clients',
-        rownumbers:true,
-        idField:'id',
-        treeField:'name',
+        toolbar: '#labo_treegrid_toolbar',
+        method: 'get',
+        url: '/labo_sphere/web/ajax/viewFunctions.php?Operation=clients',
+        rownumbers: true,
+        idField: 'id',
+        treeField: 'name',
         onBeforeLoad: function() { enablePolling("0"); return true; },
         onLoadSuccess: function() { enablePolling("1"); return true; }
     });

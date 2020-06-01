@@ -68,6 +68,23 @@
 	background:url('icons/more.png') no-repeat center center;
 }
 
+/* added by jamc */
+.icon-remove{
+	background:url('icons/l_remove.png') no-repeat center center;
+}
+.icon-stop{
+	background:url('icons/l_stop.png') no-repeat center center;
+}
+.icon-start{
+	background:url('icons/l_start.png') no-repeat center center;
+}
+.icon-info{
+	background:url('icons/l_info.png') no-repeat center center;
+}
+.icon-console{
+	background:url('icons/l_console.png') no-repeat center center;
+}
+
 
 .icon-mini-add{
 	background:url('icons/mini_add.png') no-repeat center center;
