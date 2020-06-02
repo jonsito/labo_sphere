@@ -40,7 +40,7 @@ function checkNode(node) {
         // call server to retrieve status
         $.ajax({
             type: 'GET',
-            url:'/labo_shpere/web/ajax/viewFunctions.php',
+            url:'ajax/viewFunctions.php',
             data: {
                 Operation:'checkgroup',
                 id:node.id,
