@@ -2,16 +2,24 @@
 require_once(__DIR__."/../View.php");
 class VboxClientHandler extends ClientHandler {
 
-    function start($vm) {
-        if ($this->status($vm)['online']) return true;
+    function hostStart($vm) {
+        if ($this->status($vm)['On']) return "";
         $args = "";
         if ($vm["vncport"] > 0) $args .= " -n -m " . $vm["vncport"];
         system("{$this->ssh_cmd} {$this->location} nohup /usr/bin/VBoxHeadless -s '{$vm["name"]}' {$args} > /dev/null 2>&1 &");
-        return true;
+        return "";
+    }
+    function groupStart($name) {
+        // PENDING: Implement groupStart() method.
+        return "";
+    }
+    function serverStart($name) {
+        // PENDING: Implement serverStart() method.
+        return "";
     }
 
-    function stop($vm) {
-        if (!$this->status($vm)['online'])  return true;
+    function hostStop($vm) {
+        if (!$this->status($vm)['On'])  return "";
         /* Windows needs the power button pressed multiple times for it to register */
         $count = 1;
         if ($vm["type"] == "windows") $count = 3;
@@ -19,18 +27,73 @@ class VboxClientHandler extends ClientHandler {
             system("{$this->ssh_cmd} {$this->location} /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
             sleep(10);
         }
-        return true;
+        return "";
+    }
+    function groupStop($name) {
+        // PENDING: Implement groupStop() method.
+        return "";
+    }
+    function serverStop($name) {
+        // PENDING: Implement serverStop() method. WARNING: this method affects wm server
+        return "";
     }
 
-    function pause($vm) {
-        if (!$this->status($vm)['online'])  return true;
+    function hostPause($vm) {
+        if (!$this->status($vm)['On'])  return true;
         system("sudo -u jantonio /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' savestate");
+        return "";
+    }
+    function groupPause($name) {
+        // PENDING: Implement groupPause() method.
+        return "";
+    }
+    // serverPause is handled on parent class
+
+    function hostResume($vm) {
+        if ($this->stop($vm)['On'] == false) return false;
+        return $this->start($vm);
+    }
+    function groupResume($name) {
+        // PENDING: Implement groupResume() method.
+        return "";
+    }
+    // serverResume is handled on parent class
+
+    function hostDestroy($vm) {
+        // PENDING. WARN handle with care
         return true;
     }
+    function groupDestroy($name) {
+        // PENDING: Implement groupDestroy() method.
+        return true;
+    }
+    // serverDestroy is handled on parent class
 
-    function resume($vm) {
-        if ($this->stop($vm) == false) return false;
-        return $this->start($vm);
+    function hostConsole($name) {
+        // PENDING: Implement hostConsole() method. launch ssh
+    }
+    // groupConsole is handled in parent class
+    function serverConsole($name) {
+        // PENDING: Implement serverConsole() method.
+    }
+
+    function hostStatus($name,$id=0) {
+        $command="/usr/bin/VBoxManage guestproperty get {$name} /VirtualBox/GuestInfo/Net/0/V4/IP";
+        $a=explode("@",$this->location);
+        $fp=$this->ssh_exec($a[0],$a[1],$command);
+        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'Off','actions'=>'','comments'=>'','children'=>array());
+        $ip="";
+        $status="Off";
+        stream_set_blocking($fp, true);
+        while ($line = trim(fgets($fp))) {
+            $vmname = substr($line, 1, strpos($line, " ", 1)-1);
+            if ( strpos($line,"No value") === FALSE ) {
+                $status="On";
+                $ip=str_replace("Value: ","",$line);
+            }
+        }
+        fclose($fp);
+        return array('id'=>$id,'name'=>$vmname,'ip'=>$ip,'status'=>$status);
     }
 
     /**
@@ -42,7 +105,7 @@ class VboxClientHandler extends ClientHandler {
      * @param $children
      * @return array con el estado de los nodos
      */
-    function groupStatus($id,$name,$children) {
+    function groupStatus($name,$id=0,$children="BEGIN,END") {
         $result=array();
         // obtenemos usuario y direccion del servidor
         $userhost=Configuration::$vbox_vms[$name];
@@ -103,27 +166,9 @@ class VboxClientHandler extends ClientHandler {
         return $result;
     }
 
-    function hostStatus($id,$vm) {
-        $command="/usr/bin/VBoxManage guestproperty get {$vm} /VirtualBox/GuestInfo/Net/0/V4/IP";
-        $a=explode("@",$this->location);
-        $fp=$this->ssh_exec($a[0],$a[1],$command);
-        if(!$fp) return array('id'=>$id,'name'=>$vm,'ip'=>'','status'=>'Off','actions'=>'','comments'=>'','children'=>array());
-        $ip="";
-        $status="Off";
-        stream_set_blocking($fp, true);
-        while ($line = trim(fgets($fp))) {
-            $name = substr($line, 1, strpos($line, " ", 1)-1);
-            if ( strpos($line,"No value") === FALSE ) {
-                $status="On";
-                $ip=str_replace("Value: ","",$line);
-            }
-        }
-        fclose($fp);
-        return array('id'=>$id,'name'=>$vm,'ip'=>$ip,'status'=>$status);
-    }
-
-    function destroy($vm) {
-        return true;
+    function serverStatus($name, $id = 0) {
+        // PENDING: Implement serverStatus() method.
+        return "";
     }
 
     function enumerate() {
@@ -143,4 +188,5 @@ class VboxClientHandler extends ClientHandler {
         fclose($fp);
         return $res;
     }
+
 }

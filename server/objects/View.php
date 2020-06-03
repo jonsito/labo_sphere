@@ -21,8 +21,8 @@ class View {
         $classHandler="";
         foreach ($this->servicios as $serviceName => $serviceData) {
             $services=$serviceData[1];
-            foreach($services as $serviceName =>$item) {
-                if($serviceName===$name) {
+            foreach($services as $sName =>$item) {
+                if($sName===$name) {
                     $classHandler=$serviceData[0];
                     break 2;
                 }
@@ -32,7 +32,7 @@ class View {
             return "Cannot find handler for  {$name}";
         }
         $handler=ClientHandler::getInstance($classHandler,$name);
-        return $handler->groupStatus($id,$name,$children);
+        return $handler->groupStatus($name,$id,$children);
     }
 
     function enumerate() {

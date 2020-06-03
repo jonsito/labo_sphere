@@ -17,18 +17,9 @@ function labo_action(action) {
         $.messager.alert("Error","Unknown action selected on node "+node.name,"error");
         return false;
     }
-    switch(node.level) {
-        // Si es de nivel 2 llamamos a funcion de grupo
-        case 2:
-            action='group_'+action;
-            break;
-        // Si es de nivel 3 buscamos el nodo padre, y llamamos a funcion de host
-        case 3:
-            break; // no additional action needed
-        default:
-            $.messager.alert("Error","Cannot generate action on selected item","error");
-            return false;
-    }
+    // PENDING: on level 2 must choose between server/group action
+    // this is done in server by mean of change level to 1:server or 2:group
+
     // retrieve parent node data
     parent=tg.treegrid('getParent',node.id);
     // now perform ajax call
@@ -40,6 +31,7 @@ function labo_action(action) {
             id:node.id,
             name:node.name,
             parent:parent.name,
+            level:node.level,
             msg: msg
         },
         dataType: 'json',

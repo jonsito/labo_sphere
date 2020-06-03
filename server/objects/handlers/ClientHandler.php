@@ -51,41 +51,53 @@ abstract class ClientHandler {
     protected function enumerate() { return array(); }
 
     /**
-     * get status of server group
-     * should be overriden
-     */
-    function groupStatus($id,$name,$children) {
-        sleep(3); // remove when code completed
-        return array();
-    }
-
-    /**
      * get status of web, ip address, machine type and so
+     * ID != 0 means just return on/off and IP address to be inserted in treegrid
+     * ID == 0 means return info ( load, memfree, users, and so ) not related with treegrid build
      */
-    abstract protected function hostStatus($id,$name);
+    abstract function hostStatus($name,$id=0);
+    abstract function serverStatus($name,$id=0);
+    abstract function groupStatus($name,$id=0,$children="BEGIN,END");
 
     /**
      * start/wakeup web
      */
-    protected function start($name) { return true; }
+    abstract function hostStart($name);
+    abstract function groupStart($name);
+    abstract function serverStart($name);
 
     /**
      * stop/shutdown web
      */
-    protected function stop($name) { return true; }
+    abstract function hostStop($name);
+    abstract function serverStop($name);
+    abstract function groupStop($name);
 
     /**
      * pause/suspend web ( use with care )
      */
-    protected function pause($name) { return true; }
+    abstract function hostPause($name);
+             function serverPause($name) { return "Cannot pause server {$name} from admin interface"; }
+    abstract function groupPause($name);
 
     /**
      * resume paused/suspended web
      */
-    protected function resume($name) { return true; }
+    abstract function hostResume($name);
+             function serverResume($name) { return "Cannot resume server {$name} from admin interface"; }
+    abstract function groupResume($name);
 
     /**
      * remove web
      */
-    protected function destroy($name) { return true; }
+    abstract function hostDestroy($name);
+             function serverDestroy($name) { return "Cannot destroy machine {$name} from admin interface"; }
+    abstract function groupDestroy($name);
+
+    /*
+     * fire up ssh console
+     */
+    abstract function hostConsole($name);
+    abstract function serverConsole($name);
+             function groupConsole($name) { return "Cannot fire up multiple consoles at once"; }
 }

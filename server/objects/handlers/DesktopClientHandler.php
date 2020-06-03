@@ -54,42 +54,27 @@ class DesktopClientHandler extends ClientHandler {
      * @param {string} $children node children list BEGIN,ID:name:status,...,END
      * @return array datos de los clientes que cambian
      */
-    function groupStatus($id, $name, $children) {
+    function groupStatus($name, $id=0, $children="BEGIN,END") {
         $result=array();
         $hostList=explode(",",$children);
         foreach($hostList as $host) {
             if ($host==="BEGIN") continue;
             if ($host==="END") continue;
             list($id,$name,$status) = explode(":",$host);
-            /*
-            $this->execute_in_parallel($result,$status,$id,$name);
-            while ($this->child != 0) { sleep(3); }
-            */
             // get host status and add only when return data shows changed elements
-            $data=$this->hostStatus($id,$name);
+            $data=$this->hostStatus($name,$id);
             if($data['status']!==$status) array_push($result,$data);
         }
         return $result;
     }
 
-    private function execute_in_parallel(&$result,$status,$id,$name) {
-        while ($this->child >= $this->maxThreads) { sleep(1); }
-        $this->child++;
-        $pid = pcntl_fork();
-        if ($pid==0) { // child
-            $data=$this->hostStatus($id,$name);
-            if($data['status']!==$status) array_push($result,$data);
-            exit(0);
-        }
-    }
-
     /**
      * get running status, ip address, machine type and so
-     * @param {integer} $id tree node id
      * @param {string} $name tree node name
+     * @param {integer} $id tree node id. On id!=0 return treegred status, on id==0 return dialog host info
      * @return array contents on evaluated node
      */
-    function hostStatus($id,$name){
+    function hostStatus($name,$id=0){
         $command="/usr/bin/who";
         $ip=$this->tablanumeros[$name]['ip'];
         /*
@@ -129,4 +114,36 @@ class DesktopClientHandler extends ClientHandler {
     function destroy($name){
 
     }
+
+    function serverStatus($name, $id = 0)    { return ""; }
+
+    function hostStart($name) {
+        // PENDING: Implement hostStart() method.
+    }
+    function groupStart($name) { return ""; }
+    function serverStart($name) { return ""; }
+
+    function hostStop($name) {
+        // PENDING: Implement hostStop() method.
+    }
+    function groupStop($name) { return ""; }
+    function serverStop($name) { return ""; }
+
+    function hostPause($name) { return "Cannot pause physical host {$name}"; }
+    function groupPause($name) { return ""; }
+    // serverPause is handled in parent class
+
+    function hostResume($name) { return "Cannot resume physical host {$name}"; }
+    function groupResume($name) { return ""; }
+    // serverResume is handled in parent class
+
+    function hostDestroy($name) { return "Cannot destroy physical host {$name}"; }
+    function groupDestroy($name) { return ""; }
+    // serverDestroy is handled in parent class
+
+    function hostConsole($name) {
+        // PENDING: Implement hostConsole() method.
+    }
+    // groupConsole is handled in parent class
+    function serverConsole($name) { return ""; }
 }

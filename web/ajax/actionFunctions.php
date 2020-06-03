@@ -6,16 +6,14 @@ require_once(__DIR__ . "/../../server/objects/View.php");
 $operation=http_request("Operation","s",null);
 $node=http_request("name","s",null);
 $parent=http_request("parent","s",null);
-$a=new Action($node,$parent);
+$level=http_request("level","i",0);
+$a=new Action($node,$parent,$level);
+
 switch ($operation) {
-    case "start": $res=$a->start(); break;
-    case "group_start": $res=$a->group_start(); break;
-    case "stop": $res=$a->stop(); break;
-    case "group_stop": $res=$a->group_stop(); break;
-    case "status": $res=$a->status(); break;
-    case "group_info": $res=$a->group_status(); break;
-    case "console": $res=$a->console(); break;
-    case "group_console": $res=$a->group_console(); break;
+    case "start": $res=$a->start($level); break;
+    case "stop": $res=$a->stop($level); break;
+    case "status": $res=$a->status($level); break;
+    case "console": $res=$a->console($level); break;
         break;
     default:
         $res=[];
