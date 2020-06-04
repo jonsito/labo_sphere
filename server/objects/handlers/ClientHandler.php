@@ -44,6 +44,13 @@ abstract class ClientHandler {
         return $fp;
     }
 
+    protected function ssh_exec_noreturn($user,$host,$command) {
+        $fp=$this->ssh_exec($user,$host,$command);
+        if (!$fp) return false;
+        fclose($fp);
+        return true;
+    }
+
     /**
      * List clients at current location
      * @return array list of web names

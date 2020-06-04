@@ -3,10 +3,11 @@ require_once(__DIR__."/../View.php");
 class VboxClientHandler extends ClientHandler {
 
     function hostStart($vm) {
-        if ($this->status($vm)['On']) return "";
-        $args = "";
-        if ($vm["vncport"] > 0) $args .= " -n -m " . $vm["vncport"];
-        system("{$this->ssh_cmd} {$this->location} nohup /usr/bin/VBoxHeadless -s '{$vm["name"]}' {$args} > /dev/null 2>&1 &");
+        // if ($this->isRunning($vm)) return ""; // no real need to check running status
+        $command="/usr/bin/VBoxManage startvm '{$vm}' --type headless >/dev/null 2>&1";
+        $a=explode("@",$this->location);
+        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        if (!$res) return "Failed on start virtual machine '{$vm}'";
         return "";
     }
     function groupStart($name) {
@@ -19,14 +20,12 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function hostStop($vm) {
-        if (!$this->status($vm)['On'])  return "";
-        /* Windows needs the power button pressed multiple times for it to register */
-        $count = 1;
-        if ($vm["type"] == "windows") $count = 3;
-        for ($i = 0; $i < $count; $i++) {
-            system("{$this->ssh_cmd} {$this->location} /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
-            sleep(10);
-        }
+        // if (!$this->isRunning($vm))  return ""; // no real need to check alive status
+        /* PENDING: Windows needs the power button pressed multiple times for it to register, so detect machine type */
+        $command="/usr/bin/VBoxManage controlvm '{$vm}' acpipowerbutton >/dev/null 2>&1";
+        $a=explode("@",$this->location);
+        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        if (!$res) return "Failed on stop virtual machine '{$vm}'";
         return "";
     }
     function groupStop($name) {
@@ -39,8 +38,12 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function hostPause($vm) {
-        if (!$this->status($vm)['On'])  return true;
-        system("sudo -u jantonio /usr/bin/VBoxManage controlvm '" . $vm["name"] . "' savestate");
+        if (!$this->isRunning($vm))  return true;
+        if ($this->isRunning($vm)) return "";
+        $command="/usr/bin/VBoxManage controlvm '{$vm}' pause >/dev/null 2>&1";
+        $a=explode("@",$this->location);
+        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        if (!$res) return "Failed on pause virtual machine '{$vm}'";
         return "";
     }
     function groupPause($name) {
@@ -50,8 +53,11 @@ class VboxClientHandler extends ClientHandler {
     // serverPause is handled on parent class
 
     function hostResume($vm) {
-        if ($this->stop($vm)['On'] == false) return false;
-        return $this->start($vm);
+        $command="/usr/bin/VBoxManage controlvm '{$vm}' resume >/dev/null 2>&1";
+        $a=explode("@",$this->location);
+        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        if (!$res) return "Failed on pause virtual machine '{$vm}'";
+        return "";
     }
     function groupResume($name) {
         // PENDING: Implement groupResume() method.
@@ -78,7 +84,7 @@ class VboxClientHandler extends ClientHandler {
     }
 
     function hostStatus($name,$id=0) {
-        $command="/usr/bin/VBoxManage guestproperty get {$name} /VirtualBox/GuestInfo/Net/0/V4/IP";
+        $command="/usr/bin/VBoxManage guestproperty get '{$name}' /VirtualBox/GuestInfo/Net/0/V4/IP";
         $a=explode("@",$this->location);
         $fp=$this->ssh_exec($a[0],$a[1],$command);
         if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'Off','actions'=>'','comments'=>'','children'=>array());
@@ -173,6 +179,12 @@ class VboxClientHandler extends ClientHandler {
 
     function enumerate() {
         return $this->enumerateRunning("vms",$this->location);
+    }
+
+    private function isRunning($name) {
+        $list=$this->enumerateRunning("runningvms",$this->location);
+        foreach ($list as $machine) if ($machine==$name) return true;
+        return false;
     }
 
     private function enumerateRunning($mode,$location) {

@@ -23,6 +23,7 @@ function labo_action(action) {
     // retrieve parent node data
     parent=tg.treegrid('getParent',node.id);
     // now perform ajax call
+    $.messager.progress({ title:'Processing',text:msg});
     $.ajax({
         type: 'GET',
         url:'ajax/actionFunctions.php',
@@ -32,7 +33,6 @@ function labo_action(action) {
             name:node.name,
             parent:parent.name,
             level:node.level,
-            msg: msg
         },
         dataType: 'json',
         success: function (result) {
@@ -47,5 +47,5 @@ function labo_action(action) {
                 }
             }
         }
-    });
+    }).always(function(){ $.messager.progress('close'); });
 }
