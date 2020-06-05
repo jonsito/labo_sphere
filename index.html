@@ -12,10 +12,13 @@
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
     <script type="text/javascript">
         function acceder() {
-            // authenticate
             // if ok then ask for selected session/option
             var username=$('#userid').val();
             var password=$('#password').val();
+            if (username==="" || password==="") {
+                alert("Debe indicar usuario y contrase&ntilde;a");
+                return;
+            }
             var mode=$('input:radio[name=sesion]:checked').val();
             if (mode==="g") window.location.href="web/admin.php&user="+username+"&password="+password;
         }
