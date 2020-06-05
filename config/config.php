@@ -8,8 +8,25 @@ class Configuration {
      */
     // for Fedora
     static $ssh_keypath="/usr/share/httpd/.ssh";
+    static $ldap_credentials="/usr/share/httpd/.ssh/ldap_config.php";
     // for Ubuntu
     // static $ssh_keypath="/var/www/.ssh";
+    // static $ldap_credentials="/var/wwww/.ssh/ldap_config.php";
+
+    /*
+     * ldap_credentials.php must be a php file with these contents:
+     * <?php
+     * define("LDAP_HOST","ldap-ng.lab.dit.upm.es");
+     * define("LDAP_SERVER","ldaps://ldap-ng.lab.dit.upm.es");
+     * define("LDAP_PORT",636);
+     * define("LDAP_VERSION",3);
+     * define("LDAP_AUTHDN","ou=Usuarios,dc=lab,dc=dit,dc=upm,dc=es");
+     * define("LDAP_QUERYDN","cn=ldap-ng,dc=lab,dc=dit,dc=upm,dc=es");
+     * define("LDAP_QUERYPW","<clean_passwd_comes_here>");
+     * define("ADMIN_USERS","comma,separated,list,of,users,allowed,to,enter,in,admin,pages");
+     * ?>
+     *  MUST be owned by apache user, with 400 permissions and not accesible from outside the server
+    */
 
     /*
      * Lista de servidores de maquinas virtuales VirtualBox

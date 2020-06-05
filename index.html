@@ -14,8 +14,10 @@
         function acceder() {
             // authenticate
             // if ok then ask for selected session/option
+            var username=$('#userid').val();
+            var password=$('#password').val();
             var mode=$('input:radio[name=sesion]:checked').val();
-            if (mode==="g") window.location.href="/labo_sphere/web/admin.html";
+            if (mode==="g") window.location.href="web/admin.php&user="+username+"&password="+password;
         }
 
         function selectSession() {
