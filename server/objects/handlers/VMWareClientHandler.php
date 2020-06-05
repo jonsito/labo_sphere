@@ -60,9 +60,7 @@ class VMWareClientHandler extends ClientHandler {
         // PENDING: Implement groupDestroy() method. WARN: dangerous in vm server group
     }
 
-    function hostConsole($name) {
-        // PENDING: Implement hostConsole() method.
-    }
+    // hostConsole is handled on parent class
     // groupConsole is handled on parent class
     function serverConsole($name) {
         // PENDING: Implement serverConsole() method.

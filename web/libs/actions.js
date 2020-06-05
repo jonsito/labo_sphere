@@ -40,12 +40,21 @@ function labo_action(action) {
                 $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
             } else {
                 // on success check action to open when needed additional windows
-                if (action==='console') {
+                if ( (action==='console') && (result.data!=="") ) {
+                    let url='SSHy.php?'+result.data;
+                    window.open(
+                        url,
+                        name,
+                        "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
+                                 " directories=no, width=800, height=600, left=400, top=300"
+                    );
                 } else if (action==='status') {
                 } else {
                     $.messager.alert("Success","Requested action '"+action+"' <br/>sent to server","info");
                 }
             }
         }
-    }).always(function(){ $.messager.progress('close'); });
+    }).always(function(){
+        $.messager.progress('close');
+    });
 }

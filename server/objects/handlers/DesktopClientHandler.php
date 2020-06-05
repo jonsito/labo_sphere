@@ -118,13 +118,21 @@ class DesktopClientHandler extends ClientHandler {
     function serverStatus($name, $id = 0)    { return ""; }
 
     function hostStart($name) {
-        // PENDING: Implement hostStart() method.
+        $command="/usr/local/bin/wakeup.sh '{$name}' >/dev/null 2>&1";
+        $a=explode("@",$this->location);
+        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        if (!$res) return "Failed on start physical host '{$name}'";
+        return "";
     }
     function groupStart($name) { return ""; }
     function serverStart($name) { return ""; }
 
     function hostStop($name) {
-        // PENDING: Implement hostStop() method.
+        $command="/usr/local/bin/shutdown.sh '{$name}' >/dev/null 2>&1";
+        $a=explode("@",$this->location);
+        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        if (!$res) return "Failed on stop physical host '{$name}'";
+        return "";
     }
     function groupStop($name) { return ""; }
     function serverStop($name) { return ""; }
@@ -141,9 +149,7 @@ class DesktopClientHandler extends ClientHandler {
     function groupDestroy($name) { return ""; }
     // serverDestroy is handled in parent class
 
-    function hostConsole($name) {
-        // PENDING: Implement hostConsole() method.
-    }
+    // hostConsole is handled in parent clase
     // groupConsole is handled in parent class
-    function serverConsole($name) { return ""; }
+    function serverConsole($name) { return "There is no Server console for physical host {$name}"; }
 }

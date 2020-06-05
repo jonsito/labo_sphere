@@ -75,9 +75,6 @@ class VboxClientHandler extends ClientHandler {
     }
     // serverDestroy is handled on parent class
 
-    function hostConsole($name) {
-        // PENDING: Implement hostConsole() method. launch ssh
-    }
     // groupConsole is handled in parent class
     function serverConsole($name) {
         // PENDING: Implement serverConsole() method.

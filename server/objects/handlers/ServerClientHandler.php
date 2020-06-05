@@ -77,10 +77,6 @@ class ServerClientHandler extends ClientHandler {
         return "";
     }
 
-    function hostConsole($name) {
-        // TODO: Implement hostConsole() method.
-        return "";
-    }
     // group console is handled on parent class
     function serverConsole($name) {
         // TODO: Implement serverConsole() method.
