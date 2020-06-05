@@ -16,6 +16,7 @@
             // if ok then ask for selected session/option
             var username=$('#username').val();
             var password=$('#password').val();
+            alert("user:"+username+" pass:"+password);
             if (username==="" || password==="") {
                 alert("Debe indicar usuario y contrase&ntilde;a");
                 return;
@@ -63,10 +64,10 @@
     <br/>&nbsp;<br/>
     <span style="display:inline-block;width:400px;text-align:right;padding-right:50px">
         <label for="username">Nombre de usuario</label>
-        <input type="text" id="username" value=""/>
+        <input type="text" name="username" id="username" value=""/>
         <br/>
         <label for="password">Contrase&ntilde;a</label>
-        <input type="password" id="password" value=""/>
+        <input type="password" name="password" id="password" value=""/>
     </span>
     <span style="display:inline-block;width:400px;text-align:left;padding-left:50px">
         <input type="button" onclick="acceder();" value="Acceder"/>
