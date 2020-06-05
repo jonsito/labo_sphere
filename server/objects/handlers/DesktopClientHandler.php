@@ -119,8 +119,7 @@ class DesktopClientHandler extends ClientHandler {
 
     function hostStart($name) {
         $command="/usr/local/bin/wakeup.sh '{$name}' >/dev/null 2>&1";
-        $a=explode("@",$this->location);
-        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
         if (!$res) return "Failed on start physical host '{$name}'";
         return "";
     }
@@ -128,9 +127,8 @@ class DesktopClientHandler extends ClientHandler {
     function serverStart($name) { return ""; }
 
     function hostStop($name) {
-        $command="/usr/local/bin/shutdown.sh '{$name}' >/dev/null 2>&1";
-        $a=explode("@",$this->location);
-        $res=$this->ssh_exec_noreturn($a[0],$a[1],$command);
+        $command="/usr/local/bin/apagamaq.sh '{$name}' >/dev/null 2>&1";
+        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
         if (!$res) return "Failed on stop physical host '{$name}'";
         return "";
     }

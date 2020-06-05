@@ -49,6 +49,7 @@ function labo_action(action) {
                                  " directories=no, width=800, height=600, left=400, top=300"
                     );
                 } else if (action==='status') {
+                    console.log('Pending: show returned status')
                 } else {
                     $.messager.alert("Success","Requested action '"+action+"' <br/>sent to server","info");
                 }

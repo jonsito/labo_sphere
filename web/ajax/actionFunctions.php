@@ -13,7 +13,9 @@ switch ($operation) {
     case "start": $res=$a->start($level); break;
     case "stop": $res=$a->stop($level); break;
     case "status": $res=$a->status($level); break;
-    case "console": $res=$a->console($level); break;
+    case "console":
+        $res=$a->console($level);
+        if (is_array($res)) {echo json_encode($res); return; }
         break;
     default:
         $res=[];

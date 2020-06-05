@@ -1,9 +1,21 @@
+<?php
+require_once(__DIR__."/../server/tools.php");
+$host=http_request("host","s","");
+$hmode=http_request("hmode","i",0); // 0:rw 1:ro
+$user=http_request("user","s","");
+$umode=http_request("umode","i",0);
+$ipval="value=\"{$host}\"";
+if ($host==="") $hmode=0;
+if ($hmode===1) $ipval.=' readonly="readonly"';
+$uval="value=\"{$user}\"";
+if ($user==="") $umode=0;
+if ($umode===1) $uval.=' readonly="readonly"';
+?>
 <!doctype html>
-<html>
-
+<html lang="es">
 <head>
 	<meta charset="utf-8">
-	<title>Lab-DIT SSH Web access</title>
+	<title>Lab-DIT SSH Web access to host: <?php echo "$host"?> </title>
 
 	<script type="text/javascript">
 		var wsproxyURL = "localhost"
@@ -376,19 +388,6 @@
 		}
 	</script>
 </head>
-<?php
-require_once(__DIR__."/../server/tools.php");
-$host=http_request("host","s","");
-$hmode=http_request("hmode","i",0); // 0:rw 1:ro
-$user=http_request("user","s","");
-$umode=http_request("umode","i",0);
-$ipval='value="{$host}"';
-if ($host==="") $hmode=0;
-if ($hmode===1) $ipval.=' readonly="readonly"';
-$uval='value="{$user}"';
-if ($user==="") $umode=0;
-if ($umode===1) $uval.=' readonly="readonly"';
-?>
 <body>
 	<div id="terminal"></div>
 	<div id="settingsNav" class="sidenav" style="width:0;">
