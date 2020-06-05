@@ -108,7 +108,7 @@ abstract class ClientHandler {
         // make sure that ssh websocket interface is up and running
         @exec("pgrep wsproxy",$output,$status);
         if ($status!=0) { // wsproxy is not running. fireup
-            @exec("nohup wsproxy 2>&1 >> /var/www/html/labo_sphere/logs/wsproxy.log &",$output,$status);
+            @exec("nohup /usr/local/bin/wsproxy 2>&1 >> /var/www/html/labo_sphere/logs/wsproxy.log &",$output,$status);
             if($status!=0) return "hostConsole({$name}): Failed to start ws proxy for ssh web consoles";
         }
         // return parameters for ssh web console interface
