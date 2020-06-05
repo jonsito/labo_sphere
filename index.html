@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="utf-8"/>
     <title>
         Lab-Dit Gestor de acceso remoto
     </title>
@@ -13,14 +14,17 @@
     <script type="text/javascript">
         function acceder() {
             // if ok then ask for selected session/option
-            var username=$('#userid').val();
+            var username=$('#username').val();
             var password=$('#password').val();
             if (username==="" || password==="") {
                 alert("Debe indicar usuario y contrase&ntilde;a");
                 return;
             }
             var mode=$('input:radio[name=sesion]:checked').val();
-            if (mode==="g") window.location.href="web/admin.php&user="+username+"&password="+password;
+            if (mode==="g") {
+                $('#formulario').submit();
+            }
+            alert("Debe seleccionar una opci&oacute;n")
         }
 
         function selectSession() {
@@ -34,6 +38,7 @@
 <p>
     Selecciona opci&oacute;n:
 </p>
+<form id="formulario" method="POST" action="web/admin.php" >
 <ul>
     <li><input type="radio" name="sesion" id="sesion_a" value="a" onselect="selectSession('a');"/>
         <label for="sesion_a">Abrir sesi&oacute;n en el Laboratorio del Edificio A</label>
@@ -57,8 +62,8 @@
     Si no tiene cuenta, o no recuerda la contrase&ntilde;a, pulse <a href="http://www.lab.dit.upm.es/labng">aqu&iacute;</a>
     <br/>&nbsp;<br/>
     <span style="display:inline-block;width:400px;text-align:right;padding-right:50px">
-        <label for="userid">Nombre de usuario</label>
-        <input type="text" id="userid" value=""/>
+        <label for="username">Nombre de usuario</label>
+        <input type="text" id="username" value=""/>
         <br/>
         <label for="password">Contrase&ntilde;a</label>
         <input type="password" id="password" value=""/>
@@ -69,6 +74,7 @@
 
 </p>
 
+</form>
 <footer>
     <hr/>
     P&aacute;gina principal del <a href="http://www.lab.dit.upm.es">Laboratorio</a><br/>

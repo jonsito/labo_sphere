@@ -11,7 +11,7 @@ class Configuration {
     static $ldap_credentials="/usr/share/httpd/.ssh/ldap_config.php";
     // for Ubuntu
     // static $ssh_keypath="/var/www/.ssh";
-    // static $ldap_credentials="/var/wwww/.ssh/ldap_config.php";
+    // static $ldap_credentials="/var/www/.ssh/ldap_config.php";
 
     /*
      * ldap_credentials.php must be a php file with these contents:
