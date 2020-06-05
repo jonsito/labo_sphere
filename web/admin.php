@@ -4,7 +4,10 @@ require_once(__DIR__."/../server/objects/AuthLDAP.php");
 $user=http_request("username","s","");
 $pass=http_request("password","s","");
 $auth=new AuthLDAP();
-if ( $auth->login($user,$pass) == false) {
+$res=true;
+if ($auth->login($user,$pass) == false) $res=false;
+if (strpos(ADMIN_USERS,$user)===FALSE) $res=false;
+if($res==false) {
     readfile(__DIR__."/../denied.html");
     exit(0);
 }
