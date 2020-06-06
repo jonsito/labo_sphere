@@ -23,7 +23,14 @@
             var mode=$('input:radio[name=sesion]:checked').val();
             if (mode==="g") {
                 $('#formulario').submit();
-            } else $.messager.alert("Error","Debe seleccionar una opci&oacute;n","error");
+                return;
+            }
+            var tipo=$('input:radio[name=tipo]:checked').val();
+            if ( (typeof(tipo)==="undefined") || (tipo==="") ){
+                $.messager.alert("Error","Debe seleccionar un tipo de sesi&oacute;n","error");
+                return;
+            }
+            alert("not available yet");
         }
 
         function clearForm() {
@@ -37,9 +44,9 @@
 <body onload="clearForm()">
 <img src="web/images/cdcTitle.png" alt="header dit">
 <h1>Servicio de acceso remoto a los laboratorios docentes</h1>
-<p>
-    Selecciona opci&oacute;n:
-</p>
+<h2>
+    <br/>Seleccione opci&oacute;n:
+</h2>
 <form id="formulario" method="POST" action="web/admin.php" >
 <ul>
     <li><input type="radio" name="sesion" id="sesion_a" value="a" onselect="selectSession('a');"/>
@@ -55,10 +62,31 @@
         <label for="sesion_g">Acceso al interfaz de gesti&oacute;n</label>
     </li>
 </ul>
-<p>
-    Indique tipo de sesi&oacute;n a desplegar:
-
-</p>
+<h2>
+    <br/>Indique tipo de sesi&oacute;n a desplegar:
+</h2>
+<table style="width:640px;">
+    <tr>
+        <th>
+            <img src="web/images/desktop.png" alt="desktop"><br/>
+            <input type="radio" name="tipo" id="tipo_desktop" value="desktop"/><br/>
+            <label for="tipo_desktop">Escritorio Remoto</label>
+        </th>
+        <th>
+            <img src="web/images/terminal.png" alt="terminal"><br/>
+            <input type="radio" name="tipo" id="tipo_terminal" value="console"/><br/>
+            <label for="tipo_terminal">Terminal de texto</label>
+        </th>
+        <th>
+            <img src="web/images/sshtunel.png" alt="sshtunel"><br/>
+            <input type="radio" name="tipo" id="tipo_tunel" value="tunel"/><br/>
+            <label for="tipo_tunel">T&uacute;nel SSH</label>
+        </th>
+    </tr>
+</table>
+<h2>
+        <br/>Identificaci&oacute;n
+</h2>
 <p>
     Por favor: intruduzca los credenciales de su cuenta del laboratorio<br/>
     Si no tiene cuenta, o no recuerda la contrase&ntilde;a, pulse <a href="http://www.lab.dit.upm.es/labng">aqu&iacute;</a>
@@ -78,6 +106,7 @@
 
 </form>
 <footer>
+    <br/>
     <hr/>
     P&aacute;gina principal del <a href="http://www.lab.dit.upm.es">Laboratorio</a><br/>
     P&aacute;gina web del <a href="http://www.dit.upm.es">Departamento</a>

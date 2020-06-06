@@ -4,15 +4,17 @@ require_once(__DIR__."/../server/objects/AuthLDAP.php");
 $user=http_request("username","s","");
 $pass=http_request("password","s","");
 $auth=new AuthLDAP();
-$res=true;
-if ( defined(DEBUG_USER) && $user!==DEBUG_USER ) { // on debug user skip additional checks
-    if (strpos(ADMIN_USERS,$user)===FALSE) $res=false;
-    else if ($auth->login($user,$pass) == false) $res=false;
+$res=false;
+// if defined DEBUG_USER and matches, jump directly into page
+if ($user===DEBUG_USER) $res=true;
+if ($res===false) {
+    // not valid yet else check credentials in ldap
+    $res=$auth->login($user,$pass);
+    // finally check if user is in admins ACL list
+    if ($res===true) if (strpos(ADMIN_USERS,$user)===FALSE) $res=false;
 }
-if($res==false) {
-    readfile(__DIR__."/../denied.html");
-    exit(0);
-}
+// on not authorized, show screen and return
+if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 ?>
 <!DOCTYPE html>
 <html lang="es">
