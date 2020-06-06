@@ -106,10 +106,16 @@ abstract class ClientHandler {
      */
     function hostConsole($name) {
         // make sure that ssh websocket interface is up and running
-        @exec("pgrep wsproxy",$output,$status);
-        if ($status!=0) { // wsproxy is not running. fireup
-            $status=@system("nohup /usr/local/bin/wsproxy 2>&1 >> /var/www/html/labo_sphere/logs/wsproxy.log &");
+        @exec("ps ax | grep -e '[/]usr/bin/node /usr/local/bin/wsproxy'",$output,$status);
+        if ($status!=0) { // wsproxy is not running
+            // PENDING: system call starts process but never returns due to inner node script invocation
+            // This sould be solved.
+            // in the meantime warn user about need to fire up wsproxy manually
+            /*
+            $status=@system("/usr/local/bin/wsproxy 2>&1 >/var/www/html/labo_sphere/logs/wsproxy.$$.log &");
             if($status!=0) return "hostConsole({$name}): Failed to start ws proxy for ssh web consoles";
+            */
+            return "SSH web socket proxy is not running<br/>Please contact system administrator";
         }
         // return parameters for ssh web console interface
         return array("success" => true, "data" => "host={$name}.lab.dit.upm.es&user=cdc&hmode=1&umode=0" );

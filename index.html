@@ -16,24 +16,25 @@
             // if ok then ask for selected session/option
             var username=$('#username').val();
             var password=$('#password').val();
-            alert("user:"+username+" pass:"+password);
             if (username==="" || password==="") {
-                alert("Debe indicar usuario y contrase&ntilde;a");
+                $.messager.alert("Error","Debe indicar usuario y contrase&ntilde;a","error");
                 return;
             }
             var mode=$('input:radio[name=sesion]:checked').val();
             if (mode==="g") {
                 $('#formulario').submit();
-            }
-            alert("Debe seleccionar una opci&oacute;n")
+            } else $.messager.alert("Error","Debe seleccionar una opci&oacute;n","error");
         }
 
+        function clearForm() {
+            $('#formulario').form('clear')
+        }
         function selectSession() {
             // show session type buttons according choosen access mode
         }
     </script>
 </head>
-<body>
+<body onload="clearForm()">
 <img src="web/images/cdcTitle.png" alt="header dit">
 <h1>Servicio de acceso remoto a los laboratorios docentes</h1>
 <p>

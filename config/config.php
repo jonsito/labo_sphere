@@ -24,6 +24,7 @@ class Configuration {
      * define("LDAP_QUERYDN","cn=ldap-ng,dc=lab,dc=dit,dc=upm,dc=es");
      * define("LDAP_QUERYPW","<clean_passwd_comes_here>");
      * define("ADMIN_USERS","comma,separated,list,of,users,allowed,to,enter,in,admin,pages");
+     * define("DEBUG_USER","debug"); // used to skip LDAP auth. REMOVE IN PRODUCTION DEPLOYMENT
      * ?>
      *  MUST be owned by apache user, with 400 permissions and not accesible from outside the server
     */
