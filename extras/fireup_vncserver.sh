@@ -75,13 +75,13 @@ x11vnc -display :$display \
   -rfbauth /home/$user/.vnc/passwd.$display \
   -nevershared \
   -once -N \
-  -gone 'kill \$xvfb_pid' \
+  -gone "kill \$xvfb_pid" \
   -q -bg >/dev/null 2>&1
 __EOF
 
 # invoke script from created file as user
 chmod +x $lockfile
-su --login $user -c bash $lockfile
+su --login $user -c $lockfile
 # finally remove lock and return port number
 
 port=`expr 5900 + $display`
