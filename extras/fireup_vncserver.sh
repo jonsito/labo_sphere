@@ -43,13 +43,6 @@ getNextDisplay() {
 read user pass
 id $user >/dev/null 2>&1 || die "Invalid user provided"
 
-# nos aseguramos de que el home del alumno esta montado
-grep -q recipiente10-lab:/data/recipiente10-nfs-home-lab/$user /proc/mounts
-if [ $? -ne 0 ]; then
-  mkdir -p /home/$user
-  mount -t nfs recipiente10-lab:/data/recipiente10-nfs-home-lab/$user /home/$user
-fi
-
 #wait 10 seconds for lockfile to be free
 count=1
 while ( true ); do
@@ -76,12 +69,18 @@ pid=`ps ax | grep -e "[X]vfb :$display" |awk '{print $1}'`
 DISPLAY=:$display startlxde &
 # also fireup x11vnc ( -N tells x11vnc to use port 5900+display )
 echo $pass | vncpasswd -f >/home/$user/.vnc/passwd.$display
-x11vnc -display :$display -rfbauth /home/$user/.vnc/passwd.$display -N -gone 'kill $pid' -q -bg >/dev/null 2>&1
+x11vnc -display :$display \
+  -rfbauth /home/$user/.vnc/passwd.$display \
+  -nevershared \
+  -once -N \
+  -gone 'kill $pid' \
+  -q -bg >/dev/null 2>&1
 __EOF
 
 # invoke script from created file as user
 su --login $user -c $lockfile
 # finally remove lock and return port number
+
 port=`expr 5900 + $display`
 echo PORT $port
 rm -f $lockfile
