@@ -62,9 +62,11 @@ geometry="1024x768x24"
 [ ! -z "$1" ] && geometry=$1
 
 cat <<__EOF >>$lockfile
+#!/bin/bash
+#
 Xvfb :$display -screen 0 $geometry &
 # get process id of running Xvfb
-pid=`ps ax | grep -e "[X]vfb :$display" |awk '{print $1}'`
+xvfb_pid=\$!
 # fireup lxde on
 DISPLAY=:$display startlxde &
 # also fireup x11vnc ( -N tells x11vnc to use port 5900+display )
@@ -73,12 +75,13 @@ x11vnc -display :$display \
   -rfbauth /home/$user/.vnc/passwd.$display \
   -nevershared \
   -once -N \
-  -gone 'kill $pid' \
+  -gone 'kill \$xvfb_pid' \
   -q -bg >/dev/null 2>&1
 __EOF
 
 # invoke script from created file as user
-su --login $user -c $lockfile
+chmod +x $lockfile
+su --login $user -c bash $lockfile
 # finally remove lock and return port number
 
 port=`expr 5900 + $display`
