@@ -3,6 +3,7 @@ require_once __DIR__ . "/../../server/objects/Action.php";
 require_once(__DIR__ . "/../../config/config.php");
 require_once(__DIR__ . "/../../server/tools.php");
 require_once(__DIR__ . "/../../server/objects/View.php");
+require_once(__DIR__ . "/../../server/objects/AuthLDAP.php");
 $operation=http_request("Operation","s",null);
 $node=http_request("name","s",null);
 $parent=http_request("parent","s",null);
@@ -10,15 +11,33 @@ $level=http_request("level","i",0);
 $a=new Action($node,$parent,$level);
 
 switch ($operation) {
-    case "start": $res=$a->start($level); break;
-    case "stop": $res=$a->stop($level); break;
-    case "status": $res=$a->status($level); break;
-    case "console":
+    case "start": $res=$a->start($level); break; // start host
+    case "stop": $res=$a->stop($level); break; // stop host
+    case "status": $res=$a->status($level); break; // status host
+    case "console": // fireup admin ssh terminal on host
         $res=$a->console($level);
         if (is_array($res)) {echo json_encode($res); return; }
         break;
+    case "fireup": // fireup instance of type("vnc","ssh","tunel") on resource name ("laboA","laboB","virtual","newvm")
+        $user=http_request("username","s","");
+        $password=http_request("password","s","");
+        $type=http_request("tipo","s","");
+        // authenticate user
+        $auth=new AuthLDAP();
+        if ($auth->login($user,$password)==false) {
+            $res="Authentication error: invalid username or password";
+            break;
+        }
+        // create resource handle and find valid free resource of $name family
+        $rh=new ResourceHandler($user,$password);
+        $item=$rh->findResource($name);
+        // return data with parameters to send via post to requested resource url
+        if ( ($item==null) || ($item=="") )
+                $res="FireUp Error: cannot locate free resource of familiy $name";
+        else    $res=$rh->fireupResource($item,$type);
+        break;
     default:
-        $res=[];
+        $res="actionFunctions: invalid operation $operation received";
         break;
 }
 if($res==null) $res=array("success"=>true,"data"=>array());

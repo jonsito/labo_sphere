@@ -21,7 +21,7 @@
                 return;
             }
             var mode=$('input:radio[name=sesion]:checked').val();
-            if (mode==="g") {
+            if (mode==="admin") {
                 $('#formulario').submit();
                 return;
             }
@@ -49,17 +49,20 @@
 </h2>
 <form id="formulario" method="POST" action="web/admin.php" >
 <ul>
-    <li><input type="radio" name="sesion" id="sesion_a" value="a" onselect="selectSession('a');"/>
-        <label for="sesion_a">Abrir sesi&oacute;n en el Laboratorio del Edificio A</label>
+    <li><input type="radio" name="sesion" id="sesion_laboA" value="laboA"/>
+        <label for="sesion_laboA">Abrir sesi&oacute;n en el Laboratorio del Edificio A</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_b" value="b" onselect="selectSession('b');"/>
-        <label for="sesion_b">Abrir sesi&oacute;n el el Laboratorio del Edificio B</label>
+    <li><input type="radio" name="sesion" id="sesion_laboB" value="laboB"/>
+        <label for="sesion_laboB">Abrir sesi&oacute;n el el Laboratorio del Edificio B</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_v" value="v" onselect="selectSession('v');"/>
-        <label for="sesion_v">Crear y ejecutar m&aacute;quina virtual</label>
+    <li><input type="radio" name="sesion" id="sesion_virtual" value="virtual"/>
+        <label for="sesion_virtual">Abrir sesi&oacute;n en clientes de acceso remoto</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_g" value="g" onselect="selectSession('v');"/>
-        <label for="sesion_g">Acceso al interfaz de gesti&oacute;n</label>
+    <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"/>
+        <label for="sesion_newvm">Crear y ejecutar una nueva m&aacute;quina virtual</label>
+    </li>
+    <li><input type="radio" name="sesion" id="sesion_admin" value="a" onselect="selectSession('admin');"/>
+        <label for="sesion_admin">Acceso al interfaz de gesti&oacute;n</label>
     </li>
 </ul>
 <h2>
