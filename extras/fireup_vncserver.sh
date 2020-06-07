@@ -67,19 +67,22 @@ display=$(getNextDisplay)
 # fireup Xvfb on given display
 geometry="1024x768x24"
 [ ! -z "$1" ] && geometry=$1
-su $user -c "Xvfb :$display -screen 0 $geometry &"
+
+cat <<__EOF >>$lockfile
+Xvfb :$display -screen 0 $geometry &
 # get process id of running Xvfb
 pid=`ps ax | grep -e "[X]vfb :$display" |awk '{print $1}'`
-
 # fireup lxde on
-su $user -c "DISPLAY=:$display startlxde &"
-
+DISPLAY=:$display startlxde &
 # also fireup x11vnc ( -N tells x11vnc to use port 5900+display )
-port=`expr 5900 + $display`
-su $user -c "echo $pass | vncpasswd -f >/home/$user/.vnc/passwd.$display"
-su $user -c "x11vnc -display :$display -rfbauth /home/$user/.vnc/passwd.$display -N -gone 'kill $pid' -q -bg >/dev/null 2>&1"
+echo $pass | vncpasswd -f >/home/$user/.vnc/passwd.$display
+x11vnc -display :$display -rfbauth /home/$user/.vnc/passwd.$display -N -gone 'kill $pid' -q -bg >/dev/null 2>&1
+__EOF
 
+# invoke script from created file as user
+su --login $user -c $lockfile
 # finally remove lock and return port number
+port=`expr 5900 + $display`
 echo PORT $port
 rm -f $lockfile
 exit 0
