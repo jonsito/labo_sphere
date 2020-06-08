@@ -16,7 +16,6 @@ if ($umode===1) $uval.=' readonly="readonly"';
 <head>
 	<meta charset="utf-8">
 	<title>Lab-DIT SSH Web access to host: <?php echo "$host"?> </title>
-
 	<script type="text/javascript">
 		var wsproxyURL = "localhost"
 		var wsproxyPorts = {"ws":5999, "wss":6001}

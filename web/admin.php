@@ -1,12 +1,12 @@
 <?php
 require_once(__DIR__."/../server/tools.php");
 require_once(__DIR__."/../server/objects/AuthLDAP.php");
-$user=http_request("username","s","");
-$pass=http_request("password","s","");
+$user=http_request("username","s","_invalid_");
+$pass=http_request("password","s","_invalid_");
 $auth=new AuthLDAP();
 $res=false;
 // if defined DEBUG_USER and matches, jump directly into page
-if ($user===DEBUG_USER) $res=true;
+if (($user===DEBUG_USER) && (DEBUG_USER!=="")) $res=true;
 if ($res===false) {
     // not valid yet else check credentials in ldap
     $res=$auth->login($user,$pass);

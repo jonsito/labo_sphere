@@ -8,7 +8,7 @@ $operation=http_request("Operation","s",null);
 $node=http_request("name","s",null);
 $parent=http_request("parent","s",null);
 $level=http_request("level","i",0);
-$a=new Action($node,$parent,$level);
+if ($operation !== 'fireup' ) $a=new Action($node,$parent,$level);
 
 switch ($operation) {
     case "start": $res=$a->start($level); break; // start host
@@ -32,9 +32,8 @@ switch ($operation) {
         $rh=new ResourceHandler($user,$password);
         $item=$rh->findResource($name);
         // return data with parameters to send via post to requested resource url
-        if ( ($item==null) || ($item=="") )
-                $res="FireUp Error: cannot locate free resource of familiy $name";
-        else    $res=$rh->fireupResource($item,$type);
+        if (is_array($item)) return json_encode($res);
+        $res="FireUp Error: cannot locate free resource of familiy $name";
         break;
     default:
         $res="actionFunctions: invalid operation $operation received";

@@ -25,7 +25,7 @@ function labo_action(action) {
     // now perform ajax call
     $.messager.progress({ title:'Processing',text:msg});
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url:'ajax/actionFunctions.php',
         data: {
             Operation:action,
@@ -52,6 +52,53 @@ function labo_action(action) {
                     console.log('Pending: show returned status')
                 } else {
                     $.messager.alert("Success","Requested action '"+action+"' <br/>sent to server","info");
+                }
+            }
+        }
+    }).always(function(){
+        $.messager.progress('close');
+    });
+}
+
+function labo_session(mode,tipo) {
+    function fireupConsole(host) {
+        let url='SSHy_wrapper.php?host='+host;
+        window.open(
+            url,
+            "ssh@"+host,
+            "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
+            "location=0, directories=no, width=800, height=600, left=400, top=300"
+        );
+    }
+
+    function fireupDesktop(host) {
+        $.messager.alert("VPN@"+host,"El escritorio remoto no esta disponible todavía","error");
+    }
+    function fireupTunel(host) {
+        $.messager.alert("Tunel@"+host,"El acceso mediante túnel no está disponible todavía","error");
+    }
+
+    $.messager.progress({ title:'Processing',text:msg});
+    $.ajax({
+        type: 'POST',
+        url:'ajax/actionFunctions.php',
+        data: {
+            Operation:'fireup',
+            username:$('#username').val(),
+            password:$('#password').val(),
+            name:mode,
+            tipo:tipo
+        },
+        dataType: 'json',
+        success: function (result) {
+            if (result.hasOwnProperty('errorMsg')) {
+                $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
+            } else {
+                let host=result.data
+                switch(tipo) {
+                    case "desktop" : setTimeout(function() {fireupDesktop(host);},0); return;
+                    case "console" : setTimeout(function() {fireupConsole(host);},0); return;
+                    case "tunel" :  setTimeout(function() {fireupTunel(host);},0); return;
                 }
             }
         }
