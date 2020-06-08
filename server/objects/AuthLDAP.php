@@ -69,7 +69,7 @@ class AuthLDAP {
         if(!ctype_graph($user)) return false; // no valid login
         // Intentamos hacer bind con el user y el pass dados
         $dn="uid=".$user.",".LDAP_AUTHDN;
-        $res= ldap_bind($conn,$dn,$password);
+        $res= @ldap_bind($conn,$dn,$password);
         ldap_close($conn);
         if (!$res) return false;
         return true;

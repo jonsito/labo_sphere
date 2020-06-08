@@ -14,7 +14,7 @@ $url="wss://{$server}.lab.dit.upm.es:6001/{$host}.lab.dit.upm.es:22";
 	<script type="text/javascript">
         var wsproxyURL = '<?php echo $url; ?>';
         var wsUserName = '<?php echo $user; ?>';
-        var wsUserPass = '<?php echo $pass; ?>';
+        // var wsUserPass = '<?php echo $pass; ?>'; // very dangerous. Should load page with post instead get
     </script>
 	<link rel="stylesheet" href="/labo_sphere/web/css/xterm.css" async/>
 	<script type="text/javascript" src="/labo_sphere/web/libs/combinedJS.comb_2.js" async></script>

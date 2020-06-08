@@ -63,6 +63,7 @@ function labo_action(action) {
 function labo_session(mode,tipo) {
     function fireupConsole(host) {
         let url='web/SSHy_wrapper.php?host='+host+'&user='+$('#username').val();
+        // let url='web/SSHy_wrapper.php?host='+host+'&user='+$('#username').val()+'&pass='+$('#password').val();
         window.open(
             url,
             "ssh@"+host,
