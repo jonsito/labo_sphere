@@ -13,13 +13,22 @@ $url="wss://{$server}.lab.dit.upm.es:6001/{$host}.lab.dit.upm.es:22";
     <meta charset="utf-8">
 	<script type="text/javascript">
         var wsproxyURL = '<?php echo $url; ?>';
-        var wsUserName = '<?php echo $user; ?>';
+
+        function wrapper_auth(){
+            if(typeof transport == 'undefined'){
+                setTimeout(wrapper_auth, 150);
+            } else {
+                transport.auth.termUsername = '<?php echo $user; ?>';
+                term.write("\n\r" + transport.auth.termUsername + '@' + <?php echo "$host"?> + '\'s password:');
+                transport.auth.termPassword = '';
+            }
+        }
         // var wsUserPass = '<?php echo $pass; ?>'; // very dangerous. Should load page with post instead get
     </script>
 	<link rel="stylesheet" href="/labo_sphere/web/css/xterm.css" async/>
-	<script type="text/javascript" src="/labo_sphere/web/libs/combinedJS.comb_2.js" async></script>
+	<script type="text/javascript" src="/labo_sphere/web/libs/combinedJS.comb.js" async></script>
 </head>
-<body>
+<body onload="wrapper_auth()">
 	<div id="terminal"></div>
 </body>
 </html>
