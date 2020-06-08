@@ -19,7 +19,7 @@ $url="wss://{$server}.lab.dit.upm.es:6001/{$host}.lab.dit.upm.es:22";
                 setTimeout(wrapper_auth, 150);
             } else {
                 transport.auth.termUsername = '<?php echo $user; ?>';
-                term.write("\n\r" + transport.auth.termUsername + '@' + <?php echo "$host"?> + '\'s password:');
+                term.write("\n\r" + transport.auth.termUsername + '@<?php echo "$host"?>\'s password:');
                 transport.auth.termPassword = '';
             }
         }
