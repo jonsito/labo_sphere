@@ -4,6 +4,7 @@ require_once(__DIR__ . "/../../config/config.php");
 require_once(__DIR__ . "/../../server/tools.php");
 require_once(__DIR__ . "/../../server/objects/View.php");
 require_once(__DIR__ . "/../../server/objects/AuthLDAP.php");
+require_once(__DIR__ . "/../../server/objects/ResourceHandler.php");
 $operation=http_request("Operation","s",null);
 $node=http_request("name","s",null);
 $parent=http_request("parent","s",null);
@@ -30,10 +31,10 @@ switch ($operation) {
         }
         // create resource handle and find valid free resource of $name family
         $rh=new ResourceHandler($user,$password);
-        $item=$rh->findResource($name);
+        $item=$rh->findResource($node);
         // return data with parameters to send via post to requested resource url
-        if (is_array($item)) return json_encode($res);
-        $res="FireUp Error: cannot locate free resource of familiy $name";
+        if (is_array($item)) return json_encode($item);
+        $res="FireUp Error: cannot locate free resource of familiy $node";
         break;
     default:
         $res="actionFunctions: invalid operation $operation received";

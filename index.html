@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/labo_sphere/web/css/style.css">
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.min.js"></script>
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/labo_sphere/web/libs/actions.js"></script>
     <script type="text/javascript">
 
         function clearForm() { $('#formulario').form('clear'); }
@@ -33,7 +34,7 @@
             switch(tipo) {
                 case "desktop" :
                 case "console" :
-                case "tunel" :  labo_sesion(mode,tipo); return;
+                case "tunel" :  labo_session(mode,tipo); return;
                 default: $.messager.alert("Error","Debe seleccionar un tipo de sesi&oacute;n","error"); return;
             }
         }

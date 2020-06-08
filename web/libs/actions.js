@@ -78,10 +78,10 @@ function labo_session(mode,tipo) {
         $.messager.alert("Tunel@"+host,"El acceso mediante túnel no está disponible todavía","error");
     }
 
-    $.messager.progress({ title:'Processing',text:msg});
+    $.messager.progress({ title:'Processing',text:"Iniciando sesion de tipo '"+tipo+"'"});
     $.ajax({
         type: 'POST',
-        url:'ajax/actionFunctions.php',
+        url:'web/ajax/actionFunctions.php',
         data: {
             Operation:'fireup',
             username:$('#username').val(),
