@@ -6390,7 +6390,8 @@ SSHyClient.auth = function(b) {
     this.awaitingAuthentication = !1;
     this.hostname = wsproxyURL ? wsproxyURL.split("/")[2].split(":")[0] : "";
     this.termUsername = wsUserName ? wsUserName : "";
-    this.termPassword = void 0;
+    // this.termPassword = void 0;
+    this.termPassword = wsUserPass ? wsUserPass : void 0;
     this.failedAttempts = 0;
     this.channelOpened = !1;
 };
