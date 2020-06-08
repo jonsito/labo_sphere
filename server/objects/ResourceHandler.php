@@ -13,7 +13,7 @@ class ResourceHandler {
     }
 
     public function findResource($name) {
-        $this->myLogger->enter("findResourece($name)");
+        // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
         switch ($name) {
             case "laboA": return array('success'=>true,'data'=>"l133");
