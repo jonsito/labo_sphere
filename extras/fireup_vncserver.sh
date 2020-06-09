@@ -7,7 +7,7 @@
 # retorna el puerto donde el vnc esta escuchando
 #
 # se lanza desde el servidor de acceso remoto  con el comando:
-# port=`echo  userpass | ssh cliente fireup_vncserver.sh <user> <WxHxP>
+# port=`echo  user pass | ssh cliente fireup_vncserver.sh <WxHxP>`
 # la geometria es opcional. Si se omite se usa 1024x768x24
 
 x11_sockdir=/tmp/.X11-unix
