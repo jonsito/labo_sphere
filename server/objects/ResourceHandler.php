@@ -11,14 +11,14 @@ class ResourceHandler {
         $this->password=$pass;
         $this->myLogger=new Logger("ResourceHandler",LEVEL_TRACE);
     }
-    // find of type("vnc","ssh","tunel") on resource name ("laboA","laboB","virtual","newvm")
+    // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","newvm")
     public function findResource($name,$type) {
         // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
         $result=array('success'=>true);
         switch($type) {
-            case 'vnc': $result['port']=5910; break; // 5900 and 5901 are reserved to gdm and console displays
-            case 'ssh': $result['port']=22; break;
+            case 'desktop': $result['port']=5910; break; // 5900 and 5901 are reserved to gdm and console displays
+            case 'console': $result['port']=22; break;
             case 'tunel': $result['port']=22; break;
             default:
                 $this->myLogger->error("unknown resource type {$type}");

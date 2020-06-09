@@ -19,7 +19,7 @@ switch ($operation) {
         $res=$a->console($level);
         if (is_array($res)) {echo json_encode($res); return; }
         break;
-    case "fireup": // fireup instance of type("vnc","ssh","tunel") on resource name ("laboA","laboB","virtual","newvm")
+    case "fireup": // fireup instance of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","newvm")
         $user=http_request("username","s","");
         $password=http_request("password","s","");
         $type=http_request("tipo","s","");
