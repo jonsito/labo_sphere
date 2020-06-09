@@ -41,7 +41,7 @@ function labo_action(action) {
             } else {
                 // on success check action to open when needed additional windows
                 if ( (action==='console') && (result.data!=="") ) {
-                    let url='SSHy.php?'+result.data;
+                    let url='SSHy/SSHy.php?'+result.data;
                     window.open(
                         url,
                         node.name,
@@ -62,8 +62,7 @@ function labo_action(action) {
 
 function labo_session(mode,tipo) {
     function fireupConsole(host) {
-        let url='web/SSHy_wrapper.php?host='+host+'&user='+$('#username').val();
-        // let url='web/SSHy_wrapper.php?host='+host+'&user='+$('#username').val()+'&pass='+$('#password').val();
+        let url='web/SSHy/SSHy_wrapper.php?host='+host+'&user='+$('#username').val();
         window.open(
             url,
             "ssh@"+host,

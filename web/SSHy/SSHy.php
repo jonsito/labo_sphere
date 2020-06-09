@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__."/../server/tools.php");
+require_once(__DIR__ . "/../../server/tools.php");
 $host=http_request("host","s","");
 $hmode=http_request("hmode","i",0); // 0:rw 1:ro
 $user=http_request("user","s","");
@@ -45,7 +45,7 @@ if ($umode===1) $uval.=' readonly="readonly"';
 	<link rel="stylesheet" href="css/fonts.css" async/>
 
 	<!-- Cryptography & Terminal Libraries -->
-	<script type="text/javascript" src="libs/combinedLibs.comb.js" async></script>
+	<script type="text/javascript" src="js/combinedLibs.comb.js" async></script>
 
 	<script type="text/javascript">
 		window.onload = function() {
