@@ -10,6 +10,7 @@ if ($hmode===1) $ipval.=' readonly="readonly"';
 $uval="value=\"{$user}\"";
 if ($user==="") $umode=0;
 if ($umode===1) $uval.=' readonly="readonly"';
+$server=gethostname();
 ?>
 <!doctype html>
 <html lang="es">
@@ -17,7 +18,7 @@ if ($umode===1) $uval.=' readonly="readonly"';
 	<meta charset="utf-8">
 	<title>Lab-DIT SSH Web access to host: <?php echo "$host"?> </title>
 	<script type="text/javascript">
-		var wsproxyURL = "localhost"
+		var wsproxyURL = "<?php echo $server; ?>.lab.dit.upm.es";
 		var wsproxyPorts = {"ws":5999, "wss":6001}
 		var wsproxyProto = "ws"
 		

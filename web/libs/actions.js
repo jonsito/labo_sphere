@@ -73,7 +73,7 @@ function labo_session(mode,tipo) {
 
     function fireupDesktop(host,port) {
         // $.messager.alert("VPN@"+host,"El escritorio remoto no esta disponible todavía","error");
-        let url='web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port=6001&encrypted=1&path='+host+':'+port;
+        let url='web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port=6001&encrypted=1&path='+host+'.lab.dit.upm.es:'+port;
         // let url='web/noVNC/vnc.php?host='+host+'.lab.dit.upm.es&umode=1&port='+port+'encrypt=1';
         window.open(
             url,
