@@ -11,17 +11,30 @@ class ResourceHandler {
         $this->password=$pass;
         $this->myLogger=new Logger("ResourceHandler",LEVEL_TRACE);
     }
-
-    public function findResource($name) {
+    // find of type("vnc","ssh","tunel") on resource name ("laboA","laboB","virtual","newvm")
+    public function findResource($name,$type) {
         // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
-        switch ($name) {
-            case "laboA": return array('success'=>true,'data'=>"l133");
-            case "laboB": return array('success'=>true,'data'=>"l110");
-            case "virtual": return array('success'=>true,'data'=>"l051");
-            case "newvm": return null; // not available yet
+        $result=array('success'=>true);
+        switch($type) {
+            case 'vnc': $result['port']=5910; break; // 5900 and 5901 are reserved to gdm and console displays
+            case 'ssh': $result['port']=22; break;
+            case 'tunel': $result['port']=22; break;
+            default:
+                $this->myLogger->error("unknown resource type {$type}");
+                return  null;
         }
-        // arriving here means invalid resource name
-        return null;
+        switch ($name) {
+            case "laboA": $result['host']="l133"; break;
+            case "laboB": $result['host']="l110"; break;
+            case "virtual": $result['host']="l051"; break;
+            case "newvm":
+                $this->myLogger->error("fireup in on-demand VM's not available yet");
+                return  null;
+            default:
+                $this->myLogger->error("unknown resource name {$name}");
+                return  null;
+        }
+        return $result;
     }
 }

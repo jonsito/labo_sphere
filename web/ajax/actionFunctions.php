@@ -31,7 +31,7 @@ switch ($operation) {
         }
         // create resource handle and find valid free resource of $name family
         $rh=new ResourceHandler($user,$password);
-        $item=$rh->findResource($node);
+        $item=$rh->findResource($node,$type);
         // return data with parameters to send via post to requested resource url
         if (is_array($item)) { echo json_encode($item); return; }
         $res="FireUp Error: cannot locate free resource of familiy $node";
