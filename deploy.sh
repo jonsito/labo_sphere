@@ -45,7 +45,7 @@ INSTDIR=/var/www/html/labo_sphere
   mkdir -p ${INSTDIR}
 
   # Copiamos las carpetas
-  cp -r config logs server web LICENSE README.md index.html denied.html ${INSTDIR}
+  cp -r config logs server web LICENSE README.md index.html denied.html .htaccess ${INSTDIR}
 
   # si existe se recupera la configuracion
   [ -d /tmp/labo_sphere.$$ ] && cp /tmp/labo_sphere.$$/* ${INSTDIR}/config && rm -rf /tmp/labo_sphere.$$/*
