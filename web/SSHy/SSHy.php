@@ -20,7 +20,8 @@ $server=gethostname();
 	<script type="text/javascript">
 		var wsproxyURL = "<?php echo $server; ?>.lab.dit.upm.es";
 		var wsproxyPorts = {"ws":5999, "wss":6001}
-		var wsproxyProto = "ws"
+		var wsproxyProto = "ws";
+        var wsDataEncoding = "blob"; // or "base64"
 		
 		var ws, transport, settings, term = null;
 
@@ -232,7 +233,12 @@ $server=gethostname();
 			document.title = "SSHy Client";
 			// Opens the websocket!
 			wsproxyURL += html_ipaddress + ':' + html_port
-			ws = new WebSocket(wsproxyURL , 'base64');
+            if (wsDataEncoding==='base64') {
+                ws = new WebSocket(wsproxyURL , 'base64');
+            } else {
+                ws = new WebSocket(wsproxyURL);
+                ws.binaryType = "arraybuffer";
+            }
 
 			// Sets up websocket listeners
 			ws.onopen = function(e) {
@@ -241,11 +247,21 @@ $server=gethostname();
 				transport.auth.termPassword = termPassword;
 				transport.auth.hostname = html_ipaddress;
 			};
+
 			// Send all recieved messages to SSHyClient.Transport.handle()
 			ws.onmessage = function(e) {
-				// Convert the recieved data from base64 to a string
-				transport.parceler.handle(atob(e.data));
-			};
+			    if (wsDataEncoding==='base64') {
+                    // Convert the recieved data from base64 to a string
+                    transport.parceler.handle(atob(e.data));
+                } else {
+                    // ArrayBuffer to String
+                    var enc = new TextDecoder("utf-8");
+                    var clearMessage = enc.decode(e.data);
+                    // console.log(clearMessage);
+                    transport.parceler.handle(clearMessage);
+                }
+            };
+
 			// Whenever the websocket is closed make sure to display an error if appropriate
 			ws.onclose = function(e) {
 				// Set the sidenav websocket proxy color to yellow
@@ -269,8 +285,13 @@ $server=gethostname();
 			};
 			// Just a little abstraction from ws.send
 			ws.sendB64 = function(e){
-				this.send(btoa(e));
-
+                if (wsDataEncoding==='base64') {
+                    this.send(btoa(e));
+                } else {
+                    var enc = new TextEncoder();
+                    this.send(enc.encode(e)); // String to ArrayBuffer conversion
+                    // console.log("sendB64", e);
+                }
 				transport.parceler.transmitData += e.length;
 				settings.setNetTraffic(transport.parceler.transmitData, false);
 			};
