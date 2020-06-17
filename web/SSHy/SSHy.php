@@ -21,7 +21,7 @@ $server=gethostname();
 		var wsproxyURL = "<?php echo $server; ?>.lab.dit.upm.es";
 		var wsproxyPorts = {"ws":5999, "wss":6001}
 		var wsproxyProto = "ws";
-        var wsDataEncoding = "blob"; // or "base64"
+        var wsDataEncoding = "base64"; // or "binary"
 		
 		var ws, transport, settings, term = null;
 

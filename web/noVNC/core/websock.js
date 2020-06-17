@@ -181,8 +181,10 @@ export default class Websock {
 
     open(uri, protocols) {
         this.init();
-
-        this._websocket = new WebSocket(uri, protocols);
+        // jamc: add base64 encoding support
+        // https://stackoverflow.com/questions/15962359/websockify-error-client-must-support-binary-or-base64-protocol
+        // this._websocket = new WebSocket(uri, protocols);
+        this._websocket = new WebSocket(uri, ['base64', 'binary']);
         this._websocket.binaryType = 'arraybuffer';
 
         this._websocket.onmessage = this._recvMessage.bind(this);

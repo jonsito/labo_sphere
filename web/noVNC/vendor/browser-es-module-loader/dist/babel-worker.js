@@ -1780,7 +1780,7 @@ function _semver() {
   return data;
 }
 
-var _ = require("../.");
+var _ = require("../../");
 
 var _caching = require("../caching");
 
