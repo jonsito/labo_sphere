@@ -42,12 +42,13 @@ function labo_action(action) {
                 // on success check action to open when needed additional windows
                 if ( (action==='console') && (result.data!=="") ) {
                     let url='SSHy/SSHy.php?'+result.data;
-                    window.open(
+                    let w=window.open(
                         url,
                         node.name,
                         "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
                                  "location=0, directories=no, width=800, height=600, left=400, top=300"
                     );
+                    setTimeout(function() {w.focus();},300);
                 } else if (action==='status') {
                     console.log('Pending: show returned status')
                 } else {
@@ -63,12 +64,13 @@ function labo_action(action) {
 function labo_session(mode,tipo) {
     function fireupConsole(host) {
         let url='web/SSHy/SSHy.php?hmode=1&host='+host+'.lab.dit.upm.es&umode=1&user='+$('#username').val();
-        window.open(
+        let w=window.open(
             url,
             "ssh@"+host,
             "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
             "location=0, directories=no, width=800, height=600, left=400, top=300"
         );
+        setTimeout(function() {w.focus();},300);
     }
 
     function fireupDesktop(host,port) {
@@ -76,12 +78,13 @@ function labo_session(mode,tipo) {
         let url='web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port=6001&encrypted=1&path='+host+'.lab.dit.upm.es:'+port;
         url+="&password="+$('#password').val();
         // let url='web/noVNC/vnc.php?host='+host+'.lab.dit.upm.es&umode=1&port='+port+'encrypt=1';
-        window.open(
+        let w=window.open(
             url,
             "vnc@"+host,
             "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
                     "location=0, directories=no, width=1024, height=768, left=400, top=300"
         );
+        setTimeout(function() {w.focus();},300);
     }
     function fireupTunel(host,port) {
         $.messager.alert("Tunel@"+host,"El acceso mediante túnel no está disponible todavía","error");
