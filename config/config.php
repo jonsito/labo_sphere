@@ -49,6 +49,11 @@ class Configuration {
     static $vmware_vms = array();
 
     /*
+     * Lista de equipos Mac-OSX del A-127-4
+     */
+    static $desktop_macs = array();
+
+    /*
      * Lista de equipos fisicos por zonas del laboratorio
      * La lista de maquinas se obtiene consultando a maestro3
      */
@@ -91,6 +96,7 @@ class Configuration {
         return array(
             "Servidores Virtualbox" => array("VboxClientHandler", Configuration::$vbox_vms),
             "Servidores VMWare" => array("VMWareClientHandler", Configuration::$vmware_vms),
+            "Equipos Mac A-127-4" => array("MacOSXClientHandler", Configuration::$desktop_macs),
             "PC's del laboratorio" => array("DesktopClientHandler", Configuration::$desktop_pcs),
             "Equipos adicionales" => array("DesktopClientHandler", Configuration::$extra_pcs),
             "Servidores Laboratorio" => array("ServerClientHandler", Configuration::$servers)
