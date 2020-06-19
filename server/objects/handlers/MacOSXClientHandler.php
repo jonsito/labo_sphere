@@ -7,6 +7,7 @@ class MacOSXClientHandler extends DesktopClientHandler {
         foreach(array(134, 135, 136, 140, 143, 144, 145, 146, 148) as $item) {
             array_push($res,sprintf("l%03d",$item));
         }
+        $this->myLogger->trace("mac list: ".json_encode($res));
         return $res;
     }
 

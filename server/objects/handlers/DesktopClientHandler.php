@@ -90,30 +90,6 @@ class DesktopClientHandler extends ClientHandler {
         if ($line!=="") $status="Busy";
         return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>$status);
     }
-    // start/wakeup web
-    function start($name){
-
-    }
-
-    // stop/shutdown web
-    function stop($name){
-
-    }
-
-    // pause/suspend web ( use with care )
-    function pause($name){
-
-    }
-
-    // resume paused/suspended web
-    function resume($name){
-
-    }
-
-    // remove web
-    function destroy($name){
-
-    }
 
     function serverStatus($name, $id = 0)    { return ""; }
 
