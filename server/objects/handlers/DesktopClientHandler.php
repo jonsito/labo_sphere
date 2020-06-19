@@ -2,8 +2,6 @@
 class DesktopClientHandler extends ClientHandler {
 
     protected $tablanumeros=array();
-    var $maxThreads = 10;
-    var $child = 0;
 
     public function __construct($location) {
         parent::__construct($location);
@@ -12,17 +10,6 @@ class DesktopClientHandler extends ClientHandler {
             list($host,$ip,$ether)=explode(" ",$line);
             $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
         }
-        /*
-        pcntl_signal(SIGCHLD, function ($signo) {
-            global $child;
-            if ($signo === SIGCLD) {
-                while (($pid = pcntl_wait($signo, WNOHANG)) > 0) {
-                    $signal = pcntl_wexitstatus($signo);
-                    $child--;
-                }
-            }
-        });
-        */
     }
 
     // list clients at current location

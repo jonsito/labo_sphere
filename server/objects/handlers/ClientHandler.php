@@ -4,6 +4,7 @@ require_once(__DIR__."/../../../config/config.php");
 require_once(__DIR__."/../NetworkInterfaces.php");
 require_once(__DIR__."/VboxClientHandler.php");
 require_once(__DIR__."/DesktopClientHandler.php");
+require_once(__DIR__."/MacOSXClientHandler.php");
 require_once(__DIR__."/ServerClientHandler.php");
 require_once(__DIR__."/VMWareClientHandler.php");
 
@@ -19,6 +20,7 @@ abstract class ClientHandler {
     public static function getInstance($type,$location) {
         switch ($type) {
             case "VboxClientHandler" : return new VboxClientHandler($location);
+            case "MacOSXClientHandler" : return new MacOSXClientHandler($location);
             case "DesktopClientHandler" : return new DesktopClientHandler($location);
             case "ServerClientHandler" : return new ServerClientHandler($location);
             case "VMWareClientHandler" : return new VMWareClientHandler($location);
