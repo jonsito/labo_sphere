@@ -68,7 +68,7 @@ case $1 in
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
       sleep 10
       // echo "wss://acceso.lab.dit.upm.es:6001/${host}:22"
-      echo "{\"host\":\"{$host}\",\"port\":22}";
+      echo "{\"host\":\"${host}\",\"port\":22}";
       ;;
   "vnc_console" ) # user zone
       # locate free host
@@ -77,17 +77,18 @@ case $1 in
       bgjob /usr/local/bin/wakeup.sh -q $host
       sleep 10
       # create vnc server with session for user@host ( passwd='conectar' )
-      port=ssh $host "echo $user conectar "
+      port=`ssh $host "echo $user conectar | /usr/local/local/bin/fireup_vncserver.sh"`
       // echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
-      echo "{\"host\":\"{$host}\",\"port\":22}";
+      echo "{\"host\":\"${host}\",\"port\":22}";
       ;;
   "tunnel" ) # zone
       # locate free host
       host=$(find_freehost $2)
       # wake up selected host
       bgjob /usr/local/bin/wakeup.sh -q $host
-      # create tunnel in firewall
+      # PENDING create tunnel in firewall
       # return command to execute
+      echo "{\"host\":\"${host}\",\"port\":22}";
   ;;
   "poll" )
     /usr/local/bin/informemaq.sh -q remoto laboratorios macs
