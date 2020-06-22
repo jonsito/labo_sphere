@@ -10,17 +10,17 @@ REPORT=/var/log/labo_sphere.log
 # buscar un equipo apagado de la zona deseada y encenderlo
 # parametro: zona
 find_freehost() {
-
+  echo ""
 }
 
 # arranca un servidor vnc en
 fire_vncserver() {
-
+  echo ""
 }
 
 # programa en el firewall un tunel ssh
 fire_sshtunnel() { # $1:source $2:destination
-
+  echo ""
 }
 
 bgjob() {

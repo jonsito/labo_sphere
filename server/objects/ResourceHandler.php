@@ -11,7 +11,7 @@ class ResourceHandler {
         $this->password=$pass;
         $this->myLogger=new Logger("ResourceHandler",LEVEL_TRACE);
     }
-    // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","newvm")
+    // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm")
     public function findResource($name,$type) {
         // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
@@ -27,6 +27,7 @@ class ResourceHandler {
         switch ($name) {
             case "laboA": $result['host']="l133"; break;
             case "laboB": $result['host']="l110"; break;
+            case "macs": $result['host']="l134"; break;
             case "virtual": $result['host']="l051"; break;
             case "newvm":
                 $this->myLogger->error("fireup in on-demand VM's not available yet");
