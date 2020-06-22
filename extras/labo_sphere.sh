@@ -67,7 +67,8 @@ case $1 in
       bgjob /usr/local/bin/wakeup.sh -q $host
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
       sleep 10
-      echo "wss://acceso.lab.dit.upm.es:6001/${host}:22"
+      // echo "wss://acceso.lab.dit.upm.es:6001/${host}:22"
+      echo "{\"host\":\"{$host}\",\"port\":22}";
       ;;
   "vnc_console" ) # user zone
       # locate free host
@@ -77,8 +78,8 @@ case $1 in
       sleep 10
       # create vnc server with session for user@host ( passwd='conectar' )
       port=ssh $host "echo $user conectar "
-      # return wss://acceso.lab.dit.upm.es:wsport/host:vncport
-      echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
+      // echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
+      echo "{\"host\":\"{$host}\",\"port\":22}";
       ;;
   "tunnel" ) # zone
       # locate free host

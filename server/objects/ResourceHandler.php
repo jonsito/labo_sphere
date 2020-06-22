@@ -1,7 +1,10 @@
 <?php
 require_once(__DIR__."/../logging.php");
+require_once(__DIR__."/../../config/config.php");
+require_once(__DIR__."/NetworkInterfaces.php");
 
 class ResourceHandler {
+    const remote_cmd="/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
     protected $user;
     protected $password;
     protected $myLogger;
@@ -11,13 +14,41 @@ class ResourceHandler {
         $this->password=$pass;
         $this->myLogger=new Logger("ResourceHandler",LEVEL_TRACE);
     }
+
+    /*
+     * Call maestro to fire up required resources to launch ssh/vpn/tunnel
+     * Notice that provided ssh key should be restricted in host maestro3
+     * to execute only script
+     */
+    protected function callMaestro($command) {
+        $host="maestro3.lab.dit.upm.es";
+        $connection = @ssh2_connect($host, 22, array('hostkey'=>'ssh-rsa'));
+        if (!$connection) {
+            $this->myLogger->notice("Cannot ssh connect to server {$host}");
+            return null;
+        }
+        if ( ! ssh2_auth_pubkey_file($connection, "root",
+            Configuration::$ssh_keypath.'/id_rsa.pub',
+            Configuration::$ssh_keypath.'/id_rsa') ) {
+            $this->myLogger->notice("Cannot ssh auth with server {$host}");
+            return null;
+        }
+        $fp= ssh2_exec($connection,$command);
+        if (!$fp) $this->myLogger->error("Execution of ssh {$command} on maestro.lab failed");
+        return $fp;
+    }
+
     // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm")
-    public function findResource($name,$type) {
+    public function fireUp($name,$type,$user) {
         // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
         $result=array('success'=>true);
+        $cmd=self::remote_cmd;
         switch($type) {
-            case 'desktop': $result['port']=5910; break; // 5900 and 5901 are reserved to gdm and console displays
+            case 'desktop':
+                $result['port']=5910; // 5900 and 5901 are reserved to gdm and console displays
+                $cmd = self::remote_cmd." ".$user;
+                break;
             case 'console': $result['port']=22; break;
             case 'tunel': $result['port']=22; break;
             default:
@@ -25,16 +56,34 @@ class ResourceHandler {
                 return  null;
         }
         switch ($name) {
-            case "laboA": $result['host']="l133"; break;
-            case "laboB": $result['host']="l110"; break;
-            case "macs": $result['host']="l134"; break;
-            case "virtual": $result['host']="l051"; break;
+            case "laboA":
+            case "laboB":
+            case "macs":
+            case "virtual":
+                $cmd.=" {$name}";
+                break;
             case "newvm":
                 $this->myLogger->error("fireup in on-demand VM's not available yet");
                 return  null;
             default:
                 $this->myLogger->error("unknown resource name {$name}");
                 return  null;
+        }
+        $res=$this->callMaestro($cmd);
+        // result es un string json
+        $result=json_decode($res,true);
+        if ($result===FALSE) return $res; // no se puede leer el json: retorna el error recibido
+        if ($type=="console") {
+            // Nothing to do here: wsproxy should already be running in daemon mode
+            $result['success']=true; return $result;
+        }
+        if ($type=="desktop") {
+            // PENDING: launch noVPN websockify tunel
+            $result['success']=true; return $result;
+        }
+        if ($type=="tunel") {
+            // PENDING: create iptable rule in firewall
+            $result['success']=true; return $result;
         }
         return $result;
     }
