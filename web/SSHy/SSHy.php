@@ -4,6 +4,7 @@ $host=http_request("host","s","");
 $hmode=http_request("hmode","i",0); // 0:rw 1:ro
 $user=http_request("user","s","");
 $umode=http_request("umode","i",0);
+$delay=http_request("delay","i",0);
 $ipval="value=\"{$host}\"";
 if ($host==="") $hmode=0;
 if ($hmode===1) $ipval.=' readonly="readonly"';
@@ -50,7 +51,37 @@ $server=gethostname();
 	<script type="text/javascript" src="js/combinedLibs.comb.js" async></script>
 
 	<script type="text/javascript">
+        function Show_Countdown() {
+            var countDown_overlay = 'position:absolute;' +
+                'top:50%;' +
+                'left:50%;' +
+                'background-color:white;' +
+                'z-index:1002;' +
+                'overflow:auto;' +
+                'width:400px;' +
+                'text-align:center;' +
+                'height:400px;' +
+                'margin-left:-200px;' +
+                'margin-top:-200px';
+
+            $('body').append('<div id="overLay" style="' + countDown_overlay + '"><span id="time"></span></div>');
+
+            var timer = setInterval(function () {
+                document.getElementById("time").innerHTML = counter;
+                counter = (counter - 1);
+                if (counter < 0) {
+                    clearInterval(timer);
+                    document.getElementById("overLay").style.display = 'none';
+                }
+            }, 1000);
+        }
+
 		window.onload = function() {
+            // JAMC add a delay countdown before enable ssh window
+            // to give host client time to wakeup
+            let delay=<?php echo $delay; ?>;
+            if (delay>0) Show_Countdown();
+
 			document.getElementById('login_cred').style.display = "block";
 			// Sets the default colorScheme to material
 			settings = new SSHyClient.settings();
