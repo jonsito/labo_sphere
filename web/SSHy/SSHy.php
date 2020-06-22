@@ -62,8 +62,10 @@ $server=gethostname();
             let delay=<?php echo $delay; ?>;
             if (delay>0) {
                 var win = $.messager.progress({
-                    title:'Starting client',
-                    msg:'Please wait to get client up and running'
+                    title: 'Starting client '+'<?php echo $host;?>',
+                    msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
+                    interval: 1000,
+                    top: 100
                 });
                 setTimeout(function(){
                     $.messager.progress('close');
