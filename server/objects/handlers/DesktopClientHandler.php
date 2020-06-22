@@ -5,10 +5,12 @@ class DesktopClientHandler extends ClientHandler {
     const MAQUINAS_LABO=__DIR__."/../../../config/maquinas_labo.txt";
 
     protected $tablanumeros=array();
+    protected $status_table=array();
 
     public function __construct($location) {
         parent::__construct($location);
         $f=file(self::MAQUINAS_LABO,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $this->status_table=@file(self::STATUS_FILE,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($f as $line) {
             list($host,$ip,$ether)=explode(" ",$line);
             $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
@@ -44,7 +46,7 @@ class DesktopClientHandler extends ClientHandler {
      * @param {string} $children node children list BEGIN,ID:name:status,...,END
      * @return array datos de los clientes que cambian
      */
-    function groupStatus_old($name, $id=0, $children="BEGIN,END") {
+    function groupStatus($name, $id=0, $children="BEGIN,END") {
         $result=array();
         $hostList=explode(",",$children);
         foreach($hostList as $host) {
@@ -90,12 +92,11 @@ class DesktopClientHandler extends ClientHandler {
      */
     function hostStatus($name,$id=0) {
         $ip=$this->tablanumeros[$name]['ip'];
-        $hosts=@file(self::STATUS_FILE,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if ($hosts===FALSE) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'???');
+        if ($this->status_table===FALSE) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'???');
         $status='???';
-        foreach($hosts as $host) {
+        foreach($this->status_table as $host) {
             // Client:l055 State:UP Server:binario1 Users:-
-            if (strpos($host,$name)===FALSE) continue;
+            if (strpos($host,"Client:{$name}")===FALSE) continue;
             if (strpos($host,"State:DOWN")!==FALSE) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
             if (strpos($host,"Users:-")!==FALSE)
                 return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'On'); // active, no users
