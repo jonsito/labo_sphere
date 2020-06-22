@@ -8,7 +8,7 @@
 
 BASE=/data/maestro3-labadmin/servicios_ubuntu-18.04
 REPORT=/var/log/labo_sphere.log
-STATUSFILE=${BASE}/estado_clientes.log
+STATUS_FILE=${BASE}/estado_clientes.log
 
 source ${BASE}/lista_maquinas
 # buscar un equipo apagado de la zona deseada y encenderlo
@@ -28,7 +28,7 @@ find_freehost() {
     grep "Client:$i" ${STATUS_FILE} >> /tmp/find_freehost.$$
   done
   # ordenamos segun numero encendido + ocupacion y cogemos el primero
-  equipo=`sed -e 's/Client://g' -e 's/ State:/ /g' -e 's/ Server:[b-].* Users:/ /g' /tmp/find_freehost.$$ | sort -k 2 | head -1`
+  equipo=`sed -e 's/Client://g' -e 's/ State:/ /g' -e 's/ Server:[b-].* Users:/ /g' /tmp/find_freehost.$$ | sort -k 2 | head -1 | awk '{ print $1 }'`
   rm -f /tmp/find_freehost.$$
   # retornamos equipo seleccionado
   echo $equipo
@@ -62,9 +62,9 @@ case $1 in
     ;;
   "ssh_console" ) # zone
       # locate free host
-      host=$(find_freehost $1)
+      host=$(find_freehost $2)
       # wake up selected host
-      bgjob /usr/local/bin/wakeup.sh -q $2
+      bgjob /usr/local/bin/wakeup.sh -q $host
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
       sleep 10
       echo "wss://acceso.lab.dit.upm.es:6001/${host}:22"
@@ -73,7 +73,7 @@ case $1 in
       # locate free host
       host=$(find_freehost $2)
       # wake up selected host
-      bgjob /usr/local/bin/wakeup.sh -q $2
+      bgjob /usr/local/bin/wakeup.sh -q $host
       sleep 10
       # create vnc server with session for user@host ( passwd='conectar' )
       port=ssh $host "echo $user conectar "
@@ -84,7 +84,7 @@ case $1 in
       # locate free host
       host=$(find_freehost $2)
       # wake up selected host
-      bgjob /usr/local/bin/wakeup.sh -q $2
+      bgjob /usr/local/bin/wakeup.sh -q $host
       # create tunnel in firewall
       # return command to execute
   ;;
