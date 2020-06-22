@@ -77,6 +77,6 @@ INSTDIR=/var/www/html/labo_sphere
   fi
 
   # copiamos labo_sphere.sh a maestro3
-  scp -i /var/www/.ssh/id_rsa root@maestro3.lab extras/labo_sphere.sh /home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh
+  scp -i /var/www/.ssh/id_rsa extras/labo_sphere.sh root@maestro3.lab@/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh
   # Esto es todo, amigos
   exit 0
