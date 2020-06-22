@@ -35,7 +35,10 @@ class ResourceHandler {
         }
         $fp= ssh2_exec($connection,$command);
         if (!$fp) $this->myLogger->error("Execution of ssh {$command} on maestro.lab failed");
-        return $fp;
+        stream_set_blocking($fp, true);
+        $line=trim(fgets($fp)); // these functions only return host:port json string
+        fclose($fp);
+        return $line;
     }
 
     // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm")
@@ -46,11 +49,14 @@ class ResourceHandler {
         $cmd=self::remote_cmd;
         switch($type) {
             case 'desktop':
-                $result['port']=5910; // 5900 and 5901 are reserved to gdm and console displays
-                $cmd = self::remote_cmd." ".$user;
+                $cmd = self::remote_cmd." vnc_console ".$user;
                 break;
-            case 'console': $result['port']=22; break;
-            case 'tunel': $result['port']=22; break;
+            case 'console':
+                $cmd = self::remote_cmd." ssh_console";
+                break;
+            case 'tunel':
+                $cmd = self::remote_cmd." tunnel";
+                break;
             default:
                 $this->myLogger->error("unknown resource type {$type}");
                 return  null;
@@ -70,6 +76,7 @@ class ResourceHandler {
                 return  null;
         }
         $res=$this->callMaestro($cmd);
+        $this->myLogger->trace("callMaestro '{$cmd}' returns {$res} ");
         // result es un string json
         $result=json_decode($res,true);
         if ($result===FALSE) return $res; // no se puede leer el json: retorna el error recibido
