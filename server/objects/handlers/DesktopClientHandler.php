@@ -1,11 +1,14 @@
 <?php
 class DesktopClientHandler extends ClientHandler {
+    const MASTER_CMD="/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
+    const STATUS_FILE="/var/www/html/labo_sphere/logs/client_status.log";
+    const MAQUINAS_LABO=__DIR__."/../../../config/maquinas_labo.txt";
 
     protected $tablanumeros=array();
 
     public function __construct($location) {
         parent::__construct($location);
-        $f=file(__DIR__."/../../../config/maquinas_labo.txt",FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $f=file(self::MAQUINAS_LABO,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($f as $line) {
             list($host,$ip,$ether)=explode(" ",$line);
             $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
@@ -41,7 +44,7 @@ class DesktopClientHandler extends ClientHandler {
      * @param {string} $children node children list BEGIN,ID:name:status,...,END
      * @return array datos de los clientes que cambian
      */
-    function groupStatus($name, $id=0, $children="BEGIN,END") {
+    function groupStatus_old($name, $id=0, $children="BEGIN,END") {
         $result=array();
         $hostList=explode(",",$children);
         foreach($hostList as $host) {
@@ -56,19 +59,20 @@ class DesktopClientHandler extends ClientHandler {
     }
 
     /**
-     * get running status, ip address, machine type and so
-     * @param {string} $name tree node name
-     * @param {integer} $id tree node id. On id!=0 return treegred status, on id==0 return dialog host info
-     * @return array contents on evaluated node
+     * this routine is used as fallback when host status is not provided from maestro polling
+     * @param string $name host name to check
+     * @param int $id treegrid entry id or zero
+     * @return array
      */
-    function hostStatus($name,$id=0){
-        $command="/usr/bin/who";
+    private function hostStatus_old($name,$id=0){
+        // $command="/usr/bin/who";
+        $command=self::MASTER_CMD." status '{$name}' >/dev/null 2>&1";
         $ip=$this->tablanumeros[$name]['ip'];
         /*
         if (array_key_exists($name,$this->tablanumeros)) $ip=$this->tablanumeros[$name]['ip'];
         else $ip=gethostbyname("{$name}.lab.dit.upm.es");
         */
-        $fp=$this->ssh_exec('root',$ip,$command);
+        $fp=$this->ssh_exec('root',"maestro3.lab.dit.upm.es",$command);
         if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
         $status="On";
         stream_set_blocking($fp, true);
@@ -78,10 +82,34 @@ class DesktopClientHandler extends ClientHandler {
         return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>$status);
     }
 
+    /**
+     * get running status, ip address, machine type and so
+     * @param {string} $name tree node name
+     * @param {integer} $id tree node id. On id!=0 return treegred status, on id==0 return dialog host info
+     * @return array contents on evaluated node
+     */
+    function hostStatus($name,$id=0) {
+        $ip=$this->tablanumeros[$name]['ip'];
+        $hosts=@file(self::STATUS_FILE,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($hosts===FALSE) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'???');
+        $status='???';
+        foreach($hosts as $host) {
+            // Client:l055 State:UP Server:binario1 Users:-
+            if (strpos($host,$name)===FALSE) continue;
+            if (strpos($host,"State:DOWN")!==FALSE) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
+            if (strpos($host,"Users:-")!==FALSE)
+                return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'On'); // active, no users
+            else return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Busy'); // active, busy
+        }
+        // arriving here means that host is not in list, so fallback in older method
+        return $this->hostStatus_old($name,"id");
+    }
+
     function serverStatus($name, $id = 0)    { return ""; }
 
     function hostStart($name) {
-        $command="/usr/local/bin/wakeup.sh '{$name}' >/dev/null 2>&1";
+        $command=self::MASTER_CMD." start '{$name}' >/dev/null 2>&1";
+        // $command="/usr/local/bin/wakeup.sh '{$name}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
         if (!$res) return "Failed on start physical host '{$name}'";
         return "";
@@ -90,7 +118,8 @@ class DesktopClientHandler extends ClientHandler {
     function serverStart($name) { return ""; }
 
     function hostStop($name) {
-        $command="/usr/local/bin/apagamaq.sh '{$name}' >/dev/null 2>&1";
+        $command=self::MASTER_CMD." stop '{$name}' >/dev/null 2>&1";
+        // $command="/usr/local/bin/apagamaq.sh '{$name}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
         if (!$res) return "Failed on stop physical host '{$name}'";
         return "";

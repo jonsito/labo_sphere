@@ -30,26 +30,26 @@ bgjob() {
 case $1 in
   "start" ) # "start host|alias|list"
       host=$2
-      bgjob /usr/local/bin/wakeup.sh $2
+      bgjob /usr/local/bin/wakeup.sh -q $2
     ;;
   "stop" ) # "stop host|alias|list"
-      bgjob /usr/local/bin/apagamaq.sh $2
+      bgjob /usr/local/bin/apagamaq.sh -q $2
     ;;
   "status" ) # "stop host|alias|list"
-      bgjob /usr/local/bin/compruebamaq.sh $2
+      bgjob /usr/local/bin/compruebamaq.sh -q $2
     ;;
   "ssh_console" ) # zone
       # locate free host
       host=$(find_freehost $1)
       # wake up selected host
-      bgjob /usr/local/bin/wakeup.sh $2
+      bgjob /usr/local/bin/wakeup.sh -q $2
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
       ;;
   "vnc_console" ) # user zone
       # locate free host
       host=$(find_freehost $2)
       # wake up selected host
-      bgjob /usr/local/bin/wakeup.sh $2
+      bgjob /usr/local/bin/wakeup.sh -q $2
       # create vnc server with session for user@host ( passwd='conectar' )
       port=ssh $host "echo $user conectar "
       # return wss://acceso.lab.dit.upm.es:wsport/host:vncport
@@ -58,7 +58,7 @@ case $1 in
       # locate free host
       host=$(find_freehost $2)
       # wake up selected host
-      bgjob /usr/local/bin/wakeup.sh $2
+      bgjob /usr/local/bin/wakeup.sh -q $2
       # create tunnel in firewall
       # return command to execute
   ;;
@@ -66,5 +66,8 @@ case $1 in
   ;;
   "help" )
       bgjob echo "hola mundo"
+    ;;
+    * )
+     echo "invalid command:$1"
     ;;
 esac
