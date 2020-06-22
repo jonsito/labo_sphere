@@ -42,6 +42,11 @@ $server=gethostname();
 
 		var resizeInterval
 	</script>
+    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/demo/demo.css">
+    <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.min.js"></script>
+    <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
 
 	<link rel="stylesheet" href="css/xterm.css" async/>
 	<link rel="stylesheet" href="css/main.css" async/>
@@ -51,36 +56,19 @@ $server=gethostname();
 	<script type="text/javascript" src="js/combinedLibs.comb.js" async></script>
 
 	<script type="text/javascript">
-        function Show_Countdown() {
-            var countDown_overlay = 'position:absolute;' +
-                'top:50%;' +
-                'left:50%;' +
-                'background-color:white;' +
-                'z-index:1002;' +
-                'overflow:auto;' +
-                'width:400px;' +
-                'text-align:center;' +
-                'height:400px;' +
-                'margin-left:-200px;' +
-                'margin-top:-200px';
-
-            $('body').append('<div id="overLay" style="' + countDown_overlay + '"><span id="time"></span></div>');
-
-            var timer = setInterval(function () {
-                document.getElementById("time").innerHTML = counter;
-                counter = (counter - 1);
-                if (counter < 0) {
-                    clearInterval(timer);
-                    document.getElementById("overLay").style.display = 'none';
-                }
-            }, 1000);
-        }
-
 		window.onload = function() {
             // JAMC add a delay countdown before enable ssh window
             // to give host client time to wakeup
             let delay=<?php echo $delay; ?>;
-            if (delay>0) Show_Countdown();
+            if (delay>0) {
+                var win = $.messager.progress({
+                    title:'Starting client',
+                    msg:'Please wait to get client up and running'
+                });
+                setTimeout(function(){
+                    $.messager.progress('close');
+                },delay*1000)
+            }
 
 			document.getElementById('login_cred').style.display = "block";
 			// Sets the default colorScheme to material
