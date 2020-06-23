@@ -109,7 +109,7 @@ function labo_session(mode,tipo) {
 
     function fireupDesktop(host,port) {
         var win = $.messager.progress({
-            title: 'Starting client '+'<?php echo $host;?>',
+            title: 'Starting VNC Desktop on host: '+'<?php echo $host;?>',
             msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
             interval: 1000,
             text:'Waiting...',
@@ -118,7 +118,7 @@ function labo_session(mode,tipo) {
         setTimeout(function(){
             openVNC(host,port);
             $.messager.progress('close');
-        },delay*1000)
+        },60*1000)
     }
 
     function fireupTunel(host,port) {
