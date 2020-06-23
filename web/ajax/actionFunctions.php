@@ -39,7 +39,8 @@ switch ($operation) {
     case "launch_tunnel":
         $res="Option not available yet";
         break;
-    case "launch_vnc":
+    case "startvnc":
+        $res=$rh->launchVNC($host,$port,$user,$password);
         $item=$rh->launchProxy($host,$port);
         // return data with parameters to send via post to requested resource url
         if (is_array($item)) { echo json_encode($item); return; }

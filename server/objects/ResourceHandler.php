@@ -41,9 +41,14 @@ class ResourceHandler {
         return $line;
     }
 
-    function launchProxy($host,$port) {
-        // le pedimos a maestro que lance el vnc
+    function launchVNC($host,$port,$user,$password) {
+        $cmd=self::remote_cmd." start_vnc {$host} {$port} {$user} {$password}";
+        $res=$this->callMaestro($cmd);
+        $this->myLogger->trace("callMaestro '{$cmd}' returns {$res} ");
+        return "";
+    }
 
+    function launchProxy($host,$port) {
         // ahora lanzamos el proxy
         $cmd="websockify -D --run-once ". // go to background and run just once
             "--cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem".

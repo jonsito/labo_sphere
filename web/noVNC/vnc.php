@@ -1,10 +1,3 @@
-<?php
-require_once(__DIR__ . "/../../server/tools.php");
-$host=http_request("host","s","");
-$port=http_request("port","i",0);
-$server=gethostname();
-$server_port=6100+str_replace("l","",$host);
-?>
 <!DOCTYPE html>
 <html lang="en" class="noVNC_loading">
 <head>
@@ -27,14 +20,6 @@ $server_port=6100+str_replace("l","",$host);
     <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
                 Remove this if you use the .htaccess -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <!-- easyui scripts and css to handle wait progress bar -->
-    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/demo/demo.css">
-    <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.min.js"></script>
-    <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
-    <!-- end of easyui scripts -->
 
     <!-- Icons (see app/images/icons/Makefile for what the sizes are for) -->
     <link rel="icon" sizes="16x16" type="image/png" href="app/images/icons/novnc-16x16.png">
@@ -81,24 +66,9 @@ $server_port=6100+str_replace("l","",$host);
     <script type="module" crossorigin="anonymous" src="app/ui.js"></script>
     <!-- end scripts -->
 
-    <script type="text/javascript">
-        function setupAndWait() {
-
-            var win = $.messager.progress({
-                title: 'Starting client '+'<?php echo $host;?>',
-                msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
-                interval: 1000,
-                text:'Waiting...'
-                top: 100
-            });
-            setTimeout(function(){
-                $.messager.progress('close');
-            },delay*1000)
-        }
-    </script>
 </head>
 
-<body onload="setupAndWait">
+<body>
 
     <div id="noVNC_fallback_error" class="noVNC_center">
         <div>

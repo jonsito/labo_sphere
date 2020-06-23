@@ -35,9 +35,9 @@ find_freehost() {
   return
 }
 
-# arranca un servidor vnc en $1 para el usuario $2
+# arranca un servidor vnc en $1 para el usuario $2 contrasenya $3
 fire_vncserver() {
-  port=`ssh $1 "echo $2 conectar | /usr/local/local/bin/fireup_vncserver.sh"`
+  port=`ssh $1 "echo $2 $3 | /usr/local/local/bin/fireup_vncserver.sh"`
   echo $port
 }
 
@@ -80,6 +80,10 @@ case $1 in
       # create vnc server with session for user@host ( passwd='conectar' )
       // echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
       echo "{\"host\":\"${host}\",\"port\":6100}";
+      ;;
+  "start_vnc" ) # host user password
+      start_vnc $2 $3 $4
+      echo "{\"host\":\"${2}\",\"port\":6100}";
       ;;
   "tunnel" ) # zone
       # locate free host

@@ -73,18 +73,52 @@ function labo_session(mode,tipo) {
         setTimeout(function() {w.focus();},300);
     }
 
+    function openVNC(host,port) {
+        $.ajax({
+            type: 'POST',
+            url:'web/ajax/actionFunctions.php',
+            data: {
+                Operation:'startvnc',
+                host:host,
+                port:port,
+                username:$('#username').val(),
+                password:$('#password').val(),
+                name:mode,
+                tipo:tipo
+            },
+            dataType: 'json',
+            success: function (result) {
+                if (result.hasOwnProperty('errorMsg')) {
+                    $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
+                } else {
+                    let fromport=6100+host.replace("l","");
+                    let url="web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port="+fromport;
+                    url += "&encrypt=1&path="+host+".lab.dit.upm.es:"+port;
+                    url += "&password="+$('#password').val();
+                    let w=window.open(
+                        url,
+                        "vnc@"+host,
+                        "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
+                        "location=0, directories=no, width=1024, height=768, left=400, top=300"
+                    );
+                    setTimeout(function() {w.focus();},300);
+                }
+            }
+        });
+    }
+
     function fireupDesktop(host,port) {
-        let fromport=6100+host.replace("l","");
-        let url="web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port="+fromport;
-        url += "&encrypt=1&path="+host+".lab.dit.upm.es:"+port;
-        url += "&password="+$('#password').val();
-        let w=window.open(
-            url,
-            "vnc@"+host,
-            "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-                    "location=0, directories=no, width=1024, height=768, left=400, top=300"
-        );
-        setTimeout(function() {w.focus();},300);
+        var win = $.messager.progress({
+            title: 'Starting client '+'<?php echo $host;?>',
+            msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
+            interval: 1000,
+            text:'Waiting...',
+            top: 100
+        });
+        setTimeout(function(){
+            openVNC(host,port);
+            $.messager.progress('close');
+        },delay*1000)
     }
 
     function fireupTunel(host,port) {
