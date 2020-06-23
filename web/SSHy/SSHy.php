@@ -65,7 +65,7 @@ $server=gethostname();
                     title: 'Starting client '+'<?php echo $host;?>',
                     msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
                     interval: 1000,
-                    text:'Waiting...'
+                    text:'Waiting...',
                     top: 100
                 });
                 setTimeout(function(){

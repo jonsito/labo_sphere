@@ -35,9 +35,10 @@ find_freehost() {
   return
 }
 
-# arranca un servidor vnc en
+# arranca un servidor vnc en $1 para el usuario $2
 fire_vncserver() {
-  echo ""
+  port=`ssh $1 "echo $2 conectar | /usr/local/local/bin/fireup_vncserver.sh"`
+  echo $port
 }
 
 # programa en el firewall un tunel ssh
@@ -66,26 +67,26 @@ case $1 in
       # wake up selected host
       bgjob /usr/local/bin/wakeup.sh -q $host
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
-      sleep 10
+      sleep 5
       // echo "wss://acceso.lab.dit.upm.es:6001/${host}:22"
       echo "{\"host\":\"${host}\",\"port\":22}";
       ;;
   "vnc_console" ) # user zone
       # locate free host
-      host=$(find_freehost $2)
+      host=$(find_freehost $3)
       # wake up selected host
       bgjob /usr/local/bin/wakeup.sh -q $host
-      sleep 10
+      sleep 5
       # create vnc server with session for user@host ( passwd='conectar' )
-      port=`ssh $host "echo $user conectar | /usr/local/local/bin/fireup_vncserver.sh"`
       // echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
-      echo "{\"host\":\"${host}\",\"port\":22}";
+      echo "{\"host\":\"${host}\",\"port\":6100}";
       ;;
   "tunnel" ) # zone
       # locate free host
       host=$(find_freehost $2)
       # wake up selected host
       bgjob /usr/local/bin/wakeup.sh -q $host
+      sleep 5
       # PENDING create tunnel in firewall
       # return command to execute
       echo "{\"host\":\"${host}\",\"port\":22}";
