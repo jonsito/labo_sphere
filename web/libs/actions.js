@@ -74,10 +74,10 @@ function labo_session(mode,tipo) {
     }
 
     function fireupDesktop(host,port) {
-        // $.messager.alert("VPN@"+host,"El escritorio remoto no esta disponible todavía","error");
-        let url='web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port=6001&encrypted=1&path='+host+'.lab.dit.upm.es:'+port;
-        url+="&password="+$('#password').val();
-        // let url='web/noVNC/vnc.php?host='+host+'.lab.dit.upm.es&umode=1&port='+port+'encrypt=1';
+        let fromport=6100+host.replace("l","");
+        let url="web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port="+fromport;
+        url += "&encrypt=1&path="+host+".lab.dit.upm.es:"+port;
+        url += "&password="+$('#password').val();
         let w=window.open(
             url,
             "vnc@"+host,
@@ -86,6 +86,7 @@ function labo_session(mode,tipo) {
         );
         setTimeout(function() {w.focus();},300);
     }
+
     function fireupTunel(host,port) {
         $.messager.alert("Tunel@"+host,"El acceso mediante túnel no está disponible todavía","error");
     }

@@ -41,6 +41,23 @@ class ResourceHandler {
         return $line;
     }
 
+    function launchProxy($host,$port) {
+        // le pedimos a maestro que lance el vnc
+
+        // ahora lanzamos el proxy
+        $cmd="websockify -D --run-once ". // go to background and run just once
+            "--cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem".
+            "--key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem".
+            "--ssl-only {$port} {$host}.lab.dit.upm.es:{$port}";
+        @exec($cmd,$output,$result);
+        if ($result!==0) {
+            $msg="Error launching web socket proxy\nCommand is:{$cmd} ";
+            $this->myLogger->error($msg);
+            return $msg;
+        }
+        return "";
+    }
+
     // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm")
     public function fireUp($name,$type,$user) {
         // $this->myLogger->enter("findResourece($name)");
@@ -81,11 +98,10 @@ class ResourceHandler {
         $result=json_decode($res,true);
         if ($result===FALSE) return $res; // no se puede leer el json: retorna el error recibido
         if ($type=="console") {
-            // Nothing to do here: wsproxy should already be running in daemon mode
             $result['success']=true; return $result;
         }
         if ($type=="desktop") {
-            // PENDING: launch noVPN websockify tunel
+            // $this->launchProxy($result['host'],6100+str_replace("l","",$result['host']));
             $result['success']=true; return $result;
         }
         if ($type=="tunel") {

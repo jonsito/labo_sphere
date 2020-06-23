@@ -9,7 +9,24 @@ $operation=http_request("Operation","s",null);
 $node=http_request("name","s",null);
 $parent=http_request("parent","s",null);
 $level=http_request("level","i",0);
-if ($operation !== 'fireup' ) $a=new Action($node,$parent,$level);
+$user=http_request("username","s","");
+$password=http_request("password","s","");
+$type=http_request("tipo","s","");
+$host=http_request("host","s","");
+$port=http_request("port","i",0);
+
+if ( in_array($operation,array('start','stop','status','console')) ) $a=new Action($node,$parent,$level);
+if ( in_array($operation,array('fireup','launch_vnc','launch_tunnel'))) {
+    // authenticate user
+    $auth=new AuthLDAP();
+    if ($auth->login($user,$password)==false) {
+        $res="Authentication error: invalid username or password";
+        echo json_encode(array("success"=>false,"errorMsg"=>$res));
+        return;
+    }
+    // create resource handle and find valid free resource of $name family
+    $rh=new ResourceHandler($user,$password);
+}
 
 switch ($operation) {
     case "start": $res=$a->start($level); break; // start host
@@ -19,18 +36,16 @@ switch ($operation) {
         $res=$a->console($level);
         if (is_array($res)) {echo json_encode($res); return; }
         break;
+    case "launch_tunnel":
+        $res="Option not available yet";
+        break;
+    case "launch_vnc":
+        $item=$rh->launchProxy($host,$port);
+        // return data with parameters to send via post to requested resource url
+        if (is_array($item)) { echo json_encode($item); return; }
+        $res="cannot activate web socket proxy for vnc to host $host";
+        break;
     case "fireup": // fireup instance of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","newvm")
-        $user=http_request("username","s","");
-        $password=http_request("password","s","");
-        $type=http_request("tipo","s","");
-        // authenticate user
-        $auth=new AuthLDAP();
-        if ($auth->login($user,$password)==false) {
-            $res="Authentication error: invalid username or password";
-            break;
-        }
-        // create resource handle and find valid free resource of $name family
-        $rh=new ResourceHandler($user,$password);
         $item=$rh->fireUp($node,$type,$user);
         // return data with parameters to send via post to requested resource url
         if (is_array($item)) { echo json_encode($item); return; }
