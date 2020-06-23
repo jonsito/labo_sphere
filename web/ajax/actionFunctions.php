@@ -16,7 +16,7 @@ $host=http_request("host","s","");
 $port=http_request("port","i",0);
 
 if ( in_array($operation,array('start','stop','status','console')) ) $a=new Action($node,$parent,$level);
-if ( in_array($operation,array('fireup','launch_vnc','launch_tunnel'))) {
+if ( in_array($operation,array('fireup','launch_vnc','startvnc','launch_tunnel'))) {
     // authenticate user
     $auth=new AuthLDAP();
     if ($auth->login($user,$password)==false) {
