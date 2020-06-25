@@ -14,7 +14,13 @@
     <script type="text/javascript" src="/labo_sphere/web/libs/actions.js"></script>
     <script type="text/javascript">
 
-        function clearForm() { $('#formulario').form('clear'); }
+        function clearForm() {
+            $('#sesion_host').validatebox({
+                validType:"regexp['^l[0-9]{3}']",
+                invalidMessage:'Enter valid host name. i.e: l067'
+            });
+            $('#formulario').form('clear');
+        }
 
         function acceder() {
             // if ok then ask for selected session/option
@@ -64,6 +70,10 @@
     </li>
     <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"/>
         <label for="sesion_newvm">Crear y ejecutar una nueva m&aacute;quina virtual</label>
+    </li>
+    <li><input type="radio" name="sesion" id="sesion_hostrb" value="host" onselect="selectSession('host');"/>
+        <label for="sesion_host">Acceso al equipo:</label>
+        <input name="host" value="" id="sesion_host" size="4" maxlength="4" class="easyui-validatebox" />
     </li>
     <li><input type="radio" name="sesion" id="sesion_admin" value="admin" onselect="selectSession('admin');"/>
         <label for="sesion_admin">Acceso al interfaz de gesti&oacute;n</label>
