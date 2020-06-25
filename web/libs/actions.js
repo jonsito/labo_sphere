@@ -93,8 +93,8 @@ function labo_session(mode,tipo) {
                 } else {
                     let fromport=6100+host.replace("l","");
                     let url="web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port="+fromport;
-                    url += "&encrypt=1&path="+host+".lab.dit.upm.es:"+port;
-                    url += "&password="+$('#password').val();
+                    url += "&encrypt=1&host="+host+".lab.dit.upm.es&port=5900";
+                    // url += "&password="+$('#password').val();
                     let w=window.open(
                         url,
                         "vnc@"+host,

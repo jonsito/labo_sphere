@@ -1,0 +1,78 @@
+Arrancar sesiones VNC remotas bajo demanda desde ventana de login con Ubuntu
+=====================================================================
+
+Instalar paquetes necesarios
+root# apt-get install xinetd
+root# apt-get install apt-get install tigervnc-common tigervnc-standalone-server
+
+Editar los ficheros de configuracion
+
+root# vi /etc/gdm3/custom.conf
+...... cambiar los siguientes apartados .....
+[daemon]
+# Uncoment the line below to force the login screen to use Xorg
+WaylandEnable=false
+DefaultSession=gnome.desktop
+....
+[security]
+AllowRemoteRoot=true
+DisallowTCP=false
+
+[xdmcp]
+Enable=true
+MaxSesions=10
+.....
+
+root# vi /etc/services
+.... añadir la linea ....
+vncserver	5900/tcp			# VNC xinetd based server
+.....
+
+root# vi /etc/xinetd.d/vncserver
+... crear y editar el fichero con este contenido....
+service vncserver
+{
+disable = no
+socket_type = stream
+protocol = tcp
+group = tty
+flags = IPv4
+wait = no
+user = nobody
+server = /usr/bin/Xvnc
+server_args = -inetd -query localhost -geometry 1440x900 -depth 24 -NeverShared -once -fp /usr/share/X11/fonts/misc -securitytypes=none
+}
+............
+
+root# systemctl enable xinetd
+
+root# vi /etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla
+.... crear fichero con el siguiente contenido
+[Allow Colord all Users]
+Identity=unix-user:*
+Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
+ResultAny=no
+ResultInactive=no
+ResultActive=yes
+......
+
+Arrancar la nueva configuracion
+root# /sbin/reboot
+
+o bien (menos drástico)
+root# systemctl start xinetd
+root# systemctl restart polkit
+root# systemctl restart gdm3
+
+Comprobar que xinetd tiene activo el puerto 5900
+root# netstat -ant | grep 5900
+tcp        0      0 0.0.0.0:5900            0.0.0.0:*               ESCUCHAR   
+
+Desde otra máquina comprobar que se puede abrir una sesion vnc
+otrohost$ vncviewer vnchost.lab.dit.upm.es
+
+NOTAS:
+- La configuración indicada NO PERMITE dos sesiones con el mismo usuario
+- La configuración indicada solo permite 10 conexiones VNC. Para cambiarlo, editar el parámetro MaxSessions del /etc/gdm3/custom.conf
+
+
