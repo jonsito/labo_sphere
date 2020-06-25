@@ -63,8 +63,8 @@ class ResourceHandler {
         return array("success"=>true,"host"=>$host,"port"=>$port);
     }
 
-    // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm")
-    public function fireUp($name,$type,$host) {
+    // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm") or given host
+    public function fireUp($name,$type,$host="none") {
         // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
         $result=array('success'=>true);
@@ -88,7 +88,8 @@ class ResourceHandler {
             case "laboB":
             case "macs":
             case "virtual":
-                $cmd.=" {$name}";
+            case "host":
+                $cmd.=" {$name} {$host}";
                 break;
             case "newvm":
                 $this->myLogger->error("fireup in on-demand VM's not available yet");

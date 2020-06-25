@@ -46,7 +46,7 @@ switch ($operation) {
         $res="cannot activate web socket proxy for vnc to host $host";
         break;
     case "fireup": // fireup instance of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","newvm")
-        $item=$rh->fireUp($node,$type,$user,$host);
+        $item=$rh->fireUp($node,$type,$host);
         // return data with parameters to send via post to requested resource url
         if (is_array($item)) { echo json_encode($item); return; }
         $res="FireUp Error: cannot locate free resource of familiy $node";
