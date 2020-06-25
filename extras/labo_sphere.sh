@@ -12,8 +12,9 @@ STATUS_FILE=${BASE}/estado_clientes.log
 
 source ${BASE}/lista_maquinas
 # buscar un equipo apagado de la zona deseada y encenderlo
-# parametro: zona
+# parametro: zona host
 find_freehost() {
+  if [ "Z$2" != "Znone"]; then echo $2; return; fi
   lista=""
   case $1 in
     "laboA" ) lista="${A127}" ;;
@@ -61,33 +62,28 @@ case $1 in
   "status" ) # "stop host|alias|list"
       bgjob /usr/local/bin/compruebamaq.sh -q $2
     ;;
-  "ssh_console" ) # zone
+  "ssh_console" ) # zone host
       # locate free host
-      host=$(find_freehost $2)
+      host=$(find_freehost $2 $3)
       # wake up selected host
       bgjob /usr/local/bin/wakeup.sh -q $host
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
       sleep 5
-      // echo "wss://acceso.lab.dit.upm.es:6001/${host}:22"
       echo "{\"host\":\"${host}\",\"port\":22}";
       ;;
-  "vnc_console" ) # user zone
+  "vnc_console" ) # zone host
       # locate free host
-      host=$(find_freehost $3)
+      host=$(find_freehost $2 $3)
       # wake up selected host
       bgjob /usr/local/bin/wakeup.sh -q $host
       sleep 5
       # create vnc server with session for user@host ( passwd='conectar' )
       // echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
-      echo "{\"host\":\"${host}\",\"port\":6100}";
+      echo "{\"host\":\"${host}\",\"port\":5900}";
       ;;
-  "start_vnc" ) # host user password
-      start_vnc $2 $3 $4
-      echo "{\"host\":\"${2}\",\"port\":6100}";
-      ;;
-  "tunnel" ) # zone
+  "tunnel" ) # zone host
       # locate free host
-      host=$(find_freehost $2)
+      host=$(find_freehost $2 $3)
       # wake up selected host
       bgjob /usr/local/bin/wakeup.sh -q $host
       sleep 5

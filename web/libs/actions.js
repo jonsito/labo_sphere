@@ -126,6 +126,8 @@ function labo_session(mode,tipo) {
     }
 
     $.messager.progress({ title:'Processing',text:"Iniciando sesion de tipo '"+tipo+"'"});
+    var host=$('#sesion_host').textbox('getValue');
+    if (host==="") host="none";
     $.ajax({
         type: 'POST',
         url:'web/ajax/actionFunctions.php',
@@ -134,7 +136,8 @@ function labo_session(mode,tipo) {
             username:$('#username').val(),
             password:$('#password').val(),
             name:mode,
-            tipo:tipo
+            tipo:tipo,
+            host:host
         },
         dataType: 'json',
         success: function (result) {

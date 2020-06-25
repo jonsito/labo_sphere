@@ -64,14 +64,14 @@ class ResourceHandler {
     }
 
     // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm")
-    public function fireUp($name,$type,$user) {
+    public function fireUp($name,$type,$host) {
         // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
         $result=array('success'=>true);
         $cmd=self::remote_cmd;
         switch($type) {
             case 'desktop':
-                $cmd = self::remote_cmd." vnc_console ".$user;
+                $cmd = self::remote_cmd." vnc_console ";
                 break;
             case 'console':
                 $cmd = self::remote_cmd." ssh_console";
