@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/../../server/tools.php");
 $host=http_request("host","s","");
 $hmode=http_request("hmode","i",0); // 0:rw 1:ro
-$user=http_request("user","s","");
+$user=http_request("username","s","");
 $umode=http_request("umode","i",0);
 $delay=http_request("delay","i",0);
 $ipval="value=\"{$host}\"";

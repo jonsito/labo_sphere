@@ -81,7 +81,7 @@ function labo_session(mode,tipo) {
                 Operation:'startvnc',
                 host:host,
                 port:port,
-                user:$('#username').val(),
+                username:$('#username').val(),
                 password:$('#password').val(),
                 name:mode,
                 tipo:tipo

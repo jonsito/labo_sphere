@@ -14,7 +14,7 @@ source ${BASE}/lista_maquinas
 # buscar un equipo apagado de la zona deseada y encenderlo
 # parametro: zona host
 find_freehost() {
-  if [ "Z$2" != "Znone"]; then echo $2; return; fi
+  if [ "Z$2" != "Znone" ]; then echo $2; return; fi
   lista=""
   case $1 in
     "laboA" ) lista="${A127}" ;;
