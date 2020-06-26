@@ -28,8 +28,11 @@
             $('#formulario').form('clear');
         }
 
-        function selectSession(session) {
-            if (session!=='host') $('#sesion_host').textbox('setValue','');
+        function selectSession(sesion) {
+            if (sesion!=='hostrb') $('#sesion_host').textbox('setValue','');
+            // as setValue fires up activate hostrb radiobutton, need to properly set
+            $('#sesion_'+sesion).prop("checked",true);
+            return false; // do not continue chain event
         }
 
         function acceder() {
@@ -66,26 +69,26 @@
 <form id="formulario" method="POST" action="web/admin.php" >
     <input type="hidden" name="host" id="session_host" value=""/>
 <ul>
-    <li><input type="radio" name="sesion" id="sesion_laboA" value="laboA"  onselect="selectSession('laboA');"/>
+    <li><input type="radio" name="sesion" id="sesion_laboA" value="laboA"  onclick="selectSession('laboA');"/>
         <label for="sesion_laboA">Abrir sesi&oacute;n en el Laboratorio del Edificio A</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_laboB" value="laboB"  onselect="selectSession('laboB');"/>
+    <li><input type="radio" name="sesion" id="sesion_laboB" value="laboB"  onclick="selectSession('laboB');"/>
         <label for="sesion_laboB">Abrir sesi&oacute;n el el Laboratorio del Edificio B</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_virtual" value="virtual"  onselect="selectSession('virtual');"/>
+    <li><input type="radio" name="sesion" id="sesion_virtual" value="virtual"  onclick="selectSession('virtual');"/>
         <label for="sesion_virtual">Abrir sesi&oacute;n en clientes de acceso remoto</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_mac" value="macs"  onselect="selectSession('macs');"/>
+    <li><input type="radio" name="sesion" id="sesion_mac" value="macs"  onclick="selectSession('macs');"/>
         <label for="sesion_virtual">Abrir sesi&oacute;n en equipos Mac-OSX</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"/>
+    <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"  onclick="selectSession('newvm');/>
         <label for="sesion_newvm">Crear y ejecutar una nueva m&aacute;quina virtual</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_hostrb" value="host" onselect="selectSession('host');"/>
+    <li><input type="radio" name="sesion" id="sesion_hostrb" value="host" onclick="selectSession('hostrb');"/>
         <label for="sesion_host">Acceso al equipo:</label>
         <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_admin" value="admin" onselect="selectSession('admin');"/>
+    <li><input type="radio" name="sesion" id="sesion_admin" value="admin" onclick="selectSession('admin');"/>
         <label for="sesion_admin">Acceso al interfaz de gesti&oacute;n</label>
     </li>
 </ul>
