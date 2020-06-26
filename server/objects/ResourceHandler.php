@@ -49,7 +49,7 @@ class ResourceHandler {
             $port=6100+ intval( str_replace("l","",$host));
         }
         // ahora lanzamos el proxy
-        $cmd="websockify --daemon ".  // go to background
+        $cmd="netstat -ant | grep -q {$port} || websockify --daemon ".  // go to background
             "--idle-timeout 300 ". // exit after 5 minutes idle
             "--cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem ".
             "--key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem ".

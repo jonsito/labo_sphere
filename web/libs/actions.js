@@ -98,7 +98,7 @@ function labo_session(mode,tipo) {
                         url,
                         "vnc@"+host,
                         "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-                        "location=0, directories=no, width=1024, height=768, left=400, top=300"
+                        "location=0, directories=no, width=1440, height=900, left=400, top=300"
                     );
                     setTimeout(function() {w.focus();},300);
                 }

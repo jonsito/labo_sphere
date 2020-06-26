@@ -92,7 +92,7 @@ case $1 in
       # port=6100+host
       port=$(expr 6100 + `echo $host | sed -e 's/l//g'`)
       # echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
-      echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}";
+      echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}}";
       ;;
   "tunnel" ) # zone host
       # locate free host
