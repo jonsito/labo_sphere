@@ -41,28 +41,6 @@ class ResourceHandler {
         return $line;
     }
 
-    function launchProxy($host,$port=0) {
-        // as clients launch vnc-on-demand host port is allways 5900
-        // if port==0 local port is 6100+host. No problem when there is already a live connection
-        // to that host:
-        if ($port==0) {
-            $port=6100+ intval( str_replace("l","",$host));
-        }
-        // ahora lanzamos el proxy
-        $cmd="netstat -ant | grep -q {$port} || websockify --daemon ".  // go to background
-            "--idle-timeout 300 ". // exit after 5 minutes idle
-            "--cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem ".
-            "--key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem ".
-            "--ssl-only {$port} {$host}.lab.dit.upm.es:5900 ";
-        @exec($cmd,$output,$result);
-        if ($result!==0) {
-            $msg="Error launching web socket proxy\nCommand is:{$cmd} ";
-            $this->myLogger->error($msg);
-            return $msg;
-        }
-        return array("success"=>true,"host"=>$host,"port"=>$port);
-    }
-
     // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm") or given host
     public function fireUp($name,$type,$host="none") {
         // $this->myLogger->enter("findResourece($name)");

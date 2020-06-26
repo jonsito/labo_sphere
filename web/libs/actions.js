@@ -74,36 +74,16 @@ function labo_session(mode,tipo) {
     }
 
     function openVNC(host,port) {
-        $.ajax({
-            type: 'POST',
-            url:'web/ajax/actionFunctions.php',
-            data: {
-                Operation:'startvnc',
-                host:host,
-                port:port, // let
-                username:$('#username').val(),
-                password:$('#password').val(),
-                name:mode,
-                tipo:tipo
-            },
-            dataType: 'json',
-            success: function (result) {
-                if (result.hasOwnProperty('errorMsg')) {
-                    $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
-                } else {
-                    let fromport=6100+parseInt(host.replace("l",""));
-                    let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
-                    // url += "&password="+$('#password').val();
-                    let w=window.open(
-                        url,
-                        "vnc@"+host,
-                        "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-                        "location=0, directories=no, width=1440, height=900, left=400, top=300"
-                    );
-                    setTimeout(function() {w.focus();},300);
-                }
-            }
-        });
+        let fromport=6100+parseInt(host.replace("l",""));
+        let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
+        // url += "&password="+$('#password').val();
+        let w=window.open(
+            url,
+            "vnc@"+host,
+            "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
+            "location=0, directories=no, width=1440, height=900, left=400, top=300"
+        );
+        setTimeout(function() {w.focus();},300);
     }
 
     function fireupDesktop(host,port,delay) {

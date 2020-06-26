@@ -16,7 +16,7 @@ $host=http_request("host","s","");
 $port=http_request("port","i",0);
 
 if ( in_array($operation,array('start','stop','status','console')) ) $a=new Action($node,$parent,$level);
-if ( in_array($operation,array('fireup','launch_vnc','startvnc','launch_tunnel'))) {
+if ( in_array($operation,array('fireup','launch_vnc','launch_tunnel'))) {
     // authenticate user
     $auth=new AuthLDAP();
     if ($auth->login($user,$password)==false) {
@@ -38,12 +38,6 @@ switch ($operation) {
         break;
     case "launch_tunnel":
         $res="Option not available yet";
-        break;
-    case "startvnc":
-        $item=$rh->launchProxy($host,$port);
-        // return data with parameters to send via post to requested resource url
-        if (is_array($item)) { echo json_encode($item); return; }
-        $res="cannot activate web socket proxy for vnc to host $host";
         break;
     case "fireup": // fireup instance of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","newvm")
         $item=$rh->fireUp($node,$type,$host);

@@ -36,10 +36,16 @@ find_freehost() {
   return
 }
 
-# arranca un servidor vnc en $1 para el usuario $2 contrasenya $3
-fire_vncserver() {
-  port=`ssh $1 "echo $2 $3 | /usr/local/local/bin/fireup_vncserver.sh"`
-  echo $port
+# arranca un servidor vnc en $1:host $2:port
+# es necesario ejecutar este comando como root en acceso,
+# por lo que lo tenemos que hacer desde aquí
+fireup_websockify() {
+  ssh acceso.lab.dit.upm.es  \
+    websockify --daemon \
+    --idle-timeout 300 \
+    --cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem \
+    --key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem \
+    --ssl-only {$2} {$1}.lab.dit.upm.es:5900
 }
 
 # programa en el firewall un tunel ssh
@@ -92,6 +98,7 @@ case $1 in
       # port=6100+host
       port=$(expr 6100 + `echo $host | sed -e 's/l//g'`)
       # echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
+      fireup_websockify host port
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}}";
       ;;
   "tunnel" ) # zone host
