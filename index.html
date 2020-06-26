@@ -18,11 +18,12 @@
         function clearForm() {
             $('#sesion_host').textbox({
                 value:'',
-                validType:"regexp['^l[0-9]{3}']",
+                validType:"regexp['^l[0-9]{3}$']",
                 invalidMessage:'Enter valid host name. i.e: l067',
                 height:20,
                 onChange: function() {
                     if ($('#sesion_host').textbox('isValid')) $('#sesion_hostrb').prop("checked",true);
+                    else $('#sesion_host').textbox('setValue',''); // invalid value: clear and forget
                 }
             });
             $('#formulario').form('clear');
