@@ -49,11 +49,11 @@ class ResourceHandler {
             $port=6100+ intval( str_replace("l","",$host));
         }
         // ahora lanzamos el proxy
-        $cmd="websockify --daemon".  // go to background
-            "--idle-timeout 300". // exit after 5 minutes idle
-            "--cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem".
-            "--key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem".
-            "--ssl-only {$port} {$host}.lab.dit.upm.es:5900";
+        $cmd="websockify --daemon ".  // go to background
+            "--idle-timeout 300 ". // exit after 5 minutes idle
+            "--cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem ".
+            "--key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem ".
+            "--ssl-only {$port} {$host}.lab.dit.upm.es:5900 ";
         @exec($cmd,$output,$result);
         if ($result!==0) {
             $msg="Error launching web socket proxy\nCommand is:{$cmd} ";

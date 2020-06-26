@@ -89,8 +89,10 @@ case $1 in
       delay=$(isAlive $host)
       [ $delay -ne 0 ] && delay=90
       # create vnc server with session for user@host ( passwd='conectar' )
-      // echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
-      echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":5900}";
+      # port=6100+host
+      port=$(expr 6100 + `echo $host | sed -e 's/l//g'`)
+      # echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
+      echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}";
       ;;
   "tunnel" ) # zone host
       # locate free host

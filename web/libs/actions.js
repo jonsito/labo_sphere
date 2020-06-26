@@ -80,7 +80,7 @@ function labo_session(mode,tipo) {
             data: {
                 Operation:'startvnc',
                 host:host,
-                port:port,
+                port:port, // let
                 username:$('#username').val(),
                 password:$('#password').val(),
                 name:mode,
@@ -91,9 +91,8 @@ function labo_session(mode,tipo) {
                 if (result.hasOwnProperty('errorMsg')) {
                     $.messager.show({width: 300, height: 200, title: 'Error', msg: result.errorMsg});
                 } else {
-                    let fromport=6100+host.replace("l","");
-                    let url="web/noVNC/vnc.php?host=acceso.lab.dit.upm.es&port="+fromport;
-                    url += "&encrypt=1&host="+host+".lab.dit.upm.es&port=5900";
+                    let fromport=6100+parseInt(host.replace("l",""));
+                    let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
                     // url += "&password="+$('#password').val();
                     let w=window.open(
                         url,
@@ -108,7 +107,7 @@ function labo_session(mode,tipo) {
     }
 
     function fireupDesktop(host,port,delay) {
-        if (delay==0) {
+        if (delay===0) {
             openVNC(host,port);
             return;
         }
