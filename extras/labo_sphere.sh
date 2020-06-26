@@ -40,12 +40,7 @@ find_freehost() {
 # es necesario ejecutar este comando como root en acceso,
 # por lo que lo tenemos que hacer desde aquí
 fireup_websockify() {
-  ssh acceso.lab.dit.upm.es  \
-    websockify --daemon \
-    --idle-timeout 300 \
-    --cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem \
-    --key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem \
-    --ssl-only {$2} {$1}.lab.dit.upm.es:5900
+  ssh acceso.lab.dit.upm.es "websockify --daemon --idle-timeout 300 --cert /etc/ssl/certs/acceso.lab.dit.upm.es.certificado.pem --key /etc/ssl/private/acceso.lab.dit.upm.es.llave.pem --ssl-only ${2} ${1}.lab.dit.upm.es:5900" 2>&1 >/tmp/report
 }
 
 # programa en el firewall un tunel ssh
