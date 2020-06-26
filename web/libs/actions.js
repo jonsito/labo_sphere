@@ -62,8 +62,8 @@ function labo_action(action) {
 }
 
 function labo_session(mode,tipo) {
-    function fireupConsole(host) {
-        let url='web/SSHy/SSHy.php?delay=60&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&user='+$('#username').val();
+    function fireupConsole(host,delay) {
+        let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&user='+$('#username').val();
         let w=window.open(
             url,
             "ssh@"+host,
@@ -107,7 +107,11 @@ function labo_session(mode,tipo) {
         });
     }
 
-    function fireupDesktop(host,port) {
+    function fireupDesktop(host,port,delay) {
+        if (delay==0) {
+            openVNC(host,port);
+            return;
+        }
         var win = $.messager.progress({
             title: 'Starting VNC Desktop on host: '+'<?php echo $host;?>',
             msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
@@ -118,10 +122,10 @@ function labo_session(mode,tipo) {
         setTimeout(function(){
             openVNC(host,port);
             $.messager.progress('close');
-        },60*1000)
+        },delay*1000)
     }
 
-    function fireupTunel(host,port) {
+    function fireupTunel(host,port,delay) {
         $.messager.alert("Tunel@"+host,"El acceso mediante túnel no está disponible todavía","error");
     }
 
@@ -146,10 +150,11 @@ function labo_session(mode,tipo) {
             } else {
                 let host=result.host;
                 let port=result.port;
+                let delay=result.delay;
                 switch(tipo) {
-                    case "desktop" : setTimeout(function() {fireupDesktop(host,port);},0); return;
-                    case "console" : setTimeout(function() {fireupConsole(host);},0); return;
-                    case "tunel" :  setTimeout(function() {fireupTunel(host,port);},0); return;
+                    case "desktop" : setTimeout(function() {fireupDesktop(host,port,delay);},0); return;
+                    case "console" : setTimeout(function() {fireupConsole(host,delay);},0); return;
+                    case "tunel" :  setTimeout(function() {fireupTunel(host,port,delay);},0); return;
                 }
             }
         }

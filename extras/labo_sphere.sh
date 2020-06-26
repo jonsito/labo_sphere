@@ -51,6 +51,12 @@ bgjob() {
   $* 2>&1 >>${REPORT} &
 }
 
+isAlive() {
+  # use 22 (ssh) or 111 (rpcbind)
+  nc -4 -z $1 22
+  echo $?
+}
+
 case $1 in
   "start" ) # "start host|alias|list"
       host=$2
@@ -62,34 +68,39 @@ case $1 in
   "status" ) # "stop host|alias|list"
       bgjob /usr/local/bin/compruebamaq.sh -q $2
     ;;
+  # actualmente ssh_console, vnc_console y tunnel hacen lo mismo
+  # salvo el puerto que se devuelve ( que no se utiliza )
+  # los pongo separados por si esto cambia en un futuro
   "ssh_console" ) # zone host
       # locate free host
       host=$(find_freehost $2 $3)
-      # wake up selected host
+      # wake up selected host. if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host
+      delay=$(isAlive $host)
+      [ $delay -ne 0 ] && delay=90
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
-      sleep 5
-      echo "{\"host\":\"${host}\",\"port\":22}";
+      echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":22}";
       ;;
   "vnc_console" ) # zone host
       # locate free host
       host=$(find_freehost $2 $3)
-      # wake up selected host
+      # wake up selected host. if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host
-      sleep 5
+      delay=$(isAlive $host)
+      [ $delay -ne 0 ] && delay=90
       # create vnc server with session for user@host ( passwd='conectar' )
       // echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
-      echo "{\"host\":\"${host}\",\"port\":5900}";
+      echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":5900}";
       ;;
   "tunnel" ) # zone host
       # locate free host
       host=$(find_freehost $2 $3)
-      # wake up selected host
+      # wake up selected host.  if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host
-      sleep 5
-      # PENDING create tunnel in firewall
+      delay=$(isAlive $host)
+      [ $delay -ne 0 ] && delay=90
       # return command to execute
-      echo "{\"host\":\"${host}\",\"port\":22}";
+      echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":22}";
   ;;
   "poll" )
     /usr/local/bin/informemaq.sh -q remoto laboratorios macs
