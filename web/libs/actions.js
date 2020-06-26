@@ -63,7 +63,7 @@ function labo_action(action) {
 
 function labo_session(mode,tipo) {
     function fireupConsole(host,delay) {
-        let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&user='+$('#username').val();
+        let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&username='+$('#username').val();
         let w=window.open(
             url,
             "ssh@"+host,

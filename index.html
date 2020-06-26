@@ -28,6 +28,10 @@
             $('#formulario').form('clear');
         }
 
+        function selectSession(session) {
+            if (session!=='host') $('#sesion_host').textbox('setValue','');
+        }
+
         function acceder() {
             // if ok then ask for selected session/option
             var username=$('#username').val();
@@ -62,16 +66,16 @@
 <form id="formulario" method="POST" action="web/admin.php" >
     <input type="hidden" name="host" id="session_host" value=""/>
 <ul>
-    <li><input type="radio" name="sesion" id="sesion_laboA" value="laboA"/>
+    <li><input type="radio" name="sesion" id="sesion_laboA" value="laboA"  onselect="selectSession('laboA');"/>
         <label for="sesion_laboA">Abrir sesi&oacute;n en el Laboratorio del Edificio A</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_laboB" value="laboB"/>
+    <li><input type="radio" name="sesion" id="sesion_laboB" value="laboB"  onselect="selectSession('laboB');"/>
         <label for="sesion_laboB">Abrir sesi&oacute;n el el Laboratorio del Edificio B</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_virtual" value="virtual"/>
+    <li><input type="radio" name="sesion" id="sesion_virtual" value="virtual"  onselect="selectSession('virtual');"/>
         <label for="sesion_virtual">Abrir sesi&oacute;n en clientes de acceso remoto</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_mac" value="macs"/>
+    <li><input type="radio" name="sesion" id="sesion_mac" value="macs"  onselect="selectSession('macs');"/>
         <label for="sesion_virtual">Abrir sesi&oacute;n en equipos Mac-OSX</label>
     </li>
     <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"/>
