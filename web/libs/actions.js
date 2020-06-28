@@ -10,7 +10,7 @@ function delayAction(message,delay,callback) {
     var interval=setInterval(function(){$('#timeout_delay').html(count.toString());cont --;},1000)
     setTimeout(function(){
         cleartInterval(interval);
-        openVNC(host,port);
+        if (typeof(callback)==="function" ) callback();
         $.messager.progress('close');
     },delay*1000)
 }

@@ -47,6 +47,7 @@ $server=gethostname();
     <link rel="stylesheet" type="text/css" href="/labo_sphere/web/libs/jquery-easyui-1.9.5/demo/demo.css">
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.min.js"></script>
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/labo_sphere/web/libs/actions.js"></script>
 
 	<link rel="stylesheet" href="css/xterm.css" async/>
 	<link rel="stylesheet" href="css/main.css" async/>
@@ -60,18 +61,7 @@ $server=gethostname();
             // JAMC add a delay countdown before enable ssh window
             // to give host client time to wakeup
             let delay=<?php echo $delay; ?>;
-            if (delay>0) {
-                var win = $.messager.progress({
-                    title: 'Starting client '+'<?php echo $host;?>',
-                    msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
-                    interval: 1000,
-                    text:'Waiting...',
-                    top: 100
-                });
-                setTimeout(function(){
-                    $.messager.progress('close');
-                },delay*1000)
-            }
+            if (delay>0 ) delayAction('Starting client '+'<?php echo $host;?>',delay,null);
 
 			document.getElementById('login_cred').style.display = "block";
 			// Sets the default colorScheme to material
