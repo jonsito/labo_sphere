@@ -1,0 +1,36 @@
+Pendiente: ( lo pongo por aquí para que no se me olvide y por si tenéis alguna sugerencia extra )
+
+- Habilitar la posibilidad de acceso mediante tunel ssh (tercera opción).
+Esto implica tocar el firewall como se hace actualmente, y añadir una opción de tiempo de apertura del tunel
+
+- Comprobar estabilidad: Parece que el websocket proxy para el acceso por web-ssh
+no se levanta solo al re-arrancar la máquina "acceso"
+
+- Añadir documentación, mapas del laboratorio e instrucciones a la página principal
+
+- Esconder el acceso a la pagina de administración. Actualmente los usuarios autorizados
+están en una lista de control de accesos, pero David comentó que era preferible
+que la opción no fuera visible en absoluto
+
+- Cambiar las prioridades en la selección de máquinas: en lugar de escoger una
+que esté apagada, buscar una encendida que no tenga usuarios, y encender una nueva
+IMPORTANTE: A este respecto queda pendiente la visita al labo para verificar
+que efectivamente la numeración de máquinas es correcta y que _todas_ responden al wakeonlan
+
+- Pruebas de carga: acceder simultáneamente desde varios equipos remotos
+a una misma máquina o al laboratorio entero
+
+- Pruebas de seguridad: ver lo resistente que es la página web a un uso malintencionado.
+Comprobar que no se compromete la integridad del servidor acceso.lab.dit.upm.es
+
+- Ajustar "maestro3" para restringir la ssh_id de "acceso.labdit.upm.es" al comando
+root@maestro3:/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh,
+para no comprometer tampoco a maestro3.lab
+
+- Preparar documentación y demo para el cdc
+
+- Terminar las opciones de la ventana de administración:
+( información de un equipo, herramientas, visualización de logs, etc, etc )
+
+- Ajustes estéticos varios. Pregunta: ¿Cuál debería ser la geometría por defecto de las ventanas vnc?
+Actualmente está en 1440x900x24

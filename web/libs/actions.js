@@ -7,9 +7,9 @@ function delayAction(message,delay,callback) {
         text:'Waiting...',
         top: 100
     });
-    var interval=setInterval(function(){$('#timeout_delay').html(count.toString());count--;},1000)
+    var interval=setInterval(function(){$('#timeout_delay').html(count.toString());count--;},990)
     setTimeout(function(){
-        cleartInterval(interval);
+        clearInterval(interval);
         $.messager.progress('close');
         if (typeof(callback)==="function" ) callback();
     },parseInt(delay)*1000)
