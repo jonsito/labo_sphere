@@ -60,7 +60,7 @@ $server=gethostname();
 		window.onload = function() {
             // JAMC add a delay countdown before enable ssh window
             // to give host client time to wakeup
-            let delay=<?php echo $delay; ?>;
+            let delay=parseInt(<?php echo $delay; ?>);
             if (delay>0 ) delayAction('Starting client '+'<?php echo $host;?>',delay,null);
 
 			document.getElementById('login_cred').style.display = "block";
