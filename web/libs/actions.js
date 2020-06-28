@@ -1,3 +1,20 @@
+function delayAction(message,delay,callback) {
+    var count=parseInt(delay);
+    var win = $.messager.progress({
+        title: message,
+        msg: 'Please wait <span id="timeout_delelay">'+delay+'</span> seconds to make sure<br/> that client is up and running',
+        interval: 1000,
+        text:'Waiting...',
+        top: 100
+    });
+    var interval=setInterval(function(){$('#timeout_delay').html(count.toString());cont --;},1000)
+    setTimeout(function(){
+        cleartInterval(interval);
+        openVNC(host,port);
+        $.messager.progress('close');
+    },delay*1000)
+}
+
 function labo_action(action) {
     // comprobamos la seleccion
     var tg=$('#labo_treegrid');
@@ -91,17 +108,11 @@ function labo_session(mode,tipo) {
             openVNC(host,port);
             return;
         }
-        var win = $.messager.progress({
-            title: 'Starting VNC Desktop on host: '+'<?php echo $host;?>',
-            msg: 'Please wait 60 seconds to make sure<br/> that client is up and running',
-            interval: 1000,
-            text:'Waiting...',
-            top: 100
-        });
-        setTimeout(function(){
-            openVNC(host,port);
-            $.messager.progress('close');
-        },delay*1000)
+        delayAction(
+            'Starting VNC Desktop on host: '+'<?php echo $host;?>',
+            delay,
+            function() {openVNC(host,port);}
+            );
     }
 
     function fireupTunel(host,port,delay) {
