@@ -2,7 +2,7 @@ function delayAction(message,delay,callback) {
     var count=parseInt(delay);
     var win = $.messager.progress({
         title: message,
-        msg: 'Please wait <span id="timeout_delelay">'+delay+'</span> seconds to make sure<br/> that client is up and running',
+        msg: 'Please wait <span id="timeout_delay">'+delay+'</span> seconds to make sure<br/> that client is up and running',
         interval: 1000,
         text:'Waiting...',
         top: 100
@@ -10,9 +10,9 @@ function delayAction(message,delay,callback) {
     var interval=setInterval(function(){$('#timeout_delay').html(count.toString());count--;},1000)
     setTimeout(function(){
         cleartInterval(interval);
-        if (typeof(callback)==="function" ) callback();
         $.messager.progress('close');
-    },delay*1000)
+        if (typeof(callback)==="function" ) callback();
+    },parseInt(delay)*1000)
 }
 
 function labo_action(action) {
