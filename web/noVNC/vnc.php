@@ -1,3 +1,7 @@
+<?php
+require_once(__DIR__ . "/../../server/tools.php");
+$host=http_request("path","s","");
+?>
 <!DOCTYPE html>
 <html lang="en" class="noVNC_loading">
 <head>
@@ -13,7 +17,7 @@
     or the fragment:
         http://example.com/#host=HOST&port=PORT&encrypt=1
     -->
-    <title>noVNC</title>
+    <title>noVNC <?php echo "at: {$host}"; ?></title>
 
     <meta charset="utf-8">
     

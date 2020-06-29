@@ -94,6 +94,7 @@ function labo_session(mode,tipo) {
         let fromport=6100+parseInt(host.replace("l",""));
         let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
         // url += "&password="+$('#password').val();
+        url+="&path="+host+".lab.dit.upm.es";
         let w=window.open(
             url,
             "vnc@"+host,
