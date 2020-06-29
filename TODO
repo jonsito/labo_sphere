@@ -15,8 +15,9 @@ no se levanta solo al re-arrancar la máquina "acceso"
 están en una lista de control de accesos, pero David comentó que era preferible
 que la opción no fuera visible en absoluto
 
-- Cambiar las prioridades en la selección de máquinas: en lugar de escoger una
+- HECHO 29-Jun-2020: Cambiar las prioridades en la selección de máquinas: en lugar de escoger una
 que esté apagada, buscar una encendida que no tenga usuarios, y encender una nueva
+
 IMPORTANTE: A este respecto queda pendiente la visita al labo para verificar
 que efectivamente la numeración de máquinas es correcta y que _todas_ responden al wakeonlan
 
