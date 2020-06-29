@@ -24,15 +24,32 @@ find_freehost() {
     * ) echo ""; return ;;
   esac
   #cogemos lista de equipos del grupo escogido
+  # y los barajamos para:
+  # - minimizar las posibilidades de asignar una maquina estropeada
+  # - maximizar el reparto de carga en la alimentación de los equipos
   cp /dev/null /tmp/find_freehost.$$
   for i in $lista; do
-    grep "Client:$i" ${STATUS_FILE} >> /tmp/find_freehost.$$
+    grep "Client:$i" ${STATUS_FILE} | shuf >> /tmp/find_freehost.$$
   done
-  # ordenamos segun numero encendido + ocupacion y cogemos el primero
-  equipo=`sed -e 's/Client://g' -e 's/ State:/ /g' -e 's/ Server:[b-].* Users:/ /g' /tmp/find_freehost.$$ | sort -k 2 | head -1 | awk '{ print $1 }'`
+  # cogemos el fichero y buscamos el primer equipo encendido y sin usuarios
+  equipo=`cat /tmp/find_freehost.$$ | grep -e 'State:UP Server:.*Users:-$' | sed -e 's/Client:\(.*\) State.*/\1/g' | head -1`
+  # si hemos encontrado un equipo valido cogemos ademas otro equipo apagado
+  # si no, cogemos dos equipos equipos apagados
+  down=`cat /tmp/find_freehost.$$ | grep -e 'State:DOWN Server:- Users:-$' | sed -e 's/Client:\(.*\) State.*/\1/g' | head -2`
+  # damos la orden de encender los equipos seleccionados.
+  # lo normal es que uno de ellos este ya encendido, pero vamos, el wakeup es gratis
+  /usr/local/bin/wakeup.sh $equipo $down
+  if [ $? -ne 0 ]; then
+    # si llega aqui es que no hay equipos ni vacios ni apagados
+    # cogemos pues los tres primeros disponibles de la lista (recordar que era aleatoria )
+    # y a rezar para que no tengan demasiados usuarios
+    equipo="";
+    down=`cat /tmp/find_freehost.$$ | sed -e 's/Client:\(.*\) State.*/\1/g' | head -3`
+  fi
+  # retornamos el primer equipo seleccionado.
+  # como $equipo puede ser null, anyadimos a la lista los down para que siempre haya algun equipo a devolver
+  echo $equipo $down | awk '{ print $1 }'
   rm -f /tmp/find_freehost.$$
-  # retornamos equipo seleccionado
-  echo $equipo
   return
 }
 

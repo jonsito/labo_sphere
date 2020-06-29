@@ -1,5 +1,8 @@
 Pendiente: ( lo pongo por aquí para que no se me olvide y por si tenéis alguna sugerencia extra )
 
+- HECHO 28-Jun-2020: contador de espera por wakeup debe indicar segundos restantes
+- HECHO 29-Jun-2020: ventana de vnc debe indicar el host en el título
+
 - Habilitar la posibilidad de acceso mediante tunel ssh (tercera opción).
 Esto implica tocar el firewall como se hace actualmente, y añadir una opción de tiempo de apertura del tunel
 
