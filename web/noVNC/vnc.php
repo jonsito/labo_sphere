@@ -69,7 +69,9 @@ $host=http_request("path","s","");
     <!-- actual script modules -->
     <script type="module" crossorigin="anonymous" src="app/ui.js"></script>
     <!-- end scripts -->
-
+    <script type="text/javascript">
+        const HOST_NAME='<?php echo "{$host}.lab.dit.upm.es" ?>';
+    </script>
 </head>
 
 <body>
