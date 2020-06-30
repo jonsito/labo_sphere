@@ -62,6 +62,9 @@ $host=http_request("path","s","");
     <script src="app/error-handler.js"></script>
 
     <!-- begin scripts -->
+    <script type="text/javascript">
+        var HOST_NAME='<?php echo "{$host}" ?>';
+    </script>
     <!-- promise polyfills promises for IE11 -->
     <script src="vendor/promise.js"></script>
     <!-- ES2015/ES6 modules polyfill -->
@@ -69,9 +72,7 @@ $host=http_request("path","s","");
     <!-- actual script modules -->
     <script type="module" crossorigin="anonymous" src="app/ui.js"></script>
     <!-- end scripts -->
-    <script type="text/javascript">
-        const HOST_NAME='<?php echo "{$host}" ?>';
-    </script>
+
 </head>
 
 <body>
