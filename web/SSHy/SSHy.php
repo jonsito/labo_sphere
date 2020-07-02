@@ -282,6 +282,8 @@ $server=gethostname();
 				if (term) {
 					// Don't display an error if SSH transport has already detected a graceful exit
 					if (transport.closing) {
+					    // JAMC: user exit -> close window and return
+                        window.close();
 						return;
 					}
 					term.write('\n\n\rWebsocket connection to ' + transport.auth.hostname + ' was unexpectedly closed.');
