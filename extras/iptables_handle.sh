@@ -57,7 +57,7 @@ delete_chain() {
   dest=`echo $1 | awk -F'_' '{ print $3 }'`
   echo "$IPTABLES -D FORWARD -s $src -d $dest -m state --state NEW -j $1" >> ${IPTFILE}
   # borrar reglas del canal
-  echo $IPTABLES -F ${$1} >> ${IPTFILE}
+  echo "$IPTABLES -F ${1}" >> ${IPTFILE}
   # borrar canal
   echo "$IPTABLES -X ${1}" >> ${IPTFILE}
   # ejecutar script en router.lab
@@ -68,10 +68,10 @@ delete_chain() {
 # desde el crontab se debería ejecutar este comando cada media hora
 crontab_chain() {
   # enumerar reglas creadas con este script
-  channels=`$SSH router.lab.dit.upm.es iptables -L | grep -e '^Chain LabDit_' | awk '{print $2 " "; }'`
-  # en cada regla
+  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e '^Chain LabDit_' | awk '{print $2 " "; }'`
+  # las cadenas tienen el formato: LabDit_fromhost_tohost_expiretime
   for i in channels; do
-    expire=`echo $i | awk -F'_' '{print $3}'`
+    expire=`echo $i | awk -F'_' '{print $4}'`
     # si está expirada borrar regla
     [ $expire -lt $CURRENT ] && delete_chain $i
   done
