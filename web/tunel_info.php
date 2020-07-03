@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../../server/tools.php");
+require_once(__DIR__ . "/../server/tools.php");
 $host=http_request("host","s","");
 ?>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ $host=http_request("host","s","");
     <title>Title</title>
 </head>
 <body>
-<h2>Acceso al puesto de laboratorio<?php echo $host; ?> mediante t&uacute;nel SSH/VNC</h2>
-<h3>Informaci&oacute;n adicional</h3>
+<h3 style="text-align:center">Acceso al puesto de laboratorio <?php echo $host; ?> <br/>mediante t&uacute;nel SSH/VNC</h3>
+<h4>Informaci&oacute;n adicional</h4>
 </body>
 </html>
