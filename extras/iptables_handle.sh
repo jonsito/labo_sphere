@@ -9,7 +9,7 @@
 IPTABLES="/sbin/iptables"
 SSH="ssh -q -n -x -o StrictHostKeyChecking=no"
 CURRENT=$(date +"%s")
-LOGFILE=/var/log/labo_shpere.log
+LOGFILE=/var/log/labo_sphere.log
 IPTFILE=/tmp/iptables_handle.$$
 do_log() {
   a=$(date +"%Y-%m-%d %H:%M:%S")

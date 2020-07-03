@@ -135,7 +135,11 @@ case $1 in
       delay=$(isAlive $host)
       [ $delay -ne 0 ] && delay=90
       # create tunnel and return data
-      fire_tunnel $4 $iphost $5
+      if [ $5 -ne 0 ]; then
+        fire_tunnel $4 $iphost $5
+      else
+        stop_tunnel $4 $iphost $5
+      fi
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":22}";
     ;;
   "stop_tunnel" ) # host from
