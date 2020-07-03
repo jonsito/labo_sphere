@@ -6,7 +6,7 @@
 # substituye al antiguo "control_sesiones"
 #
 
-IPTABLES="/usr/sbin/iptables"
+IPTABLES="/sbin/iptables"
 SSH="ssh -q -n -x -o StrictHostKeyChecking=no"
 CURRENT=$(date +"%s")
 LOGFILE=/var/log/labo_shpere.log
@@ -24,17 +24,25 @@ die() {
 
 # send composed filter command rulelist to router.lab and execute iptables with them
 send_iptables_cmd() {
-  cat ${IPTFILE} | ${SSH} router.lab
+  # cat ${IPTFILE} | ${SSH} router.lab
+  cat ${IPTFILE}
 }
 
 # command syntax
 # iptables_handle create from to timeout
 # iptables_handle delete from to
 # iptables_handle crontab
+# as iptables chain names cannot be longer than 30 characters, need some way to shrink name
+get_chain_name() { # from to expire
+  f=$(gethostip -x $1)
+  t=$(gethostip -x $2)
+  e=$(printf "%08X" $3)
+  echo "Lab_${f}_${t}_${e}"
+}
 
 # create_chain from to expire
 create_chain() {
-  channel="LabDit_${1}_${2}_${3}"
+  channel=$(get_chain_name $1 $2 $3)
   do_log "Create channel ${channel}"
   # crear canal
   echo "$IPTABLES -N ${channel}" >> ${IPTFILE}
@@ -68,10 +76,11 @@ delete_chain() {
 # desde el crontab se debería ejecutar este comando cada media hora
 crontab_chain() {
   # enumerar reglas creadas con este script
-  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e '^Chain LabDit_' | awk '{print $2 " "; }'`
-  # las cadenas tienen el formato: LabDit_fromhost_tohost_expiretime
+  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e '^Chain Lab_' | awk '{print $2 " "; }'`
+  # las cadenas tienen el formato: Lab_fromhost_tohost_expiretime
+  # donde las ips y el expire time están en formato hexadecimal
   for i in channels; do
-    expire=`echo $i | awk -F'_' '{print $4}'`
+    expire=$(echo $i | awk -F'_' '{ print strtonum("0x"$4) }')
     # si está expirada borrar regla
     [ $expire -lt $CURRENT ] && delete_chain $i
   done
