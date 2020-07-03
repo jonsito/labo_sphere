@@ -72,7 +72,7 @@
             switch(tipo) {
                 case "desktop" :
                 case "console" :
-                case "tunel" :  labo_session(mode,tipo); return;
+                case "tunel" :  labo_session(mode,tipo,duration); return;
                 default: $.messager.alert("Error","Debe seleccionar un tipo de sesi&oacute;n","error"); return;
             }
         }

@@ -44,7 +44,7 @@ switch ($operation) {
             break;
         }
         // on resource name ("laboA","laboB","macs","host","virtual","newvm")
-        $item=$rh->fireUp($node,$type,$host);
+        $item=$rh->fireUp($node,$type,$host,$duration);
         // return data with parameters to send via post to requested resource url
         if (is_array($item)) { echo json_encode($item); return; }
         $res="FireUp Error: cannot locate free resource of familiy $node";

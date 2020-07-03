@@ -11,6 +11,12 @@ REPORT=/var/log/labo_sphere.log
 STATUS_FILE=${BASE}/estado_clientes.log
 
 source ${BASE}/lista_maquinas
+
+do_log() {
+  a=$(date +"%Y-%m-%d %H:%M:%S")
+  echo ${a} - $* >> ${REPORT}
+}
+
 # buscar un equipo apagado de la zona deseada y encenderlo
 # parametro: zona host
 find_freehost() {
@@ -81,6 +87,7 @@ isAlive() {
   echo $?
 }
 
+do_log "labo_sphere.sh started. args: $*"
 case $1 in
   "start" ) # "start host|alias|list"
       host=$2

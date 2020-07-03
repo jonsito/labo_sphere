@@ -35,7 +35,7 @@ send_iptables_cmd() {
 # create_chain from to expire
 create_chain() {
   channel="LabDit_${1}_${2}_${3}"
-  do_log "create Channel ${channel}"
+  do_log "Create channel ${channel}"
   # crear canal
   echo "$IPTABLES -N ${channel}" >> ${IPTFILE}
   # programar canal

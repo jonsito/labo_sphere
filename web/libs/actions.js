@@ -120,7 +120,7 @@ function labo_session(mode,tipo,duration) {
                 url,
                 "tunel@"+host,
                 "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-                "location=0, directories=no, width=640, height=, left=480, top=300"
+                "location=0, directories=no, width=640, height=480, left=300, top=300"
             );
             setTimeout(function() {w.focus();},300);
         }
