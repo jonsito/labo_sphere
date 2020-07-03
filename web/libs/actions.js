@@ -94,7 +94,6 @@ function labo_session(mode,tipo,duration) {
         function openVNC(host,port) {
             let fromport=6100+parseInt(host.replace("l",""));
             let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
-            // url += "&password="+$('#password').val();
             url+="&path="+host+".lab.dit.upm.es";
             let w=window.open(
                 url,
@@ -116,7 +115,7 @@ function labo_session(mode,tipo,duration) {
         function openTunel(host) {
             let url="web/tunel_info.php?host="+host;
             url+="&fqdn="+host+".lab.dit.upm.es";
-            url+="&duration="+duration;
+            url+="&duration="+$('#duration').combobox('getText');
             let w=window.open(
                 url,
                 "tunel@"+host,
