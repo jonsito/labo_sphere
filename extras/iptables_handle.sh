@@ -77,7 +77,7 @@ crontab_chain() {
   done
 }
 
-do_log("iptables_handle invoked with arguments $*")
+do_log "iptables_handle invoked with arguments $*"
 cp /dev/null ${IPTFILE}
 case $1 in
   "create" )
@@ -101,5 +101,5 @@ case $1 in
     ;;
 esac
 rm -f ${IPTFILE}
-do_log("iptables_handle exit")
+do_log "iptables_handle exit"
 exit 0

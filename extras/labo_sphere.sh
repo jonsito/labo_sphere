@@ -129,12 +129,13 @@ case $1 in
   "tunnel" ) # zone host from timeout
       # locate free host
       host=$(find_freehost $2 $3)
+      iphost=$(host -t a $host | awk '{ print $NF }')
       # wake up selected host.  if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host
       delay=$(isAlive $host)
       [ $delay -ne 0 ] && delay=90
       # create tunnel and return data
-      fire_tunnel $4 $host $5
+      fire_tunnel $4 $iphost $5
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":22}";
     ;;
   "stop_tunnel" ) # host from
