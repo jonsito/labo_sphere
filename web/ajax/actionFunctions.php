@@ -37,8 +37,12 @@ switch ($operation) {
         $res=$a->console($level);
         if (is_array($res)) {echo json_encode($res); return; }
         break;
-    case "fireup":
-        // fireup instance of type("desktop","console","tunel")
+    case "fireup":  // fireup instance of type("desktop","console","tunel")
+        // on close tunel, verify that user selected a host
+        if ( ($type==='tunel') && ($duration==0) && ($node!=='host') ) {
+            $res="FireUp Error: must provide host to close tunnel to";
+            break;
+        }
         // on resource name ("laboA","laboB","macs","host","virtual","newvm")
         $item=$rh->fireUp($node,$type,$host);
         // return data with parameters to send via post to requested resource url
