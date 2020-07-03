@@ -80,7 +80,7 @@ function labo_action(action) {
 
 function labo_session(mode,tipo,duration) {
     function fireupConsole(host,delay) {
-        let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&username='+$('#username').textbox('getValue');
+        let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&username='+username;
         let w=window.open(
             url,
             "ssh@"+host,
@@ -115,7 +115,8 @@ function labo_session(mode,tipo,duration) {
     function fireupTunel(host,port,delay) {
         function openTunel(host) {
             let url="web/tunel_info.php?host="+host;
-            url+="&path="+host+".lab.dit.upm.es";
+            url+="&fqdn="+host+".lab.dit.upm.es";
+            url+="&duration="+duration;
             let w=window.open(
                 url,
                 "tunel@"+host,
@@ -133,15 +134,17 @@ function labo_session(mode,tipo,duration) {
 
     $.messager.progress({ title:'Processing',text:"Iniciando sesion de tipo '"+tipo+"'"});
     var host=$('#sesion_host').textbox('getValue');
+    var username=$('#username').textbox('getValue');
+    var password=$('#password').passwordbox('getValue');
     if (host==="") host="none";
     $.ajax({
         type: 'POST',
         url:'web/ajax/actionFunctions.php',
         data: {
             Operation: 'fireup',
-            username: $('#username').textbox('getValue'),
-            password: $('#password').passwordbox('getValue'),
-            duration: $('#duration').combobox('getValue'),
+            username: username,
+            password: password,
+            duration: duration,
             name :mode,
             tipo: tipo,
             host: host
