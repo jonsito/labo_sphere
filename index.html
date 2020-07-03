@@ -27,6 +27,20 @@
                 }
             });
             $('#formulario').form('clear');
+            $('#duration').combobox({
+                height:20,
+                width:120,
+                panelHeight:'auto',
+                value:'7200'
+            });
+            $('#username').textbox({
+                prompt: 'User name',
+                iconCls:'icon-man'
+            });
+            $('#password').passwordbox({
+                prompt: 'Password',
+                showEye: true
+            });
         }
 
         function selectSession(sesion) {
@@ -36,10 +50,14 @@
             return false; // do not continue chain event
         }
 
+        function selectType(type) {
+            $('#duration_span').css('display',(type==='tunel')?'inline-block':'none');
+        }
         function acceder() {
             // if ok then ask for selected session/option
-            var username=$('#username').val();
-            var password=$('#password').val();
+            var username=$('#username').textbox('getValue');
+            var password=$('#password').passwordbox('getValue');
+            var duration=$('#duration').combobox('getValue');
             if (username==="" || password==="") {
                 $.messager.alert("Error","Debe indicar usuario y contrase&ntilde;a","error");
                 return;
@@ -69,7 +87,7 @@
 </h2>
 <form id="formulario" method="POST" action="web/admin.php" >
     <input type="hidden" name="host" id="session_host" value=""/>
-<ul>
+<ul style="list-style-type:none">
     <li><input type="radio" name="sesion" id="sesion_laboA" value="laboA"  onclick="selectSession('laboA');"/>
         <label for="sesion_laboA">Abrir sesi&oacute;n en el Laboratorio del Edificio A</label>
     </li>
@@ -80,13 +98,13 @@
         <label for="sesion_virtual">Abrir sesi&oacute;n en clientes de acceso remoto</label>
     </li>
     <li><input type="radio" name="sesion" id="sesion_mac" value="macs"  onclick="selectSession('macs');"/>
-        <label for="sesion_virtual">Abrir sesi&oacute;n en equipos Mac-OSX</label>
+        <label for="sesion_mac">Abrir sesi&oacute;n en equipos Mac-OSX</label>
     </li>
-    <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"  onclick="selectSession('newvm');/>
+    <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"  onclick="selectSession('newvm');"/>
         <label for="sesion_newvm">Crear y ejecutar una nueva m&aacute;quina virtual</label>
     </li>
     <li><input type="radio" name="sesion" id="sesion_hostrb" value="host" onclick="selectSession('hostrb');"/>
-        <label for="sesion_host">Acceso al equipo:</label>
+        <label for="sesion_hostrb">Acceso al equipo:</label>
         <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
     </li>
     <li><input type="radio" name="sesion" id="sesion_admin" value="admin" onclick="selectSession('admin');"/>
@@ -96,22 +114,39 @@
 <h2>
     <br/>Indique tipo de sesi&oacute;n a desplegar:
 </h2>
-<table style="width:640px;">
+<table>
     <tr>
+        <th style="width:200px">
+            <label for="tipo_desktop">Escritorio Remoto</label><br/>&nbsp;<br/>
+            <img src="web/images/desktop.png" alt="desktop">
+        </th>
+        <th style="width:200px">
+            <label for="tipo_terminal">Terminal de texto</label><br/>&nbsp;<br/>
+            <img src="web/images/terminal.png" alt="terminal">
+        </th>
+        <th style="width:200px">
+            <label for="tipo_tunel">T&uacute;nel SSH/VNC</label><br/>&nbsp;<br/>
+            <img src="web/images/sshtunel.png" alt="sshtunel">
+        </th>
+    </tr>
+    <tr style="height:50px">
         <th>
-            <img src="web/images/desktop.png" alt="desktop"><br/>
-            <input type="radio" name="tipo" id="tipo_desktop" value="desktop"/><br/>
-            <label for="tipo_desktop">Escritorio Remoto</label>
+            <input type="radio" name="tipo" id="tipo_desktop" value="desktop" onclick="selectType('desktop');" style="vertical-align:middle"/>
         </th>
         <th>
-            <img src="web/images/terminal.png" alt="terminal"><br/>
-            <input type="radio" name="tipo" id="tipo_terminal" value="console"/><br/>
-            <label for="tipo_terminal">Terminal de texto</label>
+            <input type="radio" name="tipo" id="tipo_terminal" value="console" onclick="selectType('console');" style="vertical-align:middle">
         </th>
         <th>
-            <img src="web/images/sshtunel.png" alt="sshtunel"><br/>
-            <input type="radio" name="tipo" id="tipo_tunel" value="tunel"/><br/>
-            <label for="tipo_tunel">T&uacute;nel SSH</label>
+            <input type="radio" name="tipo" id="tipo_tunel" value="tunel" onclick="selectType('tunel');" style="vertical-align:middle">
+            <span id="duration_span" style="text-align:center;display:none">
+                <select id="duration" name="duration" class="easyui-combobox">
+                    <option value="7200">2 horas</option>
+                    <option value="14400" selected="selected">4 horas</option>
+                    <option value="21600">6 horas</option>
+                    <option value="28800">8 horas</option>
+                    <option value="0">Cerrar sesi&oacute;n</option>
+                </select>
+            </span>
         </th>
     </tr>
 </table>

@@ -14,9 +14,10 @@ $password=http_request("password","s","");
 $type=http_request("tipo","s","");
 $host=http_request("host","s","");
 $port=http_request("port","i",0);
+$duration=http_request("duration","i",0);
 
 if ( in_array($operation,array('start','stop','status','console')) ) $a=new Action($node,$parent,$level);
-if ( in_array($operation,array('fireup','launch_vnc','launch_tunnel'))) {
+if ( $operation==='fireup') {
     // authenticate user
     $auth=new AuthLDAP();
     if ($auth->login($user,$password)==false) {
@@ -36,10 +37,9 @@ switch ($operation) {
         $res=$a->console($level);
         if (is_array($res)) {echo json_encode($res); return; }
         break;
-    case "launch_tunnel":
-        $res="Option not available yet";
-        break;
-    case "fireup": // fireup instance of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","newvm")
+    case "fireup":
+        // fireup instance of type("desktop","console","tunel")
+        // on resource name ("laboA","laboB","macs","host","virtual","newvm")
         $item=$rh->fireUp($node,$type,$host);
         // return data with parameters to send via post to requested resource url
         if (is_array($item)) { echo json_encode($item); return; }

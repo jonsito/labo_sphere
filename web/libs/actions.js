@@ -78,9 +78,9 @@ function labo_action(action) {
     });
 }
 
-function labo_session(mode,tipo) {
+function labo_session(mode,tipo,duration) {
     function fireupConsole(host,delay) {
-        let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&username='+$('#username').val();
+        let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&username='+$('#username').textbox('getValue');
         let w=window.open(
             url,
             "ssh@"+host,
@@ -127,12 +127,13 @@ function labo_session(mode,tipo) {
         type: 'POST',
         url:'web/ajax/actionFunctions.php',
         data: {
-            Operation:'fireup',
-            username:$('#username').val(),
-            password:$('#password').val(),
-            name:mode,
-            tipo:tipo,
-            host:host
+            Operation: 'fireup',
+            username: $('#username').textbox('getValue'),
+            password: $('#password').passwordbox('getValue'),
+            duration: $('#duration').combobox('getValue'),
+            name :mode,
+            tipo: tipo,
+            host: host
         },
         dataType: 'json',
         success: function (result) {
