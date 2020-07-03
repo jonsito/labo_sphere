@@ -120,18 +120,21 @@ function labo_session(mode,tipo,duration) {
                 url,
                 "tunel@"+host,
                 "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-                "location=0, directories=no, width=800, height=600, left=400, top=300"
+                "location=0, directories=no, width=640, height=, left=480, top=300"
             );
             setTimeout(function() {w.focus();},300);
         }
         if (delay===0) {
             openTunel(host);
         } else {
-            delayAction('Starting ssh/vnc tunel to host: '+'<?php echo $host;?>', delay,function() {openTunel(host);} );
+            msg='Closing tunel connection with host: '
+            if (duration!==0) msg='Starting ssh/vnc tunel to host: '
+            delayAction(msg +'<?php echo $host;?>', delay,function() {openTunel(host);} );
         }
     }
-
-    $.messager.progress({ title:'Processing',text:"Iniciando sesion de tipo '"+tipo+"'"});
+    var msg="Iniciando sesi&oacute;n de tipo '"+tipo+"'";
+    if ((tipo==='tunel') && (parseInt(duration)===0) ) msg="Cerrando sesi&oacute;n de tipo '"+tipo+"'";
+    $.messager.progress({ title:'Processing',text:msg});
     var host=$('#sesion_host').textbox('getValue');
     var username=$('#username').textbox('getValue');
     var password=$('#password').passwordbox('getValue');
