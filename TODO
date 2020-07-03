@@ -3,11 +3,16 @@ Pendiente: ( lo pongo por aquí para que no se me olvide y por si tenéis alguna
 - HECHO 28-Jun-2020: contador de espera por wakeup debe indicar segundos restantes
 - HECHO 29-Jun-2020: ventana de vnc debe indicar el host en el título
 
-- Habilitar la posibilidad de acceso mediante tunel ssh (tercera opción).
+- HECHO 4-Julio-2020: Habilitar la posibilidad de acceso mediante tunel ssh (tercera opción).
 Esto implica tocar el firewall como se hace actualmente, y añadir una opción de tiempo de apertura del tunel
 
-- Comprobar estabilidad: Parece que el websocket proxy para el acceso por web-ssh
-no se levanta solo al re-arrancar la máquina "acceso"
+- Clarificar cómo se van a resolver los problemas de tunel con src y dest comun, como ocurre cuando
+se usa acceso via cgnat o vpn server
+
+- Plantear si se debe mover el servidor web a acceso.lab (espero que no)
+
+- HECHO 3-Julio-2020: Comprobar estabilidad: Parece que el websocket proxy para el acceso por web-ssh
+no se levanta solo al re-arrancar la máquina "acceso" ( problemas de paths en el crontab )
 
 - Añadir documentación, mapas del laboratorio e instrucciones a la página principal
 
@@ -32,6 +37,10 @@ root@maestro3:/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sp
 para no comprometer tampoco a maestro3.lab
 
 - Preparar documentación y demo para el cdc
+
+- Poner tooltips en los iconos de vpn, ssh y tunel
+
+- Resolver problema del raton en vpn contra los macs
 
 - Terminar las opciones de la ventana de administración:
 ( información de un equipo, herramientas, visualización de logs, etc, etc )

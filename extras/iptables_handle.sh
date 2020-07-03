@@ -24,8 +24,8 @@ die() {
 
 # send composed filter command rulelist to router.lab and execute iptables with them
 send_iptables_cmd() {
-  # cat ${IPTFILE} | ${SSH} router.lab
-  cat ${IPTFILE}
+  cat ${IPTFILE} | ${SSH} router.lab
+  #cat ${IPTFILE}
 }
 
 # command syntax
@@ -60,9 +60,10 @@ create_chain() {
 # delete_chain name
 delete_chain() {
   do_log "Deleting Channel $1"
+  # recuperamos las ips del nombre del canal
+  src=`printf '%d.%d.%d.%d' $(echo $1 | awk -F'_' '{ print $2 }' | sed 's/../0x& /g' ) `
+  dest=`printf '%d.%d.%d.%d' $(echo $1 | awk -F'_' '{ print $3 }' | sed 's/../0x& /g' ) `
   # borrar regla de canal forward
-  src=`echo $1 | awk -F'_' '{ print strtonum("0x"$2) }'`
-  dest=`echo $1 | awk -F'_' '{ print strtonum("0x"$3) }'`
   echo "$IPTABLES -D FORWARD -s $src -d $dest -m state --state NEW -j $1" >> ${IPTFILE}
   # borrar reglas del canal
   echo "$IPTABLES -F ${1}" >> ${IPTFILE}
