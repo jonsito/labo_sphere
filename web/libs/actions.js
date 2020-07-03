@@ -90,34 +90,46 @@ function labo_session(mode,tipo,duration) {
         setTimeout(function() {w.focus();},300);
     }
 
-    function openVNC(host,port) {
-        let fromport=6100+parseInt(host.replace("l",""));
-        let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
-        // url += "&password="+$('#password').val();
-        url+="&path="+host+".lab.dit.upm.es";
-        let w=window.open(
-            url,
-            "vnc@"+host,
-            "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-            "location=0, directories=no, width=1440, height=900, left=400, top=300"
-        );
-        setTimeout(function() {w.focus();},300);
-    }
-
     function fireupDesktop(host,port,delay) {
+        function openVNC(host,port) {
+            let fromport=6100+parseInt(host.replace("l",""));
+            let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
+            // url += "&password="+$('#password').val();
+            url+="&path="+host+".lab.dit.upm.es";
+            let w=window.open(
+                url,
+                "vnc@"+host,
+                "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
+                "location=0, directories=no, width=1440, height=900, left=400, top=300"
+            );
+            setTimeout(function() {w.focus();},300);
+        }
+
         if (delay===0) {
             openVNC(host,port);
-            return;
+        } else {
+            delayAction('Starting VNC Desktop on host: '+'<?php echo $host;?>', delay,function() {openVNC(host,port);} );
         }
-        delayAction(
-            'Starting VNC Desktop on host: '+'<?php echo $host;?>',
-            delay,
-            function() {openVNC(host,port);}
-            );
     }
 
     function fireupTunel(host,port,delay) {
-        $.messager.alert("Tunel@"+host,"El acceso mediante túnel no está disponible todavía","error");
+        function openTunel(host) {
+            let url="web/tunel_info.php&host="+host;
+            // url += "&password="+$('#password').val();
+            url+="&path="+host+".lab.dit.upm.es";
+            let w=window.open(
+                url,
+                "tunel@"+host,
+                "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
+                "location=0, directories=no, width=800, height=600, left=400, top=300"
+            );
+            setTimeout(function() {w.focus();},300);
+        }
+        if (delay===0) {
+            openTunel(host);
+        } else {
+            delayAction('Starting ssh/vnc tunel to host: '+'<?php echo $host;?>', delay,function() {openTunel(host);} );
+        }
     }
 
     $.messager.progress({ title:'Processing',text:"Iniciando sesion de tipo '"+tipo+"'"});
