@@ -63,8 +63,12 @@ fireup_websockify() {
 }
 
 # programa en el firewall un tunel ssh
-fire_sshtunnel() { # $1:source $2:destination
-  echo ""
+fire_tunnel() { # $1:source $2:destination $3:timeout
+  ${BASE}/tools/iptables_handle.sh create $1 $2 $3
+}
+
+stop_tunnel() {  # $1:source $2:destination
+  ${BASE}/tools/iptables_handle.sh delete $1 $2
 }
 
 bgjob() {
@@ -115,16 +119,21 @@ case $1 in
       fireup_websockify $host $port 2>&1 >>${REPORT}
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}}";
       ;;
-  "tunnel" ) # zone host
+  "tunnel" ) # zone host from timeout
       # locate free host
       host=$(find_freehost $2 $3)
       # wake up selected host.  if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host
       delay=$(isAlive $host)
       [ $delay -ne 0 ] && delay=90
-      # return command to execute
+      # create tunnel and return data
+      fire_tunnel $4 $host $5
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":22}";
-  ;;
+    ;;
+  "stop_tunnel" ) # host from
+      stop_tunnel $3 $2
+      echo "{\"host\":\"$2\"}";
+    ;;
   "poll" )
     /usr/local/bin/informemaq.sh -q remoto laboratorios macs
   ;;

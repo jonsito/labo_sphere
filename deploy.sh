@@ -1,6 +1,7 @@
 #!/bin/bash
 
 INSTDIR=/var/www/html/labo_sphere
+MAESTRO=/home/operador/administracion/servicios_ubuntu-18.04/tools
 
   #
   # vemos si estamos en ubuntu o en fedora
@@ -77,6 +78,7 @@ INSTDIR=/var/www/html/labo_sphere
   fi
 
   # copiamos labo_sphere.sh a maestro3
-  scp -i /var/www/.ssh/id_rsa extras/labo_sphere.sh root@maestro3.lab:/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh
+  scp -i /var/www/.ssh/id_rsa extras/labo_sphere.sh root@maestro3.lab:${MAESTRO}/labo_sphere.sh
+  scp -i /var/www/.ssh/id_rsa extras/iptables_handle.sh root@maestro3.lab:${MAESTRO}/iptables_handle.sh
   # Esto es todo, amigos
   exit 0
