@@ -72,6 +72,19 @@ delete_chain() {
   send_iptables_cmd
 }
 
+# locate channel matching from to
+search_and_delete() {
+  f=$(gethostip -x $1)
+  t=$(gethostip -x $2)
+  # enumerar reglas creadas con este script
+  channel=`${SSH} router.lab.dit.upm.es iptables -L | grep -e "^Chain Lab_${f}_${t}_" | awk '{print $2 " "; }' `
+  # las cadenas tienen el formato: Lab_fromhost_tohost_expiretime
+  # donde las ips y el expire time están en formato hexadecimal
+  for i in channels; do
+    delete_chain $i
+  done
+}
+
 # crontab
 # desde el crontab se debería ejecutar este comando cada media hora
 crontab_chain() {
