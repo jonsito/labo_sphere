@@ -61,8 +61,8 @@ create_chain() {
 delete_chain() {
   do_log "Deleting Channel $1"
   # borrar regla de canal forward
-  src=`echo $1 | awk -F'_' '{ print $2 }'`
-  dest=`echo $1 | awk -F'_' '{ print $3 }'`
+  src=`echo $1 | awk -F'_' '{ print strtonum("0x"$2) }'`
+  dest=`echo $1 | awk -F'_' '{ print strtonum("0x"$3) }'`
   echo "$IPTABLES -D FORWARD -s $src -d $dest -m state --state NEW -j $1" >> ${IPTFILE}
   # borrar reglas del canal
   echo "$IPTABLES -F ${1}" >> ${IPTFILE}
@@ -77,10 +77,10 @@ search_and_delete() {
   f=$(gethostip -x $1)
   t=$(gethostip -x $2)
   # enumerar reglas creadas con este script
-  channel=`${SSH} router.lab.dit.upm.es iptables -L | grep -e "^Chain Lab_${f}_${t}_" | awk '{print $2 " "; }' `
+  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e "^Chain Lab_${f}_${t}_" | awk '{print $2 " "; }' `
   # las cadenas tienen el formato: Lab_fromhost_tohost_expiretime
   # donde las ips y el expire time están en formato hexadecimal
-  for i in channels; do
+  for i in $channels; do
     delete_chain $i
   done
 }
@@ -92,7 +92,7 @@ crontab_chain() {
   channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e '^Chain Lab_' | awk '{print $2 " "; }'`
   # las cadenas tienen el formato: Lab_fromhost_tohost_expiretime
   # donde las ips y el expire time están en formato hexadecimal
-  for i in channels; do
+  for i in $channels; do
     expire=$(echo $i | awk -F'_' '{ print strtonum("0x"$4) }')
     # si está expirada borrar regla
     [ $expire -lt $CURRENT ] && delete_chain $i
@@ -107,7 +107,7 @@ case $1 in
     create_chain $2 $3 $expire
     ;;
   "delete" )
-    delete_chain $2 $3
+    search_and_delete $2 $3
     ;;
   "crontab" )
     crontab_chain
