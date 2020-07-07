@@ -15,11 +15,38 @@ $duration=http_request("duration","s","");
 <h4>Informaci&oacute;n adicional</h4>
 <ol>
     <li>Direcci&oacute;n IP origen: <?php echo $_SERVER['REMOTE_ADDR']  ?></li>
-    <li>Direcci&oacute:n IP destino: <?php echo $fqdn; ?></li>
+    <li>Equipo al que se conecta: <?php echo $fqdn; ?></li>
     <li>Hora de inicio de la sesi&oacute;n: <?php echo date('Y-M-d H:i')?></li>
     <li>Duraci&oacute;n de la sesi&oacuten: <span id="duration_counter"><?php echo $duration ?></span></li>
 </ol>
 <h4>Instrucciones para el uso del t&uacute;nel</h4>
-( pending )
+<dl>
+    <dt><strong>Acceso mediante conexi&oacute;n segura (SSH) </strong></dt>
+    <dd>
+
+    </dd>
+    <dt><strong>Acceso mediante escritorio remoto (VNC)</strong></dt>
+    <dd>
+
+    </dd>
+    <dt><strong>Acceso mediante cliente NX (X2Go)</strong></dt>
+    <dd>
+
+    </dd>
+    <dt><strong>Cierre de la sesi&oacute;n</strong></dt>
+    <dd>
+        Para cerrar la sesión debe acceder a la pantalla de acceso remoto y:
+        <ol>
+            <li>Seleccionar el equipo en el que se ha abierto sesión (actualmente <strong><?php echo $host; ?></strong>)</li>
+            <li>Seleccionar "Acceso mediante t&uacute;nel"</li>
+            <li>Seleccionar "Cerrar sesi&oacute;n</li>
+        </ol>
+        <img src="/labo_sphere/web/images/cierre_sesion.png" alt="cierre sesion" width="200" height="320">
+    </dd>
+</dl>
+<strong>Acceso mediante conexi&oacute;n segura (SSH) </strong>
+<strong>Acceso mediante escritorio remoto (VNC)</strong>
+<strong>Acceso mediante cliente X2Go</strong>
+<strong>Cierre de la sesi&oacute;n</strong>
 </body>
 </html>
