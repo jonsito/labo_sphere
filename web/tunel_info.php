@@ -41,7 +41,7 @@ $duration=http_request("duration","s","");
             <li>Seleccionar "Acceso mediante t&uacute;nel"</li>
             <li>Seleccionar "Cerrar sesi&oacute;n</li>
         </ol>
-        <img src="/labo_sphere/web/images/cierre_sesion.png" alt="cierre sesion" width="320" height="320">
+        <img src="/labo_sphere/web/images/cierre_sesion.png" alt="cierre sesion" width="320" height="320" style="border:solid 1px">
     </dd>
 </dl>
 </body>
