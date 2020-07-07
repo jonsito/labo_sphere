@@ -27,7 +27,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
     <link rel="stylesheet" type="text/css" href="/labo_sphere/web/css/style.css">
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.min.js"></script>
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/labo_sphere/web/libs/formatters.js"></script>
+    <script type="text/javascript" src="/labo_sphere/web/libs/easyui-patches.js"></script>
     <script type="text/javascript" src="/labo_sphere/web/libs/polling.js"></script>
     <script type="text/javascript" src="/labo_sphere/web/libs/actions.js"></script>
 </head>

@@ -11,11 +11,11 @@
     <link rel="stylesheet" type="text/css" href="/labo_sphere/web/css/style.css">
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.min.js"></script>
     <script type="text/javascript" src="/labo_sphere/web/libs/jquery-easyui-1.9.5/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/labo_sphere/web/libs/formatters.js"></script>
+    <script type="text/javascript" src="/labo_sphere/web/libs/easyui-patches.js"></script>
     <script type="text/javascript" src="/labo_sphere/web/libs/actions.js"></script>
     <script type="text/javascript">
 
-        function clearForm() {
+        function initialize() {
             $('#sesion_host').textbox({
                 value:'',
                 validType:"regexp['^l[0-9]{3}$']",
@@ -33,6 +33,12 @@
                 panelHeight:'auto',
                 value:'7200'
             });
+            $('#virtual').combobox({
+                height:18,
+                width:150,
+                panelHeight:'auto',
+                value:'ftel'
+            });
             $('#username').textbox({
                 prompt: 'User name',
                 iconCls:'icon-man'
@@ -41,10 +47,14 @@
                 prompt: 'Password',
                 showEye: true
             });
+            addTooltip($('#icon_desktop').linkbutton(), "Desplegar un escritorio remoto (entorno gráfico)<br/> en el equipo seleccionado abriendo una nueva ventana del navegador");
+            addTooltip($('#icon_terminal').linkbutton(), "Desplegar un terminal tipo texto (ssh)<br/> en una nueva ventana del navegador");
+            addTooltip($('#icon_tunel').linkbutton(), "Permitir acceso directo ( ssh o vnc )<br/> desde el ordenador del alumno al equipo del laboratorio seleccionado");
         }
 
         function selectSession(sesion) {
             if (sesion!=='hostrb') $('#sesion_host').textbox('setValue','');
+            $('#virtual_span').css('display',(sesion==='newvm')?'inline-block':'none');
             // as setValue fires up activate hostrb radiobutton, need to properly set
             $('#sesion_'+sesion).prop("checked",true);
             return false; // do not continue chain event
@@ -53,6 +63,7 @@
         function selectType(type) {
             $('#duration_span').css('display',(type==='tunel')?'inline-block':'none');
         }
+
         function acceder() {
             // if ok then ask for selected session/option
             var username=$('#username').textbox('getValue');
@@ -79,7 +90,7 @@
 
     </script>
 </head>
-<body onload="clearForm()">
+<body onload="initialize()">
 <img src="web/images/cdcTitle.png" alt="header dit">
 <h1>Servicio de acceso remoto a los laboratorios docentes</h1>
 <h2>
@@ -101,14 +112,21 @@
         <label for="sesion_mac">Abrir sesi&oacute;n en equipos Mac-OSX</label>
     </li>
     <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"  onclick="selectSession('newvm');"/>
-        <label for="sesion_newvm">Crear y ejecutar una nueva m&aacute;quina virtual</label>
+        <label for="sesion_newvm">Desplegar una m&aacute;quina virtual</label>
+        <span id="virtual_span" style="text-align:center;display:none">
+                <select id="virtual" name="virtual" class="easyui-combobox">
+                    <option value="ftel" selected="selected">Ubuntu FTEL</option>
+                    <option value="mac">Mac OSX-Catalina</option>
+                    <option value="windows10">Windows 10 Pro</option>
+                </select>
+            </span>
     </li>
     <li><input type="radio" name="sesion" id="sesion_hostrb" value="host" onclick="selectSession('hostrb');"/>
         <label for="sesion_hostrb">Acceso al equipo:</label>
         <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
     </li>
     <li><input type="radio" name="sesion" id="sesion_admin" value="admin" onclick="selectSession('admin');"/>
-        <label for="sesion_admin">Acceso al interfaz de gesti&oacute;n</label>
+        <label for="sesion_admin">Acceso (restringido) al interfaz de gesti&oacute;n</label>
     </li>
 </ul>
 <h2>
@@ -118,15 +136,15 @@
     <tr>
         <th style="width:200px">
             <label for="tipo_desktop">Escritorio Remoto</label><br/>&nbsp;<br/>
-            <img src="web/images/desktop.png" alt="desktop">
+            <img id="icon_desktop" src="web/images/desktop.png" alt="desktop">
         </th>
         <th style="width:200px">
             <label for="tipo_terminal">Terminal de texto</label><br/>&nbsp;<br/>
-            <img src="web/images/terminal.png" alt="terminal">
+            <img id="icon_terminal" src="web/images/terminal.png" alt="terminal">
         </th>
         <th style="width:200px">
             <label for="tipo_tunel">T&uacute;nel SSH/VNC</label><br/>&nbsp;<br/>
-            <img src="web/images/sshtunel.png" alt="sshtunel">
+            <img id="icon_tunel" src="web/images/sshtunel.png" alt="sshtunel">
         </th>
     </tr>
     <tr style="height:50px">

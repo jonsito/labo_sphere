@@ -16,3 +16,18 @@ $.extend($.fn.validatebox.defaults.rules, {
         message: 'Please enter valid host name. i.e: l056'
     }
 });
+
+/**
+ * Add a tooltip provided element, with given text
+ * @param {object} obj Element suitable to add a tooltip
+ * @param {string} text Data text to be shown
+ */
+function addTooltip(obj,text) {
+    obj.tooltip({
+        position: 'top',
+        deltaX: 30, // shift tooltip 30px right from top/center
+        content: '<span style="color:#000">'+text+'</span>',
+        onShow: function(){	$(this).tooltip('tip').css({backgroundColor: '#ef0',borderColor: '#444'	});
+        }
+    });
+}
