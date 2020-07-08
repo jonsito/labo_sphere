@@ -113,7 +113,7 @@ function labo_session(mode,tipo,duration) {
 
     function fireupTunel(host,port,delay) {
         function openTunel(host) {
-            let url="web/tunel_info.php?host="+host;
+            let url="web/instrucciones?host="+host;
             url+="&fqdn="+host+".lab.dit.upm.es";
             url+="&duration="+$('#duration').combobox('getText');
             let w=window.open(
