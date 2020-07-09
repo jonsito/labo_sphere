@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/../server/tools.php");
 $host=http_request("host","s","-");
 $fqdn=http_request("fqdn","s","-");
-$duration=http_request("duration","i",0);
+$duration=http_request("duration","s","-"); // valor textual del combobox
 $fecha=($host==="-")?"":date('Y-M-d H:i');
 $connected=($host==="-")?"No se ha establecido conexi&oacute;n":"Conexi&oacute;n activa";
 $disabled=($host==="-")?'disabled="disabled"':'';
