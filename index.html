@@ -67,10 +67,6 @@
             return false; // do not continue chain event
         }
 
-        function selectType(type) {
-            $('#duration_span').css('display',(type==='tunel')?'inline-block':'none');
-        }
-
         function acceder(tipo) {
             // if ok then ask for selected session/option
             var username=$('#username').textbox('getValue');
@@ -148,7 +144,7 @@
             </ul>
 
         <h2>
-            Identificaci&oacute;n
+            Identificaci&oacute;n:
         </h2>
         <p>
             Por favor: introduzca los credenciales de su cuenta del laboratorio<br/>
@@ -173,40 +169,8 @@
         </p>
     </div>
 
-    <div data-options="region:'south',title:'Instrucciones de acceso',split:true,href:'web/instrucciones.php'" style="height:30%;">
-        <h2>
-            <br/>Indique tipo de sesi&oacute;n a desplegar:
-        </h2>
-        <table>
-            <tr>
-                <th style="width:200px">
-                    <label for="tipo_desktop">Escritorio Remoto</label><br/>&nbsp;<br/>
-                    <img id="icon_desktop" src="web/images/desktop.png" alt="desktop">
-                </th>
-                <th style="width:200px">
-                    <label for="tipo_terminal">Terminal de texto</label><br/>&nbsp;<br/>
-                    <img id="icon_terminal" src="web/images/terminal.png" alt="terminal">
-                </th>
-                <th style="width:200px">
-                    <label for="tipo_tunel">T&uacute;nel SSH/VNC</label><br/>&nbsp;<br/>
-                    <img id="icon_tunel" src="web/images/sshtunel.png" alt="sshtunel">
-                </th>
-            </tr>
-            <tr style="height:50px">
-                <th>
-                    <input type="radio" name="tipo" id="tipo_desktop" value="desktop" onclick="selectType('desktop');" style="vertical-align:middle"/>
-                </th>
-                <th>
-                    <input type="radio" name="tipo" id="tipo_terminal" value="console" onclick="selectType('console');" style="vertical-align:middle">
-                </th>
-                <th>
-                    <input type="radio" name="tipo" id="tipo_tunel" value="tunel" onclick="selectType('tunel');" style="vertical-align:middle">
-                    <span id="duration_span" style="text-align:center;display:none">
-
-            </span>
-                </th>
-            </tr>
-        </table>
+    <div data-options="region:'south',title:'Instrucciones de acceso',split:true,href:'web/instrucciones.php'" style="height:30%;padding:10px">
+        <h2>Instrucciones de acceso</h2>
     </div>
 </div>
 
