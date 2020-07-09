@@ -40,10 +40,14 @@ para no comprometer tampoco a maestro3.lab
 
 - Poner tooltips en los iconos de vpn, ssh y tunel
 
-- Resolver problema del raton en vpn contra los macs
+- NOTABUG 9-Julio-2020 Resolver problema del raton en vpn contra los macs ( nota: error del protocol RFB en mac, no hay solución sencilla )
 
 - Terminar las opciones de la ventana de administración:
 ( información de un equipo, herramientas, visualización de logs, etc, etc )
 
 - Ajustes estéticos varios. Pregunta: ¿Cuál debería ser la geometría por defecto de las ventanas vnc?
 Actualmente está en 1440x900x24s
+
+- Limitar numero de conexiones por usuario
+
+- Impedir que un usuario pueda cerrar las sesiones de otro ( normalmente no puede, salvo que compartan src y dest )

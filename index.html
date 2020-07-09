@@ -71,7 +71,7 @@
             $('#duration_span').css('display',(type==='tunel')?'inline-block':'none');
         }
 
-        function acceder() {
+        function acceder(tipo) {
             // if ok then ask for selected session/option
             var username=$('#username').textbox('getValue');
             var password=$('#password').passwordbox('getValue');
@@ -85,14 +85,7 @@
                 $('#formulario').submit();
                 return;
             }
-            var tipo=$('input:radio[name=tipo]:checked').val();
-            if (typeof(tipo)==="undefined") tipo="";
-            switch(tipo) {
-                case "desktop" :
-                case "console" :
-                case "tunel" :  labo_session(mode,tipo,duration); return;
-                default: $.messager.alert("Error","Debe seleccionar un tipo de sesi&oacute;n","error"); return;
-            }
+            labo_session(mode,tipo,duration);
         }
 
     </script>
@@ -101,10 +94,10 @@
 <body onload="initialize()">
 <form id="formulario" method="POST" action="web/admin.php" >
 <div id="cc" class="easyui-layout" style="width:100%;height:768px;">
-
-    <div data-options="region:'north',title:'',split:true" style="height:185px;">
-        <img src="web/images/cdcTitle.png" alt="header dit" width="100%">
-        <h1 style="padding-left:50px">Servicio de acceso remoto a los laboratorios docentes</h1>
+    <div data-options="region:'north',title:'',split:true" style="height:170px;background: url('web/images/cdcTitle.png') no-repeat left top">
+        <p style="font-size:1.6vw;font-style:oblique;font-weight:bold;text-align:right;padding:85px 25px 0 0">
+            Servicio de acceso remoto a los laboratorios docentes
+        </p>
     </div>
 
     <div data-options="region:'center',title:'Introducci&oacute;n de datos'" style="padding:5px 5px 5px 20px;background:#eee;">
@@ -112,7 +105,7 @@
         <h2>
             <span style="display:inline-block;width:40%;text-align:left">Seleccione opci&oacute;n:</span>
             <span style="display:inline-block;width:50%;text-align:right">
-                Duraci&oacute;n:
+                <label for="duration">Duraci&oacute;n:</label>
                 <select id="duration" name="duration" class="easyui-combobox">
                     <option value="7200">2 horas</option>
                     <option value="14400" selected="selected">4 horas</option>
@@ -126,7 +119,7 @@
             <ul style="list-style-type:none">
                 <li><input type="radio" name="sesion" id="sesion_labo" value="labo"  onclick="selectSession('labo');"/>
                     <label for="sesion_labo">Acceso a equipos del laboratorio</label>
-                    <span id="labo_span" name="labo" style="text-align:center;display:none">
+                    <span id="labo_span" style="text-align:center;display:none">
                         <select id="labo" name="virtual" class="easyui-combobox">
                             <option value="laboA" selected="selected">Lab. Edificio A</option>
                             <option value="laboB" >Lab. Edificio B</option>
@@ -146,7 +139,7 @@
                     </span>
                 </li>
                 <li><input type="radio" name="sesion" id="sesion_hostrb" value="host" onclick="selectSession('hostrb');"/>
-                    <label for="sesion_hostrb">Acceso al equipo:</label>
+                    <label for="sesion_host">Acceso al equipo:</label>
                     <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
                 </li>
                 <li><input type="radio" name="sesion" id="sesion_admin" value="admin" onclick="selectSession('admin');"/>
@@ -168,7 +161,7 @@
                 <input type="password" name="password" id="password" value=""/>
             </span>
             <span style="display:inline-block;width:200px;text-align:left;padding-left:10px">
-                <input type="button" onclick="acceder();" value="Acceder"/>
+                <input type="button" onclick="acceder(tunel);" value="Acceder"/>
             </span>
         </p>
 
@@ -180,7 +173,7 @@
         </p>
     </div>
 
-    <div data-options="region:'south',title:'Instrucciones de acceso',split:true,href:'web/instrucciones.php'" style="height:28%;">
+    <div data-options="region:'south',title:'Instrucciones de acceso',split:true,href:'web/instrucciones.php'" style="height:30%;">
         <h2>
             <br/>Indique tipo de sesi&oacute;n a desplegar:
         </h2>
@@ -217,15 +210,11 @@
     </div>
 </div>
 
-
-
-
-
-
-
 </form>
 <footer>
     <br/>
+    Esta p&aacute;gina NO utiliza cookies. Consulte las condiciones generales de acceso y uso del laboratorio en:
+    <a href="https://www.lab.dit.upm.es/labng/pdf/normas.pdf">https://www.lab.dit.upm.es/labng/pdf/normas.pdf</a>
     <hr/>
     P&aacute;gina principal del <a href="http://www.lab.dit.upm.es">Laboratorio</a><br/>
     P&aacute;gina web del <a href="http://www.dit.upm.es">Departamento</a>
