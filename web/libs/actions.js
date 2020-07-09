@@ -95,6 +95,7 @@ function labo_session(mode,tipo,duration) {
             let fromport=6100+parseInt(host.replace("l",""));
             let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
             url+="&path="+host+".lab.dit.upm.es";
+            url+="&resize=scale&show_dot=true"
             let w=window.open(
                 url,
                 "vnc@"+host,
@@ -147,7 +148,7 @@ function labo_session(mode,tipo,duration) {
             username: username,
             password: password,
             duration: duration,
-            name :mode,
+            name: mode,
             tipo: tipo,
             host: host
         },
@@ -160,8 +161,10 @@ function labo_session(mode,tipo,duration) {
                 let port=result.port;
                 let delay=result.delay;
                 switch(tipo) {
-                    case "desktop" : setTimeout(function() {fireupDesktop(host,port,delay);},0); return;
-                    case "console" : setTimeout(function() {fireupConsole(host,delay);},0); return;
+                    // in new main page: tunel is allways set,
+                    // so no delay is required in further invocation of "desktop" or console
+                    case "desktop" : setTimeout(function() {fireupDesktop(host,port,0);},0); return;
+                    case "console" : setTimeout(function() {fireupConsole(host,0);},0); return;
                     case "tunel" :  setTimeout(function() {fireupTunel(host,port,delay);},0); return;
                 }
             }

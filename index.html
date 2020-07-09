@@ -21,9 +21,10 @@
                 validType:"regexp['^l[0-9]{3}$']",
                 invalidMessage:'Enter valid host name. i.e: l067',
                 height:20,
-                onChange: function() {
-                    if ($('#sesion_host').textbox('isValid')) $('#sesion_hostrb').prop("checked",true);
-                    else $('#sesion_host').textbox('setValue',''); // invalid value: clear and forget
+                onChange: function(newval,oldval) {
+                    let sh=$('#sesion_host');
+                    if (sh.textbox('isValid')) $('#sesion_hostrb').prop("checked",true);
+                    else sh.textbox('setValue',''); // invalid value: clear and forget
                 }
             });
             $('#formulario').form('clear');
@@ -37,13 +38,16 @@
                 height:18,
                 width:150,
                 panelHeight:'auto',
-                value:'ftel'
+                value:'virtual_ftel',
+                // need to revise
+                onChange: function(newValue,oldValue) { $('#selected_sesion').val(newValue); }
             });
             $('#labo').combobox({
                 height:18,
                 width:150,
                 panelHeight:'auto',
-                value:'laboA'
+                value:'laboA',
+                onChange: function(newValue,oldValue) { $('#selected_sesion').val(newValue); }
             });
             $('#username').textbox({
                 prompt: 'User name',
@@ -53,30 +57,39 @@
                 prompt: 'Password',
                 showEye: true
             });
-            addTooltip($('#icon_desktop').linkbutton(), "Desplegar un escritorio remoto (entorno gráfico)<br/> en el equipo seleccionado abriendo una nueva ventana del navegador");
-            addTooltip($('#icon_terminal').linkbutton(), "Desplegar un terminal tipo texto (ssh)<br/> en una nueva ventana del navegador");
-            addTooltip($('#icon_tunel').linkbutton(), "Permitir acceso directo ( ssh o vnc )<br/> desde el ordenador del alumno al equipo del laboratorio seleccionado");
+            $('#selected_sesion').val('LaboA');
         }
 
-        function selectSession(sesion) {
-            if (sesion!=='hostrb') $('#sesion_host').textbox('setValue','');
-            $('#virtual_span').css('display',(sesion==='newvm')?'inline-block':'none');
-            $('#labo_span').css('display',(sesion==='labo')?'inline-block':'none');
-            // as setValue fires up activate hostrb radiobutton, need to properly set
-            $('#sesion_'+sesion).prop("checked",true);
-            return false; // do not continue chain event
+        function selectFamily(family) {
+            let ss=$('#selected_sesion');
+            $('#labo_span').css('display',(family==='labo')?'inline-block':'none');
+            $('#virtual_span').css('display',(family==='newvm')?'inline-block':'none');
+            if (family==='labo') ss.val($('#labo').combobox('getValue'));
+            if (family==='newvm') ss.val($('#virtual').combobox('getValue'));
+            if (family==='host') ss.val('host');
+            if (family==='admin') ss.val('admin');
         }
 
-        function acceder(tipo) {
+        function acceder(tipo) { // desktop, console, tunel
             // if ok then ask for selected session/option
             var username=$('#username').textbox('getValue');
             var password=$('#password').passwordbox('getValue');
             var duration=$('#duration').combobox('getValue');
-            if (username==="" || password==="") {
+            var mode=$('#selected_sesion').val(); // input hidden
+            var host=$('#sesion_host').textbox('getValue');
+            if(username==="" || password==="") {
                 $.messager.alert("Error","Debe indicar usuario y contrase&ntilde;a","error");
                 return;
             }
-            var mode=$('input:radio[name=sesion]:checked').val();
+            if(mode.indexOf('virtual_')>=0) {
+                $.messager.alert("No disponible","El despliegue de m&aacute;quinas virtuales no est&aacute; todav&iacute;a disponible","error");
+                return;
+            }
+            if( (mode==='host') && (host==='') ) {
+                $.messager.alert("Error","Debe indicar un puesto de laboratorio","error");
+                return;
+            }
+            // en el caso de admin hay que desplegar una nueva ventana
             if (mode==="admin") {
                 $('#formulario').submit();
                 return;
@@ -111,35 +124,35 @@
                 </select>
             </span>
         </h2>
-            <input type="hidden" name="host" id="session_host" value=""/>
+            <input type="hidden" name="sesion" id="selected_sesion" value="laboA"/>
             <ul style="list-style-type:none">
-                <li><input type="radio" name="sesion" id="sesion_labo" value="labo"  onclick="selectSession('labo');"/>
-                    <label for="sesion_labo">Acceso a equipos del laboratorio</label>
+                <li><input type="radio" name="family" id="family_labo" value="labo" onclick="selectFamily('labo');"/>
+                    <label for="family_labo">Acceso a equipos del laboratorio</label>
                     <span id="labo_span" style="text-align:center;display:none">
-                        <select id="labo" name="virtual" class="easyui-combobox">
+                        <select id="labo" name="labo" class="easyui-combobox">
                             <option value="laboA" selected="selected">Lab. Edificio A</option>
-                            <option value="laboB" >Lab. Edificio B</option>
-                            <option value="mac">Equipos Mac-OSX</option>
+                            <option value="laboB">Lab. Edificio B</option>
+                            <option value="macs">Equipos Mac-OSX</option>
                             <option value="virtual">Puestos virtuales</option>
                         </select>
                     </span>
                 </li>
-                <li><input type="radio" name="sesion" id="sesion_newvm" value="newvm"  onclick="selectSession('newvm');"/>
-                    <label for="sesion_newvm">Desplegar una m&aacute;quina virtual</label>
+                <li><input type="radio" name="family" id="family_newvm" value="newvm"  onclick="selectFamily('newvm');"/>
+                    <label for="family_newvm">Desplegar una m&aacute;quina virtual</label>
                     <span id="virtual_span" style="text-align:center;display:none">
                         <select id="virtual" name="virtual" class="easyui-combobox">
-                            <option value="ftel" selected="selected">Ubuntu FTEL</option>
-                            <option value="mac">Mac OSX-Catalina</option>
-                            <option value="windows10">Windows 10 Pro</option>
+                            <option value="virtual_ftel" selected="selected">Ubuntu FTEL</option>
+                            <option value="virtual_mac">Mac OSX-Catalina</option>
+                            <option value="virtual_windows10">Windows 10 Pro</option>
                         </select>
                     </span>
                 </li>
-                <li><input type="radio" name="sesion" id="sesion_hostrb" value="host" onclick="selectSession('hostrb');"/>
+                <li><input type="radio" name="family" id="family_host" value="host" onclick="selectFamily('host');"/>
                     <label for="sesion_host">Acceso al equipo:</label>
                     <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
                 </li>
-                <li><input type="radio" name="sesion" id="sesion_admin" value="admin" onclick="selectSession('admin');"/>
-                    <label for="sesion_admin">Acceso (restringido) al interfaz de gesti&oacute;n</label>
+                <li><input type="radio" name="family" id="family_admin" value="admin" onclick="selectFamily('admin');"/>
+                    <label for="family_admin">Acceso (restringido) al interfaz de gesti&oacute;n</label>
                 </li>
             </ul>
 
@@ -157,7 +170,7 @@
                 <input type="password" name="password" id="password" value=""/>
             </span>
             <span style="display:inline-block;width:200px;text-align:left;padding-left:10px">
-                <input type="button" onclick="acceder(tunel);" value="Acceder"/>
+                <input type="button" onclick="acceder('tunel');" value="Acceder"/>
             </span>
         </p>
 

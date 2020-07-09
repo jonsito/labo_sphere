@@ -57,7 +57,7 @@ $disabled=($host==="-")?'disabled="disabled"':'';
     <dt><strong>Acceso mediante escritorio remoto (VNC)</strong><br/>&nbsp;<br/></dt>
     <dd>
         Si no desea utilizar el escritorio remoto web y desea utilizar uno propio (p.e: Remina, TightVnc, RealVNC, etc ),
-        &eacute;ste deberá ser instalado en su equipo local. El cliente de acceso Remoto que viene de serie con Windows no
+        &eacute;ste deberá ser instalado en su equipo local. El Cliente de Acceso Remoto (rdesktop) que viene de serie con Windows no
         es válido, pues utliza un protocolo distinto ( RDP en lugar de RFB )
         <br/>&nbsp;<br/>
         Para conectarse al laboratorio, una vez abierta la sesión, deberá utilizar como dirección de acceso,
