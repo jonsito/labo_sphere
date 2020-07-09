@@ -144,8 +144,7 @@ function labo_session(mode,tipo,duration) {
             params +="&duration="+$('#duration').combobox('getText');
             // recargamos panel de estado de conexion para mostrar nuevo estado
             ls.layout('panel','east')
-                .panel('refresh','web/sesion_info.php'+params)
-                .then( function() { set_countdown(parseInt($('#duration').combobox('getValue'))) });
+                .panel('refresh','web/sesion_info.php'+params);
             // recargamos panel de instrucciones para activar botones de escritorio y consola
             ls.layout('panel','south')
                 .panel('refresh','web/instrucciones.php'+params);

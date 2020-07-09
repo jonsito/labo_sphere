@@ -17,7 +17,10 @@ $disabled=($host==="-")?'disabled="disabled"':'';
     <li>Duraci&oacute;n de la sesi&oacuten: <span id="duration_counter"><?php echo $duration ?></span></li>
 </ul>
 <p style="text-align:center">
-    <br/>&nbsp;</br>
+    <br/>&nbsp;<br/>
     Tiempo restante (hh:mm) : <span id="time_remaining">00:00</span><br/>&nbsp;<br/>
     <input type="button" value="Cerrar sesi&oacute;n" <?php echo $disabled;?> onclick="close_sesion('<?php echo $host;?>')"/>
 </p>
+<script type="text/javascript">
+    setTimeout(function(){ set_countdown( parseInt($('#duration').combobox('getValue')) ); },0);
+</script>
