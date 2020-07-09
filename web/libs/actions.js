@@ -114,17 +114,20 @@ function labo_session(mode,tipo,duration) {
 
     function fireupTunel(host,port,delay) {
         function openTunel(host) {
-            let url="web/instrucciones?host="+host;
-            url+="&fqdn="+host+".lab.dit.upm.es";
-            url+="&duration="+$('#duration').combobox('getText');
-            let w=window.open(
-                url,
-                "tunel@"+host,
-                "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-                "location=0, directories=no, width=640, height=480, left=300, top=300"
-            );
-            setTimeout(function() {w.focus();},300);
+            let ls=$('#labo_sphere-layout');
+            let params = "?host="+host;
+            params +="&port="+port;
+            params +="&fqdn="+host+".lab.dit.upm.es";
+            params +="&duration="+$('#duration').combobox('getText');
+            // recargamos panel de estado de conexion para mostrar nuevo estado
+            ls.layout('panel','east').panel('refresh','web/sesion_info.php'+params);
+            // recargamos panel de instrucciones para activar botones de escritorio y consola
+            ls.layout('panel','south').panel('refresh','web/instrucciones.php'+params);
+            // actualzamos datos de conexion
+            selectFamily('host');
+            $('#sesion_host').textbox('setValue',host);
         }
+
         if (delay===0) {
             openTunel(host);
         } else {
@@ -133,6 +136,7 @@ function labo_session(mode,tipo,duration) {
             delayAction(msg +'<?php echo $host;?>', delay,function() {openTunel(host);} );
         }
     }
+
     var msg="Iniciando sesi&oacute;n de tipo '"+tipo+"'";
     if ((tipo==='tunel') && (parseInt(duration)===0) ) msg="Cerrando sesi&oacute;n de tipo '"+tipo+"'";
     $.messager.progress({ title:'Processing',text:msg});
