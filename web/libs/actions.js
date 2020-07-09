@@ -112,6 +112,29 @@ function labo_session(mode,tipo,duration) {
         }
     }
 
+    function set_countdown(duration) { // seconds
+        if (duration<0) duration=0;
+        let mins=parseInt(duration/60);
+        var h = Math.floor(mins / 60);
+        var m = mins % 60;
+        h = h < 10 ? '0' + h : h;
+        m = m < 10 ? '0' + m : m;
+        $('#time_remaining').html(h + ':' + m);
+        if (duration===0) return;
+        setTimeout(function() {set_countdown(duration-60); },60000 ); // sleep 1 minute
+    }
+
+    function close_sesion(host) {
+        // actualzamos datos de conexion, por si acaso el operador los ha cambiado
+        $("#family_host").prop("checked", true);
+        selectFamily('host');
+        $('#sesion_host').textbox('setValue',host);
+        // ajustamos timeout a cero
+        $('#duration').combobox('setValue',0);
+        // invocamos al botón "acceder"
+        setTimeout(function() {acceder('tunel');},0);
+    }
+
     function fireupTunel(host,port,delay) {
         function openTunel(host) {
             let ls=$('#labo_sphere-layout');
@@ -120,10 +143,14 @@ function labo_session(mode,tipo,duration) {
             params +="&fqdn="+host+".lab.dit.upm.es";
             params +="&duration="+$('#duration').combobox('getText');
             // recargamos panel de estado de conexion para mostrar nuevo estado
-            ls.layout('panel','east').panel('refresh','web/sesion_info.php'+params);
+            ls.layout('panel','east')
+                .panel('refresh','web/sesion_info.php'+params)
+                .then( function() { set_countdown(parseInt($('#duration').combobox('getValue'))) });
             // recargamos panel de instrucciones para activar botones de escritorio y consola
-            ls.layout('panel','south').panel('refresh','web/instrucciones.php'+params);
+            ls.layout('panel','south')
+                .panel('refresh','web/instrucciones.php'+params);
             // actualzamos datos de conexion
+            $("#family_host").prop("checked", true);
             selectFamily('host');
             $('#sesion_host').textbox('setValue',host);
         }

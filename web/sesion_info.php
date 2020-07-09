@@ -2,9 +2,8 @@
 require_once(__DIR__ . "/../server/tools.php");
 $host=http_request("host","s","-");
 $fqdn=http_request("fqdn","s","-");
-$duration=http_request("duration","s","-");
+$duration=http_request("duration","i",0);
 $fecha=($host==="-")?"":date('Y-M-d H:i');
-$remaining=($host==="-")?"-":"12:34";
 $connected=($host==="-")?"No se ha establecido conexi&oacute;n":"Conexi&oacute;n activa";
 $disabled=($host==="-")?'disabled="disabled"':'';
 ?>
@@ -19,6 +18,6 @@ $disabled=($host==="-")?'disabled="disabled"':'';
 </ul>
 <p style="text-align:center">
     <br/>&nbsp;</br>
-    Tiempo restante: <span id="time_remaining">12:34</span><br/>&nbsp;<br/>
-    <input type="button" value="Cerrar sesi&oacute;n" <?php echo $disabled;?>/>
+    Tiempo restante (hh:mm) : <span id="time_remaining">00:00</span><br/>&nbsp;<br/>
+    <input type="button" value="Cerrar sesi&oacute;n" <?php echo $disabled;?> onclick="close_sesion('<?php echo $host;?>')"/>
 </p>
