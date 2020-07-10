@@ -34,8 +34,9 @@ if($countdown===0) $duration="-"
         $('#countdown').val( (parseInt(countdown)-60).toString());
         $('#time_remaining').html(countdown.toHHMMSS(false));
     }
-
-    $('#countdown').val(<?php echo $countdown; ?>);
+    var cd='<?php echo $countdown; ?>';
+    $('#countdown').val(cd);
+    $('#time_remaining').html(cd.toHHMMSS(false));
     var counter=setInterval(timer,60000);
 
 </script>
