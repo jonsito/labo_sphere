@@ -25,17 +25,17 @@ if($countdown===0) $duration="-"
 </p>
 <script type="text/javascript">
 
-    function set_countdown(duration) { // seconds
-        if (duration<0) duration=0;
-        let mins=parseInt(duration/60);
-        var h = Math.floor(mins / 60);
-        var m = mins % 60;
-        h = h < 10 ? '0' + h : h;
-        m = m < 10 ? '0' + m : m;
-        $('#time_remaining').html(h + ':' + m);
-        if (duration===0) return;
-        setTimeout(function() {set_countdown(duration-60); },60000 ); // sleep 1 minute
+    function timer() {
+        let countdown=$('#countdown').val();
+        if (parseInt(countdown)<=0) {
+            countdown="0";
+            clearInterval(counter);
+        }
+        $('#countdown').val( (parseInt(countdown)-60).toString());
+        $('#time_remaining').html(countdown.toHHMMSS(false));
     }
 
-    setTimeout(function(){ set_countdown( <?php echo $countdown; ?>); },0);
+    $('#countdown').val(<?php echo $countdown; ?>);
+    var counter=setInterval(timer,60000);
+
 </script>

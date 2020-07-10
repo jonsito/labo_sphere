@@ -115,6 +115,10 @@
 
 <body onload="initialize()">
 <form id="formulario" method="POST" action="web/admin.php" >
+
+    <input type="hidden" name="sesion" id="selected_sesion" value="laboA"/>
+    <input type="hidden" name="sesion" id="countdown" value="0"/>
+
 <div id="labo_sphere-layout" class="easyui-layout" style="width:100%;height:768px;">
     <div data-options="region:'north',title:'',split:true" style="height:170px;background: url('web/images/cdcTitle.png') no-repeat left top">
         <p style="font-size:1.6vw;font-style:oblique;font-weight:bold;text-align:right;position:absolute;bottom:3px; right:25px">
@@ -137,7 +141,6 @@
                 </select>
             </span>
         </h2>
-            <input type="hidden" name="sesion" id="selected_sesion" value="laboA"/>
             <ul style="list-style-type:none">
                 <li><input type="radio" name="family" id="family_labo" value="labo" onclick="selectFamily('labo');"/>
                     <label for="family_labo">Acceso a equipos del laboratorio</label>
