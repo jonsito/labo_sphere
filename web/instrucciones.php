@@ -2,7 +2,8 @@
 require_once(__DIR__ . "/../server/tools.php");
 $host=http_request("host","s","-");
 $fqdn=http_request("fqdn","s","-");
-$disabled=($host==="-")?'disabled="disabled"':'';
+$countdown=http_request("countdown","i","0"); // valor del combobox
+$disabled=($countdown===0)?'disabled="disabled"':'';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +20,7 @@ $disabled=($host==="-")?'disabled="disabled"':'';
         <table style="width:100%">
             <tr>
                 <td style="width:180px">
-                    <button type="button" <?php echo $disabled; ?> onclick="acceder('desktop')">
+                    <button type="button" <?php echo $disabled; ?> onclick="button_sesion('<?php echo $host;?>','desktop')">
                         <strong>Escritorio remoto</strong><br/>
                         <img id="icon_desktop" src="web/images/desktop.png" alt="desktop">
                     </button>
@@ -29,7 +30,7 @@ $disabled=($host==="-")?'disabled="disabled"':'';
                     del laboratorio
                 </td>
                 <td style="width:180px">
-                    <button type="button" <?php echo $disabled; ?> onclick="acceder('console')">
+                    <button type="button" <?php echo $disabled; ?> onclick="button_sesion('<?php echo $host;?>','console')">
                         <strong>Terminal de texto</strong><br/>
                         <img id="icon_terminal" src="web/images/terminal.png" alt="terminal">
                     </button>

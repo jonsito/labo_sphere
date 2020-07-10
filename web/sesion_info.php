@@ -21,7 +21,7 @@ if($countdown===0) $duration="-"
 <p style="text-align:center">
     <br/>&nbsp;<br/>
     Tiempo restante (hh:mm) : <span id="time_remaining">00:00</span><br/>&nbsp;<br/>
-    <button type="button" <?php echo $disabled;?> onclick="close_sesion('<?php echo $host;?>')">Cerrar sesi&oacute;n</button>
+    <button type="button" <?php echo $disabled;?> onclick="button_sesion('<?php echo $host;?>','tunel')">Cerrar sesi&oacute;n</button>
 </p>
 <script type="text/javascript">
 
