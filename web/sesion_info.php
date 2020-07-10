@@ -4,9 +4,10 @@ $host=http_request("host","s","-");
 $fqdn=http_request("fqdn","s","-");
 $duration=http_request("duration","s","-"); // texto del combobox
 $countdown=http_request("countdown","i","0"); // valor del combobox
-$fecha=($host==="-")?"":date('Y-M-d H:i');
-$connected=($host==="-")?"No se ha establecido conexi&oacute;n":"Conexi&oacute;n activa";
-$disabled=($host==="-")?'disabled="disabled"':'';
+$fecha=($countdown===0)?"":date('Y-M-d H:i');
+$connected=($countdown===0)?"Conexi&oacute;n inactiva":"Conexi&oacute;n activada";
+$disabled=($countdown===0)?'disabled="disabled"':'';
+if($countdown===0) $duration="-"
 ?>
 
 <h3 style="text-align:center">Acceso al puesto de laboratorio <?php echo $host; ?></h3>
