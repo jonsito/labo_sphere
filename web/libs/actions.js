@@ -112,17 +112,6 @@ function labo_session(mode,tipo,duration) {
         }
     }
 
-    function close_sesion(host) {
-        // actualzamos datos de conexion, por si acaso el operador los ha cambiado
-        $("#family_host").prop("checked", true);
-        selectFamily('host');
-        $('#sesion_host').textbox('setValue',host);
-        // ajustamos timeout a cero
-        $('#duration').combobox('setValue',0);
-        // invocamos al botón "acceder"
-        setTimeout(function() {acceder('tunel');},0);
-    }
-
     function fireupTunel(host,port,delay) {
         function openTunel(host) {
             let ls=$('#labo_sphere-layout');
