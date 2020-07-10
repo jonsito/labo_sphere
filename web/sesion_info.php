@@ -20,7 +20,7 @@ $disabled=($host==="-")?'disabled="disabled"':'';
 <p style="text-align:center">
     <br/>&nbsp;<br/>
     Tiempo restante (hh:mm) : <span id="time_remaining">00:00</span><br/>&nbsp;<br/>
-    <input type="button" value="Cerrar sesi&oacute;n" <?php echo $disabled;?> onclick="close_sesion('<?php echo $host;?>')"/>
+    <button type="button" <?php echo $disabled;?> onclick="close_sesion('<?php echo $host;?>')">Cerrar sesi&oacute;n</button>
 </p>
 <script type="text/javascript">
 
