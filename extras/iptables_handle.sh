@@ -7,7 +7,7 @@
 #
 
 IPTABLES="/sbin/iptables"
-SSH="ssh -q -n -x -o StrictHostKeyChecking=no"
+SSH="ssh -q -x -o StrictHostKeyChecking=no"
 CURRENT=$(date +"%s")
 LOGFILE=/var/log/labo_sphere.log
 IPTFILE=/tmp/iptables_handle.$$
