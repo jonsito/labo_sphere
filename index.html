@@ -58,6 +58,8 @@
                 showEye: true
             });
             $('#selected_sesion').val('LaboA');
+            $('family_labo').prop("checked", true);
+            selectFamily('labo');
         }
 
         function selectFamily(family) {
@@ -107,7 +109,7 @@
             // ajustamos timeout a cero
             if (action==='tunel') $('#duration').combobox('setValue',0);
             // invocamos al botón "acceder"
-            setTimeout(function() {acceder('action');},0);
+            setTimeout(function() {acceder(action);},0);
         }
 
         // convert seconds to hh:mm[:ss]
