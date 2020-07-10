@@ -19,7 +19,7 @@ $disabled=($host==="-")?'disabled="disabled"':'';
         <table style="width:100%">
             <tr>
                 <td style="width:180px">
-                    <button <?php echo $disabled; ?> onclick="acceder('desktop')">
+                    <button type="button" <?php echo $disabled; ?> onclick="acceder('desktop')">
                         <strong>Escritorio remoto</strong><br/>
                         <img id="icon_desktop" src="web/images/desktop.png" alt="desktop">
                     </button>
@@ -29,7 +29,7 @@ $disabled=($host==="-")?'disabled="disabled"':'';
                     del laboratorio
                 </td>
                 <td style="width:180px">
-                    <button <?php echo $disabled; ?> onclick="acceder('console')">
+                    <button type="button" <?php echo $disabled; ?> onclick="acceder('console')">
                         <strong>Terminal de texto</strong><br/>
                         <img id="icon_terminal" src="web/images/terminal.png" alt="terminal">
                     </button>

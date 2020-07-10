@@ -95,6 +95,7 @@
                 return;
             }
             labo_session(mode,tipo,duration);
+            return false; // do not continue chain -> do not invoke submit on console/desktop buttons
         }
 
     </script>
