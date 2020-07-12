@@ -53,9 +53,21 @@
                 prompt: 'User name',
                 iconCls:'icon-man'
             });
+            $('#username').textbox('textbox').bind('keydown', function(e){
+                if (e.keyCode === 13){   // when press ENTER key, accept the inputed value.
+                    $('#username').textbox( 'setValue', $(this).val() );
+                    $('#password').passwordbox('textbox').focus();
+                }
+            });
             $('#password').passwordbox({
                 prompt: 'Password',
                 showEye: true
+            });
+            $('#password').passwordbox('textbox').bind('keydown', function(e){
+                if (e.keyCode === 13){   // when press ENTER key, accept the inputed value.
+                    $('#password').passwordbox( 'setValue', $(this).val() );
+                    acceder('tunel');
+                }
             });
             $('#selected_sesion').val('LaboA');
             $('#family_labo').prop("checked", true);
