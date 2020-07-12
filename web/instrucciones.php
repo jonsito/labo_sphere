@@ -56,7 +56,7 @@ if ($host==="-") $host="&lt;host&gt;";
         </span>
         <br/>&nbsp;<br/>
         Desde Windows se puede utilizar cualquier cliente de SSH, por ejemplo PuTTY,
-        creando una sesión contra la máquina &lt;ordenador&gt;.lab.dit.upm.es.<br/>
+        creando una sesión contra la máquina <?php echo $host; ?>.lab.dit.upm.es.<br/>
         Las &uacute;ltimas versiones de windows 10 incluyen un cliente OpenSSH con lo que se puede
         utilizar el modo texto como desde Linux/Mac<br/>&nbsp;<br/>
     </dd>
