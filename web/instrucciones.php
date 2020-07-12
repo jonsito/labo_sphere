@@ -1,9 +1,12 @@
 <?php
 require_once(__DIR__ . "/../server/tools.php");
 $host=http_request("host","s","-");
+$user=http_request("username","s","-");
 $fqdn=http_request("fqdn","s","-");
 $countdown=http_request("countdown","i","0"); // valor del combobox
 $disabled=($countdown===0)?'disabled="disabled"':'';
+if ($user==="-") $user="&lt;username&gt;";
+if ($host==="-") $host="&lt;host&gt;";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,9 +50,11 @@ $disabled=($countdown===0)?'disabled="disabled"':'';
     <dd>
         Para acceder en modo texto al ordenador seleccionado, una vez iniciada la sesi&oacute;n
         basta con conectarse al ordenador elegido utilizando un cliente de SSH. Por ejemplo desde Linux/Mac:
-        <pre>
-        ssh &lt;ordenador&gt;.lab.dit.upm.es -l &lt;usuario&gt;
-        </pre>
+        <br/>&nbsp;<br/>
+        <span style="border:solid 1px; margin:5px; padding:5px; font-family:Courier New, Courier, monospace">
+            ssh <?php echo $host; ?>.lab.dit.upm.es -l <?php echo $user; ?>
+        </span>
+        <br/>&nbsp;<br/>
         Desde Windows se puede utilizar cualquier cliente de SSH, por ejemplo PuTTY,
         creando una sesión contra la máquina &lt;ordenador&gt;.lab.dit.upm.es.<br/>
         Las &uacute;ltimas versiones de windows 10 incluyen un cliente OpenSSH con lo que se puede
@@ -70,11 +75,13 @@ $disabled=($countdown===0)?'disabled="disabled"':'';
         a la consola.
         <br/>
         Ejemplo desde Linux:
-        <pre>
-        vncviewer &lt;ordenador&gt;.lab.dit.upm.es:5900;
-        </pre>
+        <br/>&nbsp;<br/>
+        <span style="border:solid 1px; margin:5px; padding: 5px; font-family:Courier New,Courier, monospace">
+            vncviewer <?php echo $host; ?>.lab.dit.upm.es:5900
+        </span>
+        <br/>&nbsp;<br/>
         Para acceder desde un Mac-OSX no es necesario instalar servidor VNC adicional: se puede usar el servidor que
-        el navegador Safari trae de serie, abriendo la dirección: <em>vnc://&lt;ordenador&gt;.lab.dit.upm.es:5900</em>
+        el navegador Safari trae de serie, abriendo la dirección: <em>vnc://<?php echo $host; ?>.lab.dit.upm.es:5900</em>
         <br/>&nbsp;<br/>
     </dd>
     <dt><strong>Acceso mediante cliente NX (X2Go)</strong><br/>&nbsp;<br/></dt>
@@ -93,7 +100,9 @@ $disabled=($countdown===0)?'disabled="disabled"':'';
             <li>En el campo "Duraci&oacute;n" indicar "Cerrar sesi&oacute;n"</li>
             <li>Pulsar en acceder</li>
         </ol>
-        <img src="/labo_sphere/web/images/cierre_sesion.png" alt="cierre sesion" width="320" height="320" style="border:solid 1px">
+        <br/>
+        <img src="/labo_sphere/web/images/cierre_sesion.png" alt="cierre sesion" width="320" height="320"
+             style="margin:5px; padding:5px; border:solid 1px">
     </dd>
 </dl>
 </body>

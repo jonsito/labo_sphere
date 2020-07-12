@@ -120,6 +120,7 @@ function labo_session(mode,tipo,duration) {
             params +="&fqdn="+host+".lab.dit.upm.es";
             params +="&duration="+$('#duration').combobox('getText');
             params +="&countdown="+$('#duration').combobox('getValue');
+            params +="&username="+$('#username').textbox('getValue');
             // recargamos panel de estado de conexion para mostrar nuevo estado
             ls.layout('panel','east').panel('refresh','web/sesion_info.php'+params);
             // recargamos panel de instrucciones para activar botones de escritorio y consola
