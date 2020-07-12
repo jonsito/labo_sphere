@@ -51,8 +51,8 @@ create_chain() {
   echo "$IPTABLES -A $channel -p icmp -s $1 -d $2 --icmp-type 5/1 -m state --state NEW -j ACCEPT" >> ${IPTFILE}
   # echo "-A $channel -p udp -s $1 -d $2 --destination-port 33434:33524 -m state --state NEW -j ACCEPT" >> ${IPTFILE}
   echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m multiport --destination-port 22,5900 -j ACCEPT" >> ${IPTFILE}
-  # insertar canal en regla forward
-  echo "$IPTABLES -A FORWARD -s $1 -d $2 -m state --state NEW -j $channel" >> ${IPTFILE}
+  # insertar canal en regla forward _al_principio_ de la regla forward, para hacer bypass del drop del final
+  echo "$IPTABLES -I FORWARD -s $1 -d $2 -m state --state NEW -j $channel" >> ${IPTFILE}
   # ejecutar script en router.lab
   send_iptables_cmd
 }
