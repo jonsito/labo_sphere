@@ -8,13 +8,7 @@ $disabled=($countdown===0)?'disabled="disabled"':'';
 if ($user==="-") $user="&lt;username&gt;";
 if ($host==="-") $host="&lt;host&gt;";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Lab-DIT SSH/VPN Tunel</title>
-</head>
-<body>
+
 <dl>
     <dt><strong>Conexiones mediante interfaz web</strong><br/>&nbsp;<br/></dt>
     <dd>
@@ -105,5 +99,3 @@ if ($host==="-") $host="&lt;host&gt;";
              style="margin:5px; padding:5px; border:solid 1px">
     </dd>
 </dl>
-</body>
-</html>
