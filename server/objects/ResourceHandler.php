@@ -67,6 +67,11 @@ class ResourceHandler {
             case "macs":
             case "virtual":
             case "host":
+                $oper= (intval($timeout!==0))?"Connect":"Disconnect";
+                $user= http_request("username","s","");
+                $this->myLogger->info(
+                    "FIREUP for user:{$user} operation:{$oper} action:{$type} from:{$_SERVER['REMOTE_ADDR']} to:{$name}/{$host} timeout:{$timeout}"
+                );
                 $cmd.=" {$name} {$host} {$_SERVER['REMOTE_ADDR']} {$timeout}";
                 break;
             case "newvm":

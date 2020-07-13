@@ -65,7 +65,7 @@ class AuthLDAP {
         }
         $conn= ldap_connect(LDAP_SERVER,LDAP_PORT);
         if (!$conn) {
-            $this->myLogger->error("LDAP Connect failed for user '{$user}'");
+            $this->myLogger->error("LDAP Connect failed for user:{$user} host:{$_SERVER['REMOTE_ADDR']}");
             return false;
         }
         if (! ldap_set_option($conn,LDAP_OPT_PROTOCOL_VERSION,LDAP_VERSION) ) {
@@ -78,10 +78,10 @@ class AuthLDAP {
         $res= @ldap_bind($conn,$dn,$password);
         ldap_close($conn);
         if (!$res) {
-            $this->myLogger->error("Authentication failed for user: '{$user}'");
+            $this->myLogger->error("AUTH: Authentication failed for user:{$user} host:{$_SERVER['REMOTE_ADDR']}");
             return false;
         }
-        $this->myLogger->info("Authentication success for user: '{$user}'");
+        $this->myLogger->info("AUTH: Authentication success for user:{$user} host:{$_SERVER['REMOTE_ADDR']}");
         return true;
     }
 
