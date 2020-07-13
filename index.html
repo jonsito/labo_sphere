@@ -80,7 +80,7 @@
             $('#virtual_span').css('display',(family==='newvm')?'inline-block':'none');
             if (family==='labo') ss.val($('#labo').combobox('getValue'));
             if (family==='newvm') ss.val($('#virtual').combobox('getValue'));
-            if (family==='host') ss.val('host');
+            if (family==='host') ss.val('host'); else $('#sesion_host').textbox('setValue','');
             if (family==='admin') ss.val('admin');
         }
 
