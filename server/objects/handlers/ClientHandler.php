@@ -108,7 +108,7 @@ abstract class ClientHandler {
      */
     function hostConsole($name) {
         // make sure that ssh websocket interface is up and running
-        @exec("ps ax | grep -e '[/]usr/bin/node /usr/local/bin/wsproxy'",$output,$status);
+        @exec("ps ax | grep -e '[/]usr/bin/node /usr/local/lib/node_modules/wsproxy/index.js'",$output,$status);
         if ($status!=0) { // wsproxy is not running
             // PENDING: system call starts process but never returns due to inner node script invocation
             // This sould be solved.

@@ -103,7 +103,7 @@ class DesktopClientHandler extends ClientHandler {
             else return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Busy'); // active, busy
         }
         // arriving here means that host is not in list, so fallback in older method
-        return $this->hostStatus_old($name,"id");
+        return $this->hostStatus_old($name,$id);
     }
 
     function serverStatus($name, $id = 0)    { return ""; }

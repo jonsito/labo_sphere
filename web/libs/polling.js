@@ -4,7 +4,7 @@ function updateTree(data,parentid){
     for(n=0;n<data.length;n++) {
         var item=data[n];
         if (item.status==="Old") { // remove node
-            tg.treegrid('remove',node.id);
+            tg.treegrid('remove',item.id);
             // setTimeout(function() {tg.treegrid('reload',parentid);},0);
         } else if (item.status==="New") { // create node an insert into parent
             tg.treegrid('append',{'node':parentid,'data':item});
