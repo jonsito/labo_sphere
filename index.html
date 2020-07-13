@@ -116,11 +116,11 @@
                 return;
             }
             if (parseInt(duration)===0) {
-                $.messager.confirm('Confirm','Cerrar sesi&oacute;n ¿seguro?',function(r){
+                $.messager.confirm('Confirmar','<br/>Cerrar sesi&oacute;n ¿seguro?',function(r){
                     if (r){
                         labo_session(mode,tipo,duration);
                     }
-                });
+                }).window({width:250,height:125});
             } else labo_session(mode,tipo,duration);
 
             return false; // do not continue chain -> do not invoke submit on console/desktop buttons
