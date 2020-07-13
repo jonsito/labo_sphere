@@ -50,6 +50,8 @@ MAESTRO=/home/operador/administracion/servicios_ubuntu-18.04/tools
 
   # si existe se recupera la configuracion
   [ -d /tmp/labo_sphere.$$ ] && cp /tmp/labo_sphere.$$/* ${INSTDIR}/config && rm -rf /tmp/labo_sphere.$$/*
+  # si existe fichero de logs se recupera tambien
+  [ -f ${INSTDIR}.old/logs/trace.log ] && cp ${INSTDIR}.old/logs/trace.log ${INSTDIR}/logs/trace.log
 
   # Ajustamos permisos
   chown -R ${USER}.${WEB_USER} ${INSTDIR}
