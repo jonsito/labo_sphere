@@ -76,12 +76,19 @@
 
         function selectFamily(family) {
             let ss=$('#selected_sesion');
+            let dur=$('#duration');
             $('#labo_span').css('display',(family==='labo')?'inline-block':'none');
             $('#virtual_span').css('display',(family==='newvm')?'inline-block':'none');
             if (family==='labo') ss.val($('#labo').combobox('getValue'));
             if (family==='newvm') ss.val($('#virtual').combobox('getValue'));
-            if (family==='host') ss.val('host'); else $('#sesion_host').textbox('setValue','');
             if (family==='admin') ss.val('admin');
+            if (family==='host') {
+                ss.val('host');
+            } else {
+                // on setFamily != 'host' make sure that host is empty and timeout not zero
+                if (parseInt(dur.combobox('getValue'))===0) dur.combobox('setValue',7200);
+                $('#sesion_host').textbox('setValue','');
+            }
         }
 
         function acceder(tipo) { // desktop, console, tunel
@@ -108,7 +115,14 @@
                 $('#formulario').submit();
                 return;
             }
-            labo_session(mode,tipo,duration);
+            if (parseInt(duration)===0) {
+                $.messager.confirm('Confirm','Cerrar sesi&oacute;n ¿seguro?',function(r){
+                    if (r){
+                        labo_session(mode,tipo,duration);
+                    }
+                });
+            } else labo_session(mode,tipo,duration);
+
             return false; // do not continue chain -> do not invoke submit on console/desktop buttons
         }
 
