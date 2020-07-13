@@ -8,7 +8,7 @@ class AuthLDAP {
     var $users;
     var $myLogger;
 
-    function LDAPAuthenticator () {
+    function __construct () {
         $this->users=array();
         $this->myLogger=new Logger("AuthLDAP",LEVEL_TRACE);
     }
@@ -80,7 +80,8 @@ class AuthLDAP {
         if (!$res) {
             $this->myLogger->error("Authentication failed for user: '{$user}'");
             return false;
-        }$this->myLogger->info("Authentication success for user: '{$user}'");
+        }
+        $this->myLogger->info("Authentication success for user: '{$user}'");
         return true;
     }
 
