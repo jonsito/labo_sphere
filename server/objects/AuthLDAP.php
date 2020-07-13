@@ -1,13 +1,16 @@
 <?php
 // retrieve from configuration ldap_credentials file
 require_once(__DIR__."/../../config/config.php");
+require_once(__DIR__."/../logging.php");
 require_once(Configuration::$ldap_credentials);
 
 class AuthLDAP {
     var $users;
+    var $myLogger;
 
     function LDAPAuthenticator () {
         $this->users=array();
+        $this->myLogger=new Logger("AuthLDAP",LEVEL_TRACE);
     }
 
     function getUserData($user) {
@@ -61,7 +64,10 @@ class AuthLDAP {
             if ($user===DEBUG_USER) return true;
         }
         $conn= ldap_connect(LDAP_SERVER,LDAP_PORT);
-        if (!$conn) return false;
+        if (!$conn) {
+            $this->myLogger->error("LDAP Connect failed for user '{$user}'");
+            return false;
+        }
         if (! ldap_set_option($conn,LDAP_OPT_PROTOCOL_VERSION,LDAP_VERSION) ) {
             ldap_close($conn);
             return false;
@@ -71,7 +77,10 @@ class AuthLDAP {
         $dn="uid=".$user.",".LDAP_AUTHDN;
         $res= @ldap_bind($conn,$dn,$password);
         ldap_close($conn);
-        if (!$res) return false;
+        if (!$res) {
+            $this->myLogger->error("Authentication failed for user: '{$user}'");
+            return false;
+        }$this->myLogger->info("Authentication success for user: '{$user}'");
         return true;
     }
 
