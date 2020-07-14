@@ -15,6 +15,10 @@
     <script type="text/javascript" src="/labo_sphere/web/libs/actions.js"></script>
     <script type="text/javascript">
 
+        var window_desktop=null;
+        var window_console=null;
+        var admin_console=null;
+
         function initialize() {
             $('#sesion_host').textbox({
                 value:'',
@@ -174,10 +178,10 @@
             <span style="display:inline-block;width:50%;text-align:right">
                 <label for="duration">Duraci&oacute;n:</label>
                 <select id="duration" name="duration" class="easyui-combobox">
-                    <option value="7200">2 horas</option>
-                    <option value="14400" selected="selected">4 horas</option>
+                    <option value="3600">1 hora</option>
+                    <option value="7200" selected="selected">2 horas</option>
+                    <option value="14400">4 horas</option>
                     <option value="21600">6 horas</option>
-                    <option value="28800">8 horas</option>
                     <option value="0">Cerrar sesi&oacute;n</option>
                 </select>
             </span>

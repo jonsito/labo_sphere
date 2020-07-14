@@ -59,13 +59,13 @@ function labo_action(action) {
                 // on success check action to open when needed additional windows
                 if ( (action==='console') && (result.data!=="") ) {
                     let url='SSHy/SSHy.php?delay=0&'+result.data;
-                    let w=window.open(
+                    admin_console = window.open(
                         url,
                         node.name,
                         "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
                                  "location=0, directories=no, width=800, height=600, left=400, top=300"
                     );
-                    setTimeout(function() {w.focus();},300);
+                    setTimeout(function() {admin_console.focus();},300);
                 } else if (action==='status') {
                     console.log('Pending: show returned status')
                 } else {
@@ -81,13 +81,13 @@ function labo_action(action) {
 function labo_session(mode,tipo,duration) {
     function fireupConsole(host,delay) {
         let url='web/SSHy/SSHy.php?delay='+delay+'&hmode=1&host='+host+'.lab.dit.upm.es&umode=1&username='+username;
-        let w=window.open(
+        window_console = window.open(
             url,
             "ssh@"+host,
             "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
             "location=0, directories=no, width=800, height=600, left=400, top=300"
         );
-        setTimeout(function() {w.focus();},300);
+        setTimeout(function() {window_console.focus();},300);
     }
 
     function fireupDesktop(host,port,delay) {
@@ -96,13 +96,13 @@ function labo_session(mode,tipo,duration) {
             let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
             url+="&path="+host+".lab.dit.upm.es";
             url+="&resize=scale&show_dot=true"
-            let w=window.open(
+            window_desktop = window.open(
                 url,
                 "vnc@"+host,
                 "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
                 "location=0, directories=no, width=1440, height=900, left=400, top=300"
             );
-            setTimeout(function() {w.focus();},300);
+            setTimeout(function() {window_desktop.focus();},300);
         }
 
         if (delay===0) {
@@ -114,12 +114,13 @@ function labo_session(mode,tipo,duration) {
 
     function fireupTunel(host,port,delay) {
         function openTunel(host) {
+            let dr=$('#duration');
             let ls=$('#labo_sphere-layout');
             let params = "?host="+host;
             params +="&port="+port;
             params +="&fqdn="+host+".lab.dit.upm.es";
-            params +="&duration="+$('#duration').combobox('getText');
-            params +="&countdown="+$('#duration').combobox('getValue');
+            params +="&duration="+dr.combobox('getText');
+            params +="&countdown="+dr.combobox('getValue');
             params +="&username="+$('#username').textbox('getValue');
             // recargamos panel de estado de conexion para mostrar nuevo estado
             ls.layout('panel','east').panel('refresh','web/sesion_info.php'+params);
@@ -129,6 +130,13 @@ function labo_session(mode,tipo,duration) {
             $("#family_host").prop("checked", true);
             selectFamily('host');
             $('#sesion_host').textbox('setValue',host);
+            // on open connection just return
+            if (parseInt(dr.combobox('getValue'))!==0) return;
+            // on close connection, also close child windows
+            if ( (window_desktop!=null) && (window_desktop.closed===false) ) window_desktop.close();
+            if ( (window_console!=null) && (window_console.closed===false) ) window_console.close();
+            window_desktop=null;
+            window_console=null;
         }
 
         if (delay===0) {
