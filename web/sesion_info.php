@@ -18,7 +18,7 @@ if($countdown===0) $duration="-"
     <li>Hora de inicio de la sesi&oacute;n: <em> <?php echo $fecha?></em></li>
     <li>Duraci&oacute;n de la sesi&oacute;n: <em><span id="duration_counter"><?php echo $duration ?></span></em></li>
 </ul>
-<table id="session_buttons" style="table-layout:auto;width:100%;display:<?php echo $disabled;?>">
+<table id="session_buttons" style="padding-left:10px;table-layout:auto;width:100%;display:<?php echo $disabled;?>">
     <tr>
         <td colspan="2" style="text-align:center">
             Tiempo restante: <span id="time_remaining">00:00</span>
@@ -32,8 +32,10 @@ if($countdown===0) $duration="-"
                 <strong>Escritorio remoto</strong><br/>
                 <img id="icon_desktop" src="web/images/desktop.png" alt="desktop">
             </button>
+            &nbsp;
         </td>
         <td style="width:50%;text-align:center;">
+            &nbsp;
             <button type="button" id="button_terminal" onclick="button_sesion('<?php echo $host;?>','console')">
                 <strong>Terminal de texto</strong><br/>
                 <img id="icon_terminal" src="web/images/terminal.png" alt="terminal">
