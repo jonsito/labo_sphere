@@ -120,11 +120,13 @@
                 return;
             }
             if (parseInt(duration)===0) {
-                $.messager.confirm('Cerrar','<br/>Cerrar sesi&oacute;n ¿seguro?',function(r){
-                    if (r){
+                $.messager.confirm('Finalizar',
+                    "Al cerrar sesi&oacute;n finalizar&aacute;n todas las ventanas y conexiones<br/>que estuvieran establecidas con '"+host+"'<br/>&nbsp;<br/>Cerrar sesi&oacute;n ¿seguro?",
+                    function(r){
+                        if (r){
                         labo_session(mode,tipo,duration);
                     }
-                }).window({width:250,height:125});
+                }).window({width:350,height:200});
             } else labo_session(mode,tipo,duration);
 
             return false; // do not continue chain -> do not invoke submit on console/desktop buttons
