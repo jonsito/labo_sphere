@@ -20,6 +20,12 @@
         var admin_console=null;
 
         function initialize() {
+            // check browser. If internet explorer redirect to "invalid browser page"
+            var isIE = /MSIE|Trident/.test(window.navigator.userAgent);
+            if ( isIE ) {
+                setTimeout(function() { window.location.href="/labo_sphere/inv_browser.html"; },0);
+            }
+            // prepare all easyui objects
             $('#sesion_host').textbox({
                 value:'',
                 validType:"regexp['^l[0-9]{3}$']",
