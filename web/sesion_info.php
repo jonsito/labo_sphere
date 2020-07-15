@@ -49,10 +49,9 @@ if($countdown===0) $duration="-"
     </tr>
 </table>
 <script type="text/javascript">
-
-    $('#countdown').val(cd);
+    var cd=<?php echo $countdown;?>; // countdown is seconds
     $('#time_remaining').html(cd.toHHMMSS(false));
-    var end=Date.now()+1000*<?php echo $countdown;?>;
+    var end=Date.now()+1000*cd; // datenow is milis
     var counter=setInterval( function() {
         let now=Date.now(); // seconds
         let remaining=Math.floor( ( end - Date.now()) / 1000);
