@@ -49,7 +49,7 @@ if($countdown===0) $duration="-"
     </tr>
 </table>
 <script type="text/javascript">
-    var cd=<?php echo $countdown;?>; // countdown is seconds
+    var cd="<?php echo $countdown;?>"; // countdown is seconds
     $('#time_remaining').html(cd.toHHMMSS(false));
     var end=Date.now()+1000*cd; // datenow is milis
     var counter=setInterval( function() {
@@ -59,7 +59,7 @@ if($countdown===0) $duration="-"
             remaining=0;
             clearInterval(counter);
         }
-        $('#time_remaining').html(remaining.toHHMMSS(false));
+        $('#time_remaining').html(remaining.toString().toHHMMSS(false));
     },30000); // call update time every 30 seconds
 
     addTooltip($('#button_close'),'Terminar la sesi&oacute;n<br/>Cerrar todas las conexiones abiertas')
