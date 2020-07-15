@@ -14,29 +14,7 @@ if ($host==="-") $host="&lt;host&gt;";
     <dd>
         Una vez realizada la conexi&oacute;n puede acceder directamente al equipo seleccionado
         usando el navegador ( Firefox, Chrome, Safari o Edge )<br/>&nbsp;<br/>
-        <table style="width:100%">
-            <tr>
-                <td style="width:180px">
-                    <button type="button" <?php echo $disabled; ?> onclick="button_sesion('<?php echo $host;?>','desktop')">
-                        <strong>Escritorio remoto</strong><br/>
-                        <img id="icon_desktop" src="web/images/desktop.png" alt="desktop">
-                    </button>
-                </td>
-                <td colspan="2" style="padding:10px">
-                    Seleccione "Escritorio remoto" para desplegar el entorno gráfico tal y como se vería en el puesto
-                    del laboratorio
-                </td>
-                <td style="width:180px">
-                    <button type="button" <?php echo $disabled; ?> onclick="button_sesion('<?php echo $host;?>','console')">
-                        <strong>Terminal de texto</strong><br/>
-                        <img id="icon_terminal" src="web/images/terminal.png" alt="terminal">
-                    </button>
-                </td>
-                <td colspan="2" style="padding:10px">
-                    Seleccione "Terminal de texto" para desplegar una sesión en modo consola (solo texto)
-                </td>
-            </tr>
-        </table>
+        Para ello utilice los botones correspondientes en la ventana de informaci&oacute;n de la sesi&oacute;n
         <br/>La acci&oacute;n seleccionada abrir&aacute; una nueva ventana, por lo que deberá habilitar el permitir
         desplegar ventanas emergentes para esta p&aacute;gina<br/>&nbsp;<br/>
     </dd>
