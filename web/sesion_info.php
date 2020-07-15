@@ -6,7 +6,7 @@ $duration=http_request("duration","s","-"); // texto del combobox
 $countdown=http_request("countdown","i","0"); // valor del combobox
 $fecha=($countdown===0)?"":date('Y-M-d H:i');
 $connected=($countdown===0)?"Conexi&oacute;n inactiva":"Conexi&oacute;n activada";
-$disabled=($countdown===0)?'none':'inherit';
+$disabled=($countdown===0)?'none':'inline-block';
 if($countdown===0) $duration="-"
 ?>
 
@@ -16,9 +16,9 @@ if($countdown===0) $duration="-"
     <li>Direcci&oacute;n IP origen: <em><?php echo $_SERVER['REMOTE_ADDR']  ?></em></li>
     <li>Equipo al que se conecta: <em><?php echo $fqdn; ?></em></li>
     <li>Hora de inicio de la sesi&oacute;n: <em> <?php echo $fecha?></em></li>
-    <li>Duraci&oacute;n de la sesi&oacuten: <em><span id="duration_counter"><?php echo $duration ?></span></em></li>
+    <li>Duraci&oacute;n de la sesi&oacute;n: <em><span id="duration_counter"><?php echo $duration ?></span></em></li>
 </ul>
-<table id="session_buttons" style="width:100%;display:<?php echo $disabled;?>">
+<table id="session_buttons" style="table-layout:auto;width:100%;display:<?php echo $disabled;?>">
     <tr>
         <td colspan="2" style="text-align:center">
             Tiempo restante: <span id="time_remaining">00:00</span>
