@@ -50,19 +50,19 @@ if($countdown===0) $duration="-"
 </table>
 <script type="text/javascript">
 
-    function timer() {
-        let countdown=$('#countdown').val();
-        if (parseInt(countdown)<=0) {
-            countdown="0";
-            clearInterval(counter);
-        }
-        $('#countdown').val( (parseInt(countdown)-60).toString());
-        $('#time_remaining').html(countdown.toHHMMSS(false));
-    }
-    var cd='<?php echo $countdown; ?>';
     $('#countdown').val(cd);
     $('#time_remaining').html(cd.toHHMMSS(false));
-    var counter=setInterval(timer,60000);
+    var end=Date.now()+1000*<?php echo $countdown;?>;
+    var counter=setInterval( function() {
+        let now=Date.now(); // seconds
+        let remaining=Math.floor( ( end - Date.now()) / 1000);
+        if (remaining<0) {
+            remaining=0;
+            clearInterval(counter);
+        }
+        $('#time_remaining').html(remaining.toHHMMSS(false));
+    },30000); // call update time every 30 seconds
+
     addTooltip($('#button_close'),'Terminar la sesi&oacute;n<br/>Cerrar todas las conexiones abiertas')
     addTooltip($('#button_desktop'),'Seleccione "Escritorio remoto" <br/>para desplegar el entorno gráfico<br/> tal y como se vería en el puesto\n' +
         '            del laboratorio');
