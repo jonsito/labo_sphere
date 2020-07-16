@@ -125,7 +125,7 @@ function labo_session(mode,tipo,duration) {
             // recargamos panel de estado de conexion para mostrar nuevo estado
             ls.layout('panel','east').panel('refresh','web/sesion_info.php'+params);
             // recargamos panel de instrucciones para activar botones de escritorio y consola
-            ls.layout('panel','south').panel('refresh','web/instrucciones.php'+params);
+            $('#labo_sphere-tabs').tabs('getTab','Instrucciones').panel('refresh','web/instrucciones.php'+params);
             // actualzamos datos de conexion
             $("#family_host").prop("checked", true);
             selectFamily('host');

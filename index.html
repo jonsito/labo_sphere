@@ -79,6 +79,17 @@
                     acceder('tunel');
                 }
             });
+            var ls= $('#labo_sphere-tabs');
+            ls.tabs({
+                height:450,
+                width:'100%'
+            });
+            ls.tabs('getTab','Instrucciones').panel('refresh','web/instrucciones.php');
+
+            $('#labo_sphere-layout').layout({
+                    fit:true,
+            });
+            ls.tabs('resize');
             $('#selected_sesion').val('LaboA');
             $('#family_labo').prop("checked", true);
             selectFamily('labo');
@@ -166,100 +177,132 @@
     </script>
 </head>
 
+<style type="text/css">
+.cabecera {
+    height:150px;
+    background: url('web/images/cdcTitle.png') no-repeat left top;
+    margin-top: -20px
+}
+.cabecera p {
+    font-size:1.6vw;
+    font-style:oblique;
+    font-weight:bold;
+    text-align:right;
+    position:relative;
+    top:120px;
+    right:25px
+}
+</style>
+
 <body onload="initialize()">
 <form id="formulario" method="POST" action="web/admin.php" >
 
     <input type="hidden" name="sesion" id="selected_sesion" value="laboA"/>
     <input type="hidden" name="sesion" id="countdown" value="0"/>
 
-<div id="labo_sphere-layout" class="easyui-layout" style="width:100%;height:768px;">
-
-    <div data-options="region:'north',title:'',split:true" style="height:170px;background: url('web/images/cdcTitle.png') no-repeat left top">
-        <p style="font-size:1.6vw;font-style:oblique;font-weight:bold;text-align:right;position:absolute;bottom:3px; right:25px">
-            Servicio de acceso remoto a los laboratorios docentes
-        </p>
+    <div class="cabecera">
+        <p> Servicio de acceso remoto a los laboratorios docentes </p>
     </div>
 
-    <div data-options="region:'center',title:'Introducci&oacute;n de datos'" style="padding:5px 5px 5px 20px;background:#eee;">
-        <h2>
-            Identificaci&oacute;n:
-        </h2>
-        <p>
-            Por favor: introduzca los credenciales de su cuenta del laboratorio<br/>
-            Si no tiene cuenta, o no recuerda la contrase&ntilde;a, pulse <a href="http://www.lab.dit.upm.es/labng">aqu&iacute;</a>
-            <br/>
-            <span style="display:inline-block;width:400px;text-align:right;padding:10px">
-                <label for="username">Nombre de usuario</label>
-                <input type="text" name="username" id="username" value=""/> <br/>
-                <label for="password">Contrase&ntilde;a</label>
-                <input type="text" name="password" id="password" value=""/>
-            </span>
-        </p>
+    <div id="labo_sphere-tabs">
 
-        <h2>
-            <span style="display:inline-block;width:40%;text-align:left">Seleccione opci&oacute;n:</span>
-        </h2>
-        <ul style="list-style-type:none">
-            <li><input type="radio" name="family" id="family_labo" value="labo" onclick="selectFamily('labo');"/>
-                <label for="family_labo">Acceso a equipos del laboratorio</label>
-                <span id="labo_span" style="text-align:center;display:none">
-                    <select id="labo" name="labo" class="easyui-combobox">
-                        <option value="laboA" selected="selected">Lab. Edificio A</option>
-                        <option value="laboB">Lab. Edificio B</option>
-                        <option value="macs">Equipos Mac-OSX</option>
-                        <option value="virtual">Puestos virtuales</option>
-                    </select>
-                </span>
-            </li>
-            <li><input type="radio" name="family" id="family_newvm" value="newvm"  onclick="selectFamily('newvm');"/>
-                <label for="family_newvm">Desplegar una m&aacute;quina virtual</label>
-                <span id="virtual_span" style="text-align:center;display:none">
-                    <select id="virtual" name="virtual" class="easyui-combobox">
-                        <option value="virtual_ftel" selected="selected">Ubuntu FTEL</option>
-                        <option value="virtual_mac">Mac OSX-Catalina</option>
-                        <option value="virtual_windows10">Windows 10 Pro</option>
-                    </select>
-                </span>
-            </li>
-            <li>
-                <input type="radio" name="family" id="family_host" value="host" onclick="selectFamily('host');"/>
-                <label for="sesion_host">Acceso al equipo:</label>
-                <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
-            </li>
-            <li><input type="radio" name="family" id="family_admin" value="admin" onclick="selectFamily('admin');"/>
-                <label for="family_admin">Acceso (restringido) al interfaz de gesti&oacute;n</label>
-            </li>
-        </ul>
+        <div title="Configuraci&oacute;n" style="padding:5px;">
 
-        <h2 style="width:100%">
-            <span style="display:inline-block;text-align:left">
-                <label for="duration">Duraci&oacute;n de la sesi&oacute;n:</label>
-                <select id="duration" name="duration" class="easyui-combobox">
-                    <option value="3600">1 hora</option>
-                    <option value="7200" selected="selected">2 horas</option>
-                    <option value="14400">4 horas</option>
-                    <option value="21600">6 horas</option>
-                    <option value="0">Cerrar sesi&oacute;n</option>
-                </select>
-            </span>
-            <span style="display:inline-block;position:absolute;bottom:15px;right:25px">
-                <input type="button" onclick="acceder('tunel');" value="Acceder"/>
-            </span>
-        </h2>
-    </div>
+            <div id="labo_sphere-layout">
 
-    <div id="conexiones" style="width:40%;padding:10px"
-         data-options="region:'east',title:'Informaci&oacute;n de la sesi&oacute;n',split:true, href:'web/sesion_info.php'" >
-        <p>
-            No se ha iniciado sesi&oacute;n
-        </p>
-    </div>
+                <div data-options="region:'center',title:'Introducci&oacute;n de datos'" style="padding:5px 5px 5px 20px;background:#eee;">
+                    <h2>
+                        Identificaci&oacute;n:
+                    </h2>
+                    <p>
+                        Por favor: introduzca los credenciales de su cuenta del laboratorio<br/>
+                        Si no tiene cuenta, o no recuerda la contrase&ntilde;a, pulse <a href="http://www.lab.dit.upm.es/labng">aqu&iacute;</a>
+                        <br/>
+                        <span style="display:inline-block;width:400px;text-align:right;padding:10px">
+                            <label for="username">Nombre de usuario</label>
+                            <input type="text" name="username" id="username" value=""/> <br/>
+                            <label for="password">Contrase&ntilde;a</label>
+                            <input type="text" name="password" id="password" value=""/>
+                        </span>
+                    </p>
 
-    <div id="instrucciones" data-options="region:'south',title:'Instrucciones de acceso',split:true,href:'web/instrucciones.php?username=-&host=-'" style="height:25%;padding:10px">
-        <h2>Instrucciones de acceso</h2>
-    </div>
-</div>
+                    <h2>
+                        <span style="display:inline-block;width:40%;text-align:left">Seleccione opci&oacute;n:</span>
+                    </h2>
+                    <ul style="list-style-type:none">
 
+                        <li>
+                            <input type="radio" name="family" id="family_labo" value="labo" onclick="selectFamily('labo');"/>
+                            <label for="family_labo">Acceso a equipos del laboratorio</label>
+                            <span id="labo_span" style="text-align:center;display:none">
+                                <select id="labo" name="labo" class="easyui-combobox">
+                                    <option value="laboA" selected="selected">Lab. Edificio A</option>
+                                    <option value="laboB">Lab. Edificio B</option>
+                                    <option value="macs">Equipos Mac-OSX</option>
+                                    <option value="virtual">Puestos virtuales</option>
+                                </select>
+                            </span>
+                        </li>
+
+                        <li>
+                            <input type="radio" name="family" id="family_newvm" value="newvm"  onclick="selectFamily('newvm');"/>
+                            <label for="family_newvm">Desplegar una m&aacute;quina virtual</label>
+                            <span id="virtual_span" style="text-align:center;display:none">
+                                <select id="virtual" name="virtual" class="easyui-combobox">
+                                    <option value="virtual_ftel" selected="selected">Ubuntu FTEL</option>
+                                    <option value="virtual_mac">Mac OSX-Catalina</option>
+                                    <option value="virtual_windows10">Windows 10 Pro</option>
+                                </select>
+                            </span>
+                        </li>
+
+                        <li>
+                            <input type="radio" name="family" id="family_host" value="host" onclick="selectFamily('host');"/>
+                            <label for="sesion_host">Acceso al equipo:</label>
+                            <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
+                        </li>
+
+                        <li><input type="radio" name="family" id="family_admin" value="admin" onclick="selectFamily('admin');"/>
+                            <label for="family_admin">Acceso (restringido) al interfaz de gesti&oacute;n</label>
+                        </li>
+
+                    </ul>
+
+                    <h2 style="width:100%">
+                        <span style="display:inline-block;text-align:left">
+                        <label for="duration">Duraci&oacute;n de la sesi&oacute;n:</label>
+                        <select id="duration" name="duration" class="easyui-combobox">
+                            <option value="3600">1 hora</option>
+                            <option value="7200" selected="selected">2 horas</option>
+                            <option value="14400">4 horas</option>
+                            <option value="21600">6 horas</option>
+                            <option value="0">Cerrar sesi&oacute;n</option>
+                        </select>
+                        </span>
+
+                        <span style="display:inline-block;position:absolute;bottom:15px;right:25px">
+                            <input type="button" onclick="acceder('tunel');" value="Acceder"/>
+                        </span>
+                    </h2>
+                </div> <!-- ventana de entrada de datos -->
+
+                <!-- ventana de conexiones activas -->
+                <div id="conexiones" style="width:35%;padding:5px"
+                     data-options="region:'east',title:'Informaci&oacute;n de la sesi&oacute;n',collapsible:false, href:'web/sesion_info.php'" >
+                    <p>
+                        No se ha iniciado sesi&oacute;n
+                    </p>
+                </div> <-- ventana de conexiones activas ->
+
+            </div> <!-- layout -->
+        </div> <!-- datos de acceso tab -->
+
+        <!-- pestanya de instrucciones -->
+        <div id="instrucciones" title="Instrucciones" style="padding:5px;">
+                <h2>Instrucciones de acceso</h2>
+        </div> <!-- "instrucciones tab" -->
+
+    </div> <!-- easyui-tabs -->
 </form>
 <footer>
     <br/>
