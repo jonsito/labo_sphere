@@ -406,16 +406,16 @@ $IPTABLES -A FORWARD -o eth1 -p udp -m multiport --destination-port 161 -m state
 # Fin cabecera
 
 #
-# Labo_sphere: por defecto bloquea todo el tráfico ssh/vnc
+# Labo_sphere: por defecto bloquea el tráfico ssh/vnc
 # que no venga del dit y tenga como destino la red del labo
 #
 # Esta regla será sobreescrita desde el software de control de accesos
 # anyadiendo canales nuevos específicos para cada sesion al principio de la cadena FORWARD
 #
 # Substituye al antiguo bloqueo de los servidores de acceso remoto de "control_sesiones", 
-# cambiandolo por una regla general que abarque a todo el laboratorio
-$IPTABLES -A FORWARD -s ! 138.4.0.0/16 -d 138.4.30.0/23 -p tcp -m multiport --destination-port 22,5900 -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Trafico acceso remoto sin abrir canal: "
-$IPTABLES -A FORWARD -s ! 138.4.0.0/16 -d 138.4.30.0/23 -p tcp -m multiport --destination-port 22,5900 -m state --state NEW  -j DROP
+# cambiandolo por una regla general que abarque a la red del laboratorio
+$IPTABLES -A FORWARD ! -s 138.4.0.0/16 -d 138.4.30.0/23 -p tcp -m multiport --destination-port 22,5900 -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso remoto bloqueado: "
+$IPTABLES -A FORWARD ! -s 138.4.0.0/16 -d 138.4.30.0/23 -p tcp -m multiport --destination-port 22,5900 -m state --state NEW  -j DROP
 
 # Fin de control sesiones
 
