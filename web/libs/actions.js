@@ -148,8 +148,9 @@ function labo_session(mode,tipo,duration) {
         }
     }
 
-    var msg="Iniciando sesi&oacute;n de tipo '"+tipo+"'";
-    if ((tipo==='tunel') && (parseInt(duration)===0) ) msg="Cerrando sesi&oacute;n de tipo '"+tipo+"'";
+    var msg="Iniciando sesi&oacute;n";
+    if (tipo !== 'tunel') msg += " de tipo '"+tipo+"'";
+    if ((tipo==='tunel') && (parseInt(duration)===0) ) msg="Cerrando sesi&oacute;n con host: '"+host+"'";
     $.messager.progress({ title:'Processing',text:msg});
     var host=$('#sesion_host').textbox('getValue');
     var username=$('#username').textbox('getValue');
