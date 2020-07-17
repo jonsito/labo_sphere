@@ -431,7 +431,7 @@ $server=gethostname();
 		<hr>
 		<span class="title" style="padding-top:20px">Font Size</span>
 		<a class="leftarrow" href="javascript:;" onclick="settings.modFontSize(-1)"><--</a>
-		<span class="middle" id="currentFontSize">16px</span>
+		<span class="middle" id="currentFontSize">15px</span>
 		<a class="rightarrow" href="javascript:;" onclick="settings.modFontSize(1)">--></a>
 		<span class="title" style="padding-top:40px">Terminal Size</span>
 		<span class="leftarrow">Cols:
