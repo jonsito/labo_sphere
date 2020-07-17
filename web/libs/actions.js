@@ -63,7 +63,7 @@ function labo_action(action) {
                         url,
                         node.name,
                         "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-                                 "location=0, directories=no, width=826, height=533, left=400, top=300"
+                                 "location=0, directories=no, width=780, height=445, left=400, top=300"
                     );
                     setTimeout(function() {admin_console.focus();},300);
                 } else if (action==='status') {
@@ -85,7 +85,7 @@ function labo_session(mode,tipo,duration) {
             url,
             "ssh@"+host,
             "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-            "location=0, directories=no, width=826, height=533, left=400, top=300"
+            "location=0, directories=no, width=780, height=445, left=400, top=300"
         );
         setTimeout(function() {window_console.focus();},300);
     }
