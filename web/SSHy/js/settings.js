@@ -13,7 +13,7 @@ SSHyClient.settings = function() {
 
     this.keepAliveInterval = undefined; // stores the setInterval() reference
 
-    this.fontSize = 16;
+    this.fontSize = 15;
 
     this.colorTango = true
     this.colorNames = Object.keys(this.colorSchemes);

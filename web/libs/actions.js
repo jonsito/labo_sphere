@@ -85,7 +85,7 @@ function labo_session(mode,tipo,duration) {
             url,
             "ssh@"+host,
             "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
-            "location=0, directories=no, width=800, height=600, left=400, top=300"
+            "location=0, directories=no, width=820, height=570, left=400, top=300"
         );
         setTimeout(function() {window_console.focus();},300);
     }
@@ -95,7 +95,7 @@ function labo_session(mode,tipo,duration) {
             let fromport=6100+parseInt(host.replace("l",""));
             let url="web/noVNC/vnc.php?encrypt=1&host=acceso.lab.dit.upm.es&port="+fromport;
             url+="&path="+host+".lab.dit.upm.es";
-            url+="&resize=scale&show_dot=true"
+            url+="&resize=scale&show_dot=true&autoconnect=true"
             window_desktop = window.open(
                 url,
                 "vnc@"+host,
