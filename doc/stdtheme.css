@@ -1,0 +1,236 @@
+ody {
+    margin-right: 30px;
+    margin-left: 30px;
+    font-size: 90%;
+    background-color: white;
+}
+body, p, h1, h2, h3, table, td, th, ul, ol, textarea, input {
+    font-family: verdana,helvetica,arial,sans-serif;
+}
+table, input, textarea, select {
+    font-size: 100%;
+}
+table.ex {
+    color: #000000;
+    background-color: #f1f1f1;
+    font-size: 100%;
+}
+table.tip {
+    border: 1px solid ;
+    color: #000000;
+    background-color: #ffffff;
+    font-size: 100%;
+}
+table.db {
+    color: #000000;
+    background-color: #ffffff;
+    font-size: 100%;
+}
+th.db {
+    color: #000000;
+    background-color: #f1f1f1;
+}
+div {
+    width: 100%;
+}
+h1 {
+    font-size: 160%;
+    text-align: center;
+}
+h2 {
+    margin-top: 10px;
+    font-size: 130%;
+    margin-bottom: 10px;
+}
+h3 {
+    font-size: 110%;
+}
+h4 {
+    font-size: 100%;
+}
+h5 {
+    font-size: 90%;
+}
+h6 {
+    font-size: 80%;
+}
+h2.home {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    font-size: 120%;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    color: #900b09;
+    background-color: #ffffff;
+}
+h2.tutheader {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    font-size: 120%;
+    padding-top: 0px;
+    padding-bottom: 1px;
+    padding-left: 4px;
+    color: #ffffff;
+    background-color: #808080;
+}
+table.right {
+    border: 2px ridge ;
+    color: #000000;
+    background-color: #ffffff;
+    margin-bottom: 2px;
+}
+th.right {
+    color: #ffffff;
+    background-color: #808080;
+    padding-bottom: 2px;
+}
+td.right {
+    color: #000000;
+    background-color: #ffffff;
+}
+td.content {
+    color: #900b09;
+    background-color: #f1f1f1;
+}
+td.deprecated {
+    color: #ff0000;
+    background-color: transparent;
+}
+td.red {
+    color: #ff0000;
+    background-color: transparent;
+}
+p.red {
+    color: #ff0000;
+    background-color: transparent;
+}
+p.intro {
+    font-size: 100%;
+    font-weight: bold;
+    color: #000000;
+    background-color: transparent;
+    margin-top: 10px;
+}
+p.introcenter {
+    text-align: center;
+    font-size: 110%;
+    color: #8b4513;
+    background-color: transparent;
+}
+pre {
+    font-family: "Courier New",monospace;
+    font-size: 100%;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+span.blue {
+    color: #00008b;
+    background-color: transparent;
+}
+span.red {
+    color: #ff0000;
+    background-color: transparent;
+}
+span.ieonly {
+    color: #000080;
+    background-color: transparent;
+    font-size: 70%;
+}
+span.t {
+    color: #0033cc;
+    background-color: transparent;
+    font-size: 80%;
+}
+img.float {
+    float: left;
+}
+h1, h2, h3, h4 {
+    background-color: transparent;
+    color: navy;
+}
+h1.att, h2.att, h3.att, hr.att {
+    background-color: transparent;
+    color: #000000;
+}
+hr {
+    background-color: transparent;
+    color: #000000;
+    height: 1px;
+}
+table.front {
+    color: #000000;
+    background-color: #f1f1f1;
+}
+th.front {
+    color: #ffffff;
+    background-color: #666666;
+}
+td.front {
+    color: #000000;
+    background-color: #f1f1f1;
+}
+a.nounderline {
+    text-decoration: none;
+}
+a:link {
+    color: #900b09;
+    background-color: transparent;
+}
+a:visited {
+    color: #900b09;
+    background-color: transparent;
+}
+a:active {
+    color: #ff0000;
+    background-color: transparent;
+}
+a:hover {
+    color: #ff0000;
+    background-color: transparent;
+}
+a.left:link {
+    text-decoration: none;
+    color: black;
+    background-color: transparent;
+}
+a.left:visited {
+    text-decoration: none;
+    color: black;
+    background-color: transparent;
+}
+a.left:hover {
+    color: #900b09;
+    text-decoration: underline;
+    background-color: transparent;
+}
+a.left:active {
+    text-decoration: underline;
+    color: #900b09;
+    background-color: transparent;
+}
+a.red:link {
+    color: #900b09;
+    background-color: transparent;
+}
+a.red:visited {
+    color: #900b09;
+    background-color: transparent;
+}
+a.red:active {
+    color: #ff0000;
+    background-color: transparent;
+}
+a.red:hover {
+    color: #ff0000;
+    background-color: transparent;
+}
+.comandos {
+    border: 1px dotted #4682b4;
+    padding: 5px;
+    margin-left: 50px;
+    font-size: 13px;
+    position: relative;
+    margin-top: 1em;
+    background-color: #f2f2f2;
+}
