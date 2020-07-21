@@ -48,28 +48,32 @@ if($countdown===0) $duration="-"
         </td>
     </tr>
 </table>
+
 <script type="text/javascript">
     var cd="<?php echo $countdown;?>"; // countdown is seconds
     $('#time_remaining').html(cd.toHHMMSS(true));
     var end=Date.now()+1000*cd; // datenow is milis
     var shownmsg=false;
-    var counter=setInterval( function() {
-        let now=Date.now(); // seconds
-        let remaining=Math.floor( ( end - Date.now()) / 1000);
-        if (remaining<0) {
-            remaining=0;
-            clearInterval(counter);
-            // PENDING: close session without showing accept/cancel button, just notify
-            setTimeout(function() { clearSession('<?php echo $host;?>');},0);
-        }
-        if ((remaining<300) && (remaining>200)) {
-            let msg="La sesi&oacute;n se cerrar&aacute;a en breves minutos<br/>";
-            msg+="Puede renovarla indicando un nuevo intervalo y pulsando 'Acceder'";
-            if (!shownmsg) $.messager.alert("Aviso",msg,"info");
-            shownmsg=true;
-        }
-        $('#time_remaining').html(remaining.toString().toHHMMSS(true));
-    },1000); // call update time every 30 seconds
+    var counter=null;
+    if (cd===0) { // to avoid infinite loop when reload with no timeout
+        counter=setInterval( function() {
+            let now=Date.now(); // seconds
+            let remaining=Math.floor( ( end - Date.now()) / 1000);
+            if (remaining<0) {
+                remaining=0;
+                clearInterval(counter);
+                // PENDING: close session without showing accept/cancel button, just notify
+                setTimeout(function() { clear_sesion('<?php echo $host;?>');},0);
+            }
+            if ((remaining<300) && (remaining>200)) {
+                let msg="La sesi&oacute;n se cerrar&aacute;a en breves minutos<br/>";
+                msg+="Puede renovarla indicando un nuevo intervalo y pulsando 'Acceder'";
+                if (!shownmsg) $.messager.alert("Aviso",msg,"info");
+                shownmsg=true;
+            }
+            $('#time_remaining').html(remaining.toString().toHHMMSS(true));
+        },1000); // call update time every 30 seconds
+    }
 
     addTooltip($('#button_close'),'Terminar la sesi&oacute;n<br/>Cerrar todas las conexiones abiertas')
     addTooltip($('#button_desktop'),'Seleccione "Escritorio remoto" <br/>para desplegar el entorno gráfico<br/> tal y como se vería en el puesto\n' +
