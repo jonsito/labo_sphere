@@ -55,7 +55,7 @@ if($countdown===0) $duration="-"
     var end=Date.now()+1000*cd; // datenow is milis
     var shownmsg=false;
     var counter=null;
-    if (cd===0) { // to avoid infinite loop when reload with no timeout
+    if (cd!=="0") { // to avoid infinite loop when reload with no timeout
         counter=setInterval( function() {
             let now=Date.now(); // seconds
             let remaining=Math.floor( ( end - Date.now()) / 1000);

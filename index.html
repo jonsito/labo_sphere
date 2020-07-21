@@ -137,7 +137,8 @@
                 return;
             }
             if (parseInt(duration)===0) {
-                $.messager.confirm('Finalizar',
+                $.messager.confirm(
+                    'Finalizar',
                     "Al cerrar sesi&oacute;n finalizar&aacute;n todas las ventanas y conexiones<br/>que estuvieran establecidas con '"+host+"'<br/>&nbsp;<br/>Cerrar sesi&oacute;n ¿seguro?",
                     function(r){
                         if (r){
@@ -156,7 +157,10 @@
             $('#sesion_host').textbox('setValue',host);
             $('#duration').combobox('setValue',7200); // default again to 2 hours
             $('#labo_sphere-layout').layout('panel','east').panel('refresh','web/sesion_info.php');
-            $.messager.alert("Timeout","La sesi&oacute;n con el equipo '"+host+"' ha expirado<br/>En breves momentos el sistema cerrar&aacute; la conexi&oacute;n","info")
+            $.messager.alert(
+                "Timeout",
+                "La sesi&oacute;n con el equipo '"+host+"' ha expirado<br/>En breves momentos el sistema cerrar&aacute; la conexi&oacute;n",
+                "info").window({width:450,height:200});
         }
 
         // fix configuration and call "acceder" from buttons in info/instructions panels
