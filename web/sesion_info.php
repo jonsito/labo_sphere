@@ -22,7 +22,10 @@ if($countdown===0) $duration="-"
     <tr>
         <td colspan="2" style="text-align:center">
             Tiempo restante: <span id="time_remaining">00:00:00</span>&nbsp;
-            <button type="button" id="button_close" onclick="button_sesion('<?php echo $host;?>','tunel')">Cerrar sesi&oacute;n</button>
+            <button type="button" id="button_close" onclick="
+                    if(counter!==null) clearInterval(counter);
+                    button_sesion('<?php echo $host;?>','tunel')
+                    ">Cerrar sesi&oacute;n</button>
             <br/>&nbsp;<br/>
         </td>
     </tr>
@@ -61,9 +64,10 @@ if($countdown===0) $duration="-"
             let remaining=Math.floor( ( end - Date.now()) / 1000);
             if (remaining<0) {
                 remaining=0;
-                clearInterval(counter);
-                // PENDING: close session without showing accept/cancel button, just notify
-                setTimeout(function() { clear_sesion('<?php echo $host;?>');},0);
+                if (counter!==null) {
+                    clearInterval(counter);
+                    setTimeout(function() { clear_sesion('<?php echo $host;?>');},0);
+                }
             }
             if ((remaining<300) && (remaining>200)) {
                 let msg="La sesi&oacute;n se cerrar&aacute;a en breves minutos<br/>";
