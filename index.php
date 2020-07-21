@@ -1,3 +1,11 @@
+<?php
+require_once(__DIR__ . "/server/tools.php");
+$admin=http_request("admin","i",-1);
+if ($admin<0) {
+    // no admin mode forced: check client ip address
+    $admin=(strpos($_SERVER['REMOTE_ADDR'],"138.4.")===FALSE)?0:1;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,6 +26,7 @@
         var window_desktop=null;
         var window_console=null;
         var admin_console=null;
+        var enable_adm=<?php echo $admin;?>;
 
         function initialize() {
             // check browser. If internet explorer redirect to "invalid browser page"
@@ -93,6 +102,7 @@
             $('#selected_sesion').val('LaboA');
             $('#family_labo').prop("checked", true);
             selectFamily('labo');
+            $('#admin_radio').css('display',(enable_adm===0)?'none':'inherit');
         }
 
         function selectFamily(family) {
@@ -275,8 +285,7 @@
                             <label for="sesion_host">Acceso al equipo:</label>
                             <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
                         </li>
-
-                        <li><input type="radio" name="family" id="family_admin" value="admin" onclick="selectFamily('admin');"/>
+                        <li id="admin_radio" style="display:none"><input type="radio" name="family" id="family_admin" value="admin" onclick="selectFamily('admin');"/>
                             <label for="family_admin">Acceso (restringido) al interfaz de gesti&oacute;n</label>
                         </li>
 

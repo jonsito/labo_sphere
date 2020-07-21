@@ -20,7 +20,7 @@
     RewriteCond %{REQUEST_URI} /(config|logs|server|.htaccess)/
     RewriteRule ^(.*) - [F,L]
     #
-    # forbid direct access to session/admin pages without enterin via index.html
+    # forbid direct access to session/admin pages without enterin via index.php
     RewriteCond   %{HTTP_REFERER} !^$
     RewriteCond   %{HTTP_REFERER} !^http://acceso.lab.dit.upm.es/labo_sphere  [NC]
     RewriteRule   ^/PublicFiles/  /forbidden.html

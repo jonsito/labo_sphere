@@ -17,7 +17,7 @@ SSHyClient.auth.prototype = {
         m.add_string('ssh-userauth');
         this.parceler.send(m);
     },
-    // Sends the username and password provided by index.html
+    // Sends the username and password provided by index.php
     ssh_connection: function() {
 		if(!this.termUsername || !this.termPassword){
 			// If no termUser or termPass has been set then we are likely using the wrapper
