@@ -62,14 +62,14 @@ if($countdown===0) $duration="-"
             // PENDING: close session without showing accept/cancel button, just notify
             // setTimeout(function() {button_sesion('<?php echo $host;?>','tunel');},0);
         }
-        if (remaining<300) {
+        if ((remaining<300) && (remaining>200)) {
             let msg="La sesi&oacute;n se cerrar&aacute;a en breves minutos<br/>";
             msg+="Puede renovarla indicando un nuevo intervalo y pulsando 'Acceder'";
             if (!shownmsg) $.messager.alert("Aviso",msg,"info");
             shownmsg=true;
         }
         $('#time_remaining').html(remaining.toString().toHHMMSS(true));
-    },30000); // call update time every 30 seconds
+    },1000); // call update time every 30 seconds
 
     addTooltip($('#button_close'),'Terminar la sesi&oacute;n<br/>Cerrar todas las conexiones abiertas')
     addTooltip($('#button_desktop'),'Seleccione "Escritorio remoto" <br/>para desplegar el entorno gráfico<br/> tal y como se vería en el puesto\n' +
