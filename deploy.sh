@@ -46,7 +46,7 @@ MAESTRO=/home/operador/administracion/servicios_ubuntu-18.04/tools
   mkdir -p ${INSTDIR}
 
   # Copiamos las carpetas
-  cp -r config logs server web LICENSE README.md index.html denied.html .htaccess ${INSTDIR}
+  cp -r config logs server web LICENSE README.md index.php denied.html .htaccess ${INSTDIR}
 
   # si existe se recupera la configuracion
   [ -d /tmp/labo_sphere.$$ ] && cp /tmp/labo_sphere.$$/* ${INSTDIR}/config && rm -rf /tmp/labo_sphere.$$/*
