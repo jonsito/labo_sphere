@@ -423,11 +423,11 @@ $IPTABLES -A FORWARD ! -s 138.4.0.0/19 -d 138.4.30.0/23 -p tcp -m state --state 
 $IPTABLES -A FORWARD ! -s 138.4.0.0/19 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
 
 # ahora filtramos los "huecos" 138.4.x.0 que no están en el dit 138.4.8.0/24, 138.4.9.0/24 y 138.4.10.0/24
-$IPTABLES -A FORWARD -s 138.4.8.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
+$IPTABLES -A FORWARD -s 138.4.8.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso 138.4.8.0/24 bloqueado: "
 $IPTABLES -A FORWARD -s 138.4.8.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
-$IPTABLES -A FORWARD -s 138.4.9.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
+$IPTABLES -A FORWARD -s 138.4.9.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso 138.4.9.0/24 bloqueado: "
 $IPTABLES -A FORWARD -s 138.4.9.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
-$IPTABLES -A FORWARD -s 138.4.10.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
+$IPTABLES -A FORWARD -s 138.4.10.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso 138.4.10.0/24 bloqueado: "
 $IPTABLES -A FORWARD -s 138.4.10.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
 
 #

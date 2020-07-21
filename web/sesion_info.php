@@ -21,7 +21,7 @@ if($countdown===0) $duration="-"
 <table id="session_buttons" style="padding-left:10px;table-layout:auto;width:100%;display:<?php echo $disabled;?>">
     <tr>
         <td colspan="2" style="text-align:center">
-            Tiempo restante: <span id="time_remaining">00:00</span>
+            Tiempo restante: <span id="time_remaining">00:00:00</span>&nbsp;
             <button type="button" id="button_close" onclick="button_sesion('<?php echo $host;?>','tunel')">Cerrar sesi&oacute;n</button>
             <br/>&nbsp;<br/>
         </td>
@@ -50,8 +50,9 @@ if($countdown===0) $duration="-"
 </table>
 <script type="text/javascript">
     var cd="<?php echo $countdown;?>"; // countdown is seconds
-    $('#time_remaining').html(cd.toHHMMSS(false));
+    $('#time_remaining').html(cd.toHHMMSS(true));
     var end=Date.now()+1000*cd; // datenow is milis
+    var shownmsg=false;
     var counter=setInterval( function() {
         let now=Date.now(); // seconds
         let remaining=Math.floor( ( end - Date.now()) / 1000);
@@ -59,7 +60,13 @@ if($countdown===0) $duration="-"
             remaining=0;
             clearInterval(counter);
         }
-        $('#time_remaining').html(remaining.toString().toHHMMSS(false));
+        if (remaining<300) {
+            let msg="La sesi&oacute;n se cerrar&aacute;a en breves minutos<br/>";
+            msg+="Puede renovarla indicando un nuevo intervalo y pulsando 'Acceder'";
+            if (!shownmsg) $.messager.alert("Aviso",msg,"info");
+            shownmsg=true;
+        }
+        $('#time_remaining').html(remaining.toString().toHHMMSS(true));
     },30000); // call update time every 30 seconds
 
     addTooltip($('#button_close'),'Terminar la sesi&oacute;n<br/>Cerrar todas las conexiones abiertas')
