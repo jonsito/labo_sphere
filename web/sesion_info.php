@@ -59,6 +59,8 @@ if($countdown===0) $duration="-"
         if (remaining<0) {
             remaining=0;
             clearInterval(counter);
+            // PENDING: close session without showing accept/cancel button, just notify
+            // setTimeout(function() {button_sesion('<?php echo $host;?>','tunel');},0);
         }
         if (remaining<300) {
             let msg="La sesi&oacute;n se cerrar&aacute;a en breves minutos<br/>";
