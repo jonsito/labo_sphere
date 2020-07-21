@@ -406,18 +406,29 @@ $IPTABLES -A FORWARD -o eth1 -p udp -m multiport --destination-port 161 -m state
 # Fin cabecera
 
 #
-# Labo_sphere: por defecto bloquea el tráfico ssh/vnc
+# Labo_sphere: por defecto bloquea el tráfico
 # que no venga del dit y tenga como destino la red del labo
 #
 # Esta regla será sobreescrita desde el software de control de accesos
 # anyadiendo canales nuevos específicos para cada sesion al principio de la cadena FORWARD
+# el control de accesos solo actua sobre los puertos ssh/vnc (22/5900)
 #
 # Substituye al antiguo bloqueo de los servidores de acceso remoto de "control_sesiones", 
 # cambiandolo por una regla general que abarque a la red del laboratorio
-$IPTABLES -A FORWARD ! -s 138.4.0.0/16 -d 138.4.30.0/23 -p tcp -m multiport --destination-port 22,5900 -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso remoto bloqueado: "
-$IPTABLES -A FORWARD ! -s 138.4.0.0/16 -d 138.4.30.0/23 -p tcp -m multiport --destination-port 22,5900 -m state --state NEW  -j DROP
 
-# Fin de control sesiones
+# Las redes del DIT-UPM estan en el rango 138.4.0.0 - 138.4.31.255, con tres "huecos"
+# Eliminamos el trafico de lo que no sea dit hacia el labo
+# tener en cuenta que www, ldap y similares han sido habilitados antes
+$IPTABLES -A FORWARD ! -s 138.4.0.0/19 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
+$IPTABLES -A FORWARD ! -s 138.4.0.0/19 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
+
+# ahora filtramos los "huecos" 138.4.x.0 que no están en el dit 138.4.8.0/24, 138.4.9.0/24 y 138.4.10.0/24
+$IPTABLES -A FORWARD -s 138.4.8.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
+$IPTABLES -A FORWARD -s 138.4.8.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
+$IPTABLES -A FORWARD -s 138.4.9.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
+$IPTABLES -A FORWARD -s 138.4.9.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
+$IPTABLES -A FORWARD -s 138.4.10.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
+$IPTABLES -A FORWARD -s 138.4.10.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
 
 #
 # finalmente, se habilita el ipv4 forwarding
