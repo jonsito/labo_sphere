@@ -407,17 +407,18 @@ $IPTABLES -A FORWARD -o eth1 -p udp -m multiport --destination-port 161 -m state
 
 #
 # Labo_sphere: por defecto bloquea el tráfico
-# que no venga del dit y tenga como destino la red del labo
+# que no venga del dit y tenga como destino la red del labo.
+# con la excepcion de la máquina acceso.lab, a la que se debe poder llegar para solicitar/cerrar conexiones
 #
-# Esta regla será sobreescrita desde el software de control de accesos
+
+#
+# permitimos llegar a acceso.lab desde vpn-upm ( 138.100.144.0 , 138.100.145.0 ) para los puertos de https y websockets
+#
+$IPTABLES -A FORWARD -s 138.100.144.0/23 -d 138.4.30.120/32 -p tcp -m multiport --destination-port 443,6001,6100:6354 -m state --state NEW -j ACCEPT
+
+# Las reglas de bloqueo serán sobreescrita desde el software de control de accesos
 # anyadiendo canales nuevos específicos para cada sesion al principio de la cadena FORWARD
 # el control de accesos solo actua sobre los puertos ssh/vnc (22/5900)
-#
-# Substituye al antiguo bloqueo de los servidores de acceso remoto de "control_sesiones", 
-# cambiandolo por una regla general que abarque a la red del laboratorio
-
-# permitimos llegar a acceso.lab desde vpn-upm ( 138.100.144.0 , 138.100.145.0 ) para los puertos de https y websockets
-$IPTABLES -A FORWARD -s 138.100.144.0/23 -d 138.4.30.120/32 -p tcp -m multiport --destination-port 443,6001,6100:6354 -m state --state NEW -j ACCEPT
 
 # Las redes del DIT-UPM estan en el rango 138.4.0.0 - 138.4.31.255, con tres "huecos"
 # Eliminamos el trafico de lo que no sea dit hacia el labo
