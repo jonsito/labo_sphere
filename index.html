@@ -149,6 +149,16 @@
             return false; // do not continue chain -> do not invoke submit on console/desktop buttons
         }
 
+        function clear_sesion(host) {
+            // actualzamos datos de conexion, por si acaso el operador los ha cambiado
+            $("#family_host").prop("checked", true);
+            selectFamily('host');
+            $('#sesion_host').textbox('setValue',host);
+            $('#duration').combobox('setValue',7200); // default again to 2 hours
+            $('#labo_sphere-layout').layout('panel','east').panel('refresh','web/sesion_info.php');
+            $.messager.alert("Timeout","La sesi&oacute;n con el equipo '"+host+"' ha expirado<br/>En breves momentos el sistema cerrar&aacute; la conexi&oacute;n","info")
+        }
+
         // fix configuration and call "acceder" from buttons in info/instructions panels
         function button_sesion(host,action) { // host, desktop/console/tunel
             // actualzamos datos de conexion, por si acaso el operador los ha cambiado
