@@ -403,29 +403,24 @@ $IPTABLES -A FORWARD -o eth1 -p tcp -m multiport --destination-port 995 -m state
 $IPTABLES -A FORWARD -o eth1 -p udp -m multiport --destination-port 161 -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Trafico snmp no autorizado: "
 $IPTABLES -A FORWARD -o eth1 -p udp -m multiport --destination-port 161 -m state --state NEW  -j DROP
 
-# Fin cabecera
+#
+# Labo_sphere:
+## Las reglas de bloqueo serán sobreescrita desde el software de control de accesos
+## anyadiendo canales nuevos específicos para cada sesion al principio de la cadena FORWARD
+## el control de accesos actua sobre los puertos:
+## - ssh/vnc (22/5900) del pc del labo con el que se conecta
+## - websocket para ssh (6001) y vnc (6100+host) en acceso.lab.dit.upm.es
 
 #
-# Labo_sphere: por defecto bloquea el tráfico
-# que no venga del dit y tenga como destino la red del labo.
-# con la excepcion de la máquina acceso.lab, a la que se debe poder llegar para solicitar/cerrar conexiones
-#
+# permitimos llegar a acceso.lab desde el universo por https
+$IPTABLES -A FORWARD -d 138.4.30.120/32 -p tcp -m multiport --destination-port 443 -m state --state NEW -j ACCEPT
 
+# Bloqueamos el trafico que no venga hacia el laboratorio desde el dit y haya conseguido llegar hasta aqui
+# tener en cuenta que www, ldap, acceso y similares deben haber sido habilitados antes
 #
-# permitimos llegar a acceso.lab desde vpn-upm ( 138.100.144.0 , 138.100.145.0 ) para los puertos de https y websockets
-#
-$IPTABLES -A FORWARD -s 138.100.144.0/23 -d 138.4.30.120/32 -p tcp -m multiport --destination-port 443,6001,6100:6354 -m state --state NEW -j ACCEPT
-
-# Las reglas de bloqueo serán sobreescrita desde el software de control de accesos
-# anyadiendo canales nuevos específicos para cada sesion al principio de la cadena FORWARD
-# el control de accesos solo actua sobre los puertos ssh/vnc (22/5900)
-
 # Las redes del DIT-UPM estan en el rango 138.4.0.0 - 138.4.31.255, con tres "huecos"
-# Eliminamos el trafico de lo que no sea dit hacia el labo
-# tener en cuenta que www, ldap y similares han sido habilitados antes
 $IPTABLES -A FORWARD ! -s 138.4.0.0/19 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso externo bloqueado: "
 $IPTABLES -A FORWARD ! -s 138.4.0.0/19 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP
-
 # ahora filtramos los "huecos" 138.4.x.0 que no están en el dit 138.4.8.0/24, 138.4.9.0/24 y 138.4.10.0/24
 $IPTABLES -A FORWARD -s 138.4.8.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j LOG --log-ip-options --log-tcp-options --log-prefix "Acceso 138.4.8.0/24 bloqueado: "
 $IPTABLES -A FORWARD -s 138.4.8.0/24 -d 138.4.30.0/23 -p tcp -m state --state NEW  -j DROP

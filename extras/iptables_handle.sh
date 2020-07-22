@@ -42,15 +42,21 @@ get_chain_name() { # from to expire
 
 # create_chain from to expire
 create_chain() {
+  # extract vnc port from argument "to" ( eg l225->port 6100+225 )
+  port=`expr 6100 + ${2:1}`
   channel=$(get_chain_name $1 $2 $3)
   do_log "Create channel ${channel}"
   # crear canal
   echo "$IPTABLES -N ${channel}" >> ${IPTFILE}
   # programar canal
+  # ping
   echo "$IPTABLES -A $channel -p icmp -s $1 -d $2 --icmp-type 8/0 -m state --state NEW -j ACCEPT" >> ${IPTFILE}
+  # traceroute
   echo "$IPTABLES -A $channel -p icmp -s $1 -d $2 --icmp-type 5/1 -m state --state NEW -j ACCEPT" >> ${IPTFILE}
-  # echo "-A $channel -p udp -s $1 -d $2 --destination-port 33434:33524 -m state --state NEW -j ACCEPT" >> ${IPTFILE}
+  # ssh vnc al host
   echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m multiport --destination-port 22,5900 -j ACCEPT" >> ${IPTFILE}
+  # ssh/vnc websockets a acceso.lab.dit.upm.es
+  echo "$IPTABLES -A $channel -p tcp -s $1 -d 138.4.30.120 -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
   # insertar canal en regla forward _al_principio_ de la regla forward, para hacer bypass del drop del final
   echo "$IPTABLES -I FORWARD -s $1 -d $2 -m state --state NEW -j $channel" >> ${IPTFILE}
   # ejecutar script en router.lab

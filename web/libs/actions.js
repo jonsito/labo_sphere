@@ -154,12 +154,12 @@ function labo_session(mode,tipo,duration) {
     var msg="Iniciando sesi&oacute;n";
     if (tipo !== 'tunel') {
         msg += " de tipo '"+tipo+"'";
-        msg += "<br/>Por favor, verifique que su navegador tiene desbloqueada";
+        msg += "<br/>&nbsp;<br/>Por favor, verifique que su navegador tiene desbloqueada";
         msg += "<br/> la apertura de ventanas emergentes para esta web";
     } else {
         if (parseInt(duration)===0) msg="Cerrando sesi&oacute;n con host: '" + host + "'";
     }
-    $.messager.progress({ title:'Processing',text:msg});
+    $.messager.progress({ title:'Sesion',msg:msg,text:'Procesando...',width:450,height:'auto'});
     if (host==="") host="none";
     $.ajax({
         type: 'POST',
