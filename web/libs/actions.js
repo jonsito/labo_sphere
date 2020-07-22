@@ -152,8 +152,13 @@ function labo_session(mode,tipo,duration) {
     var username=$('#username').textbox('getValue');
     var password=$('#password').passwordbox('getValue');
     var msg="Iniciando sesi&oacute;n";
-    if (tipo !== 'tunel') msg += " de tipo '"+tipo+"'";
-    if ((tipo==='tunel') && (parseInt(duration)===0) ) msg="Cerrando sesi&oacute;n con host: '" + host + "'";
+    if (tipo !== 'tunel') {
+        msg += " de tipo '"+tipo+"'";
+        msg += "<br/>Por favor, verifique que su navegador tiene desbloqueada";
+        msg += "<br/> la apertura de ventanas emergentes para esta web";
+    } else {
+        if (parseInt(duration)===0) msg="Cerrando sesi&oacute;n con host: '" + host + "'";
+    }
     $.messager.progress({ title:'Processing',text:msg});
     if (host==="") host="none";
     $.ajax({
