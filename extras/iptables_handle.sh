@@ -43,7 +43,8 @@ get_chain_name() { # from to expire
 # create_chain from to expire
 create_chain() {
   # extract vnc port from argument "to" ( eg l225->port 6100+225 )
-  port=`expr 6100 + ${2:1}`
+  # port=`expr 6100 + ${2:1}`
+  port=$(echo $2 | awk -F'.' '{print 6100+$4})
   channel=$(get_chain_name $1 $2 $3)
   do_log "Create channel ${channel}"
   # crear canal
