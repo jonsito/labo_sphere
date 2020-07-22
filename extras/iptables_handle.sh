@@ -55,11 +55,12 @@ create_chain() {
   # traceroute
   echo "$IPTABLES -A $channel -p icmp -s $1 -d $2 --icmp-type 5/1 -m state --state NEW -j ACCEPT" >> ${IPTFILE}
   # ssh vnc al host
-  echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m multiport --destination-port 22,5900 -j ACCEPT" >> ${IPTFILE}
+  echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m state --state NEW -m tcp --dport 5900 -j ACCEPT" >> ${IPTFILE}
+  echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m state --state NEW -m tcp --dport 22 -j ACCEPT" >> ${IPTFILE}
   # ssh/vnc websockets a acceso.lab.dit.upm.es
-  echo "$IPTABLES -I FORWARD -p tcp -s $1 -d 138.4.30.120 -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
+  echo "$IPTABLES -I FORWARD -p tcp -s $1 -d 138.4.30.120 -m state --state NEW -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
   # insertar canal en regla forward _al_principio_ de la regla forward, para hacer bypass del drop del final
-  echo "$IPTABLES -I FORWARD -s $1 -d $2 -m state --state NEW -j $channel" >> ${IPTFILE}
+  echo "$IPTABLES -I FORWARD -s $1 -d $2 -j $channel" >> ${IPTFILE}
   # ejecutar script en router.lab
   send_iptables_cmd
 }
@@ -72,8 +73,8 @@ delete_chain() {
   dest=`printf '%d.%d.%d.%d' $(echo $1 | awk -F'_' '{ print $3 }' | sed 's/../0x& /g' ) `
   port=$(echo $dest | awk -F'.' '{print 6100+$4}')
   # borrar regla de canal forward
-  echo "$IPTABLES -D FORWARD -p tcp -s $src -d 138.4.30.120 -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
-  echo "$IPTABLES -D FORWARD -s $src -d $dest -m state --state NEW -j $1" >> ${IPTFILE}
+  echo "$IPTABLES -D FORWARD -p tcp -s $src -d 138.4.30.120 -m state --state NEW -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
+  echo "$IPTABLES -D FORWARD -s $src -d $dest -j $1" >> ${IPTFILE}
   # borrar reglas del canal
   echo "$IPTABLES -F ${1}" >> ${IPTFILE}
   # borrar canal
