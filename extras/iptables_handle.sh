@@ -57,7 +57,7 @@ create_chain() {
   # ssh vnc al host
   echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m multiport --destination-port 22,5900 -j ACCEPT" >> ${IPTFILE}
   # ssh/vnc websockets a acceso.lab.dit.upm.es
-  echo "$IPTABLES -A $channel -p tcp -s $1 -d 138.4.30.120 -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
+  echo "$IPTABLES -I FORWARD -p tcp -s $1 -d 138.4.30.120 -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
   # insertar canal en regla forward _al_principio_ de la regla forward, para hacer bypass del drop del final
   echo "$IPTABLES -I FORWARD -s $1 -d $2 -m state --state NEW -j $channel" >> ${IPTFILE}
   # ejecutar script en router.lab
@@ -70,7 +70,9 @@ delete_chain() {
   # recuperamos las ips del nombre del canal
   src=`printf '%d.%d.%d.%d' $(echo $1 | awk -F'_' '{ print $2 }' | sed 's/../0x& /g' ) `
   dest=`printf '%d.%d.%d.%d' $(echo $1 | awk -F'_' '{ print $3 }' | sed 's/../0x& /g' ) `
+  port=$(echo $dest | awk -F'.' '{print 6100+$4}')
   # borrar regla de canal forward
+  echo "$IPTABLES -D FORWARD -p tcp -s $src -d 138.4.30.120 -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
   echo "$IPTABLES -D FORWARD -s $src -d $dest -m state --state NEW -j $1" >> ${IPTFILE}
   # borrar reglas del canal
   echo "$IPTABLES -F ${1}" >> ${IPTFILE}
