@@ -34,9 +34,7 @@ find_freehost() {
   # - minimizar las posibilidades de asignar una maquina estropeada
   # - maximizar el reparto de carga en la alimentación de los equipos
   cp /dev/null /tmp/find_freehost.$$
-  for i in $lista; do
-    grep "Client:$i" ${STATUS_FILE} | shuf >> /tmp/find_freehost.$$
-  done
+  ( for i in $lista; do grep "Client:$i" ${STATUS_FILE} ; done ) | shuf >> /tmp/find_freehost.$$
   # cogemos el fichero y buscamos el primer equipo encendido y sin usuarios
   equipo=`cat /tmp/find_freehost.$$ | grep -e 'State:UP Server:.*Users:-$' | sed -e 's/Client:\(.*\) State.*/\1/g' | head -1`
   echo "fireup $zona. Seleccionado host $equipo" >> ${REPORT}
