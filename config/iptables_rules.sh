@@ -408,12 +408,12 @@ $IPTABLES -A FORWARD -o eth1 -p udp -m multiport --destination-port 161 -m state
 ## Las reglas de bloqueo serán sobreescrita desde el software de control de accesos
 ## anyadiendo canales nuevos específicos para cada sesion al principio de la cadena FORWARD
 ## el control de accesos actua sobre los puertos:
-## - ssh/vnc (22/5900) del pc del labo con el que se conecta
+## - ssh (22) del pc del labo con el que se conecta
 ## - websocket para ssh (6001) y vnc (6100+host) en acceso.lab.dit.upm.es
 
 #
-# permitimos llegar a acceso.lab desde el universo por https
-$IPTABLES -A FORWARD -d 138.4.30.120/32 -p tcp -m multiport --destination-port 443 -m state --state NEW -j ACCEPT
+# permitimos llegar a acceso.lab desde el universo por http/https
+$IPTABLES -A FORWARD -d 138.4.30.120/32 -p tcp -m multiport --destination-port 80,443 -m state --state NEW -j ACCEPT
 
 # Bloqueamos el trafico que no venga hacia el laboratorio desde el dit y haya conseguido llegar hasta aqui
 # tener en cuenta que www, ldap, acceso y similares deben haber sido habilitados antes

@@ -55,7 +55,6 @@ create_chain() {
   # traceroute
   echo "$IPTABLES -A $channel -p icmp -s $1 -d $2 --icmp-type 5/1 -m state --state NEW -j ACCEPT" >> ${IPTFILE}
   # ssh vnc al host
-  echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m state --state NEW -m tcp --dport 5900 -j ACCEPT" >> ${IPTFILE}
   echo "$IPTABLES -A $channel -p tcp -s $1 -d $2 -m state --state NEW -m tcp --dport 22 -j ACCEPT" >> ${IPTFILE}
   # ssh/vnc websockets a acceso.lab.dit.upm.es
   echo "$IPTABLES -I FORWARD -p tcp -s $1 -d 138.4.30.120 -m state --state NEW -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
