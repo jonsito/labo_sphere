@@ -33,7 +33,7 @@ if ($admin<0) {
             var pre=$('#'+id+'_preview');
             pre.css('visibility','visible');
             if (elm.is(':hover')) {
-                pre.css('border','1px solid black');
+                /*pre.css('border','1px solid black'); */
                 pre.css('backgroundImage',"url('/labo_sphere/web/images/"+id+".png')");
             }
             var posX = event.offsetX;
