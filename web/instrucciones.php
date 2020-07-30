@@ -143,7 +143,7 @@ if ($host==="-") $host="&lt;host&gt;";
         Para acceder en modo texto al ordenador seleccionado, una vez iniciada la sesi&oacute;n
         basta con conectarse al ordenador elegido utilizando un cliente de SSH. Por ejemplo desde Linux/Mac:
         <br/>&nbsp;<br/>
-        <span style="border:solid 1px; margin:5px; padding:5px; font-family:Courier New, Courier, monospace">
+        <span class="codigo">
             ssh <?php echo $host; ?>.lab.dit.upm.es -l <?php echo $user; ?>
         </span>
         <br/>&nbsp;<br/>
@@ -165,30 +165,93 @@ if ($host==="-") $host="&lt;host&gt;";
                 <span class="preview" style="right:50px" id="putty_login_preview" onmouseover="zoomIn('putty_login',event)"></span>
             </div>
     </dd>
-    <dt><strong>Acceso mediante escritorio remoto (VNC)</strong></dt>
+    <dt><strong>Acceso desde el ordenador local mediante cliente de escritorio remoto (VNC)</strong></dt>
     <dd>
         <br/>
         Si no desea utilizar el escritorio remoto web y desea utilizar uno propio (p.e: Remina, TightVnc, RealVNC, etc ),
         &eacute;ste deberá ser instalado en su equipo local. El Cliente de Acceso Remoto (rdesktop) que viene de serie con Windows no
         es válido, pues utliza un protocolo distinto ( RDP en lugar de RFB )
-        <br/>&nbsp;<br/>
+    </dd>
+    <dd>
+        Para acceder desde un Mac-OSX no es necesario instalar servidor VNC adicional: se puede usar el servidor que
+        el navegador Safari trae de serie, abriendo la dirección: <em>vnc://<?php echo $host; ?>.lab.dit.upm.es:5900</em>
+    </dd>
+    <dd>
         Para conectarse al laboratorio, una vez abierta la sesión, deberá utilizar como dirección de acceso,
         la indicada en la ventana de conexión. (p.e: l133.lab.dit.upm.es ) y el puerto 5900/TCP.
         <br/>
-        Es recomendable que el cliente soporte encriptación SSL
-        <br/>&nbsp;<br/>
+        Es recomendable que el cliente VNC soporte encriptación SSL; de lo contrario ser&aacute; necesario establecer un
+        t&uacute;nel para establecer la conexi&oacute;n
+        <br/>
         Una vez abierto el cliente VNC aparecerá la pantalla de login/contraseña del equipo como si se estuviera frente
         a la consola.
-        <br/>
-        Ejemplo desde Linux:
+        <br/>&nbsp<br/>
+    </dd>
+    <dd>
+        <strong>Acceso mediante escritorio remoto (vnc) desde Linux</strong>
         <br/>&nbsp;<br/>
-        <span style="border:solid 1px; margin:5px; padding: 5px; font-family:Courier New,Courier, monospace">
-            vncviewer <?php echo $host; ?>.lab.dit.upm.es:5900
+            Se asume que el cliente vnc instalado es <a href="https://tigervnc.org/"><em>TigerVNC</em></a>
+        <br/>&nbsp;<br/>
+        <span class="codigo">
+            vncviewer -via <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es <?php echo $host; ?>.lab.dit.upm.es::5900
         </span>
         <br/>&nbsp;<br/>
-        Para acceder desde un Mac-OSX no es necesario instalar servidor VNC adicional: se puede usar el servidor que
-        el navegador Safari trae de serie, abriendo la dirección: <em>vnc://<?php echo $host; ?>.lab.dit.upm.es:5900</em>
+            En el caso de que el visor VNC no soporte tunel SSH ( opci&oacute;n <em>-via</em> ) será necesario
+            crearlo manualmente:
         <br/>&nbsp;<br/>
+        <span class="codigo">
+            ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es ;
+            vncviewer localhost::5900
+        </span>
+        <br/>&nbsp;<br/>
+    </dd>
+    <dd>
+        <strong>Acceso mediante escritorio remoto (vnc) desde Mac-OSX</strong>
+        <br/>&nbsp;<br/>
+        En el caso de Mac-OSX, el navegador Safari incorpora un cliente VNC por lo que no es necesario instalarlo<br/>
+        No obstante dicho visor VNC no soporta acceso mediante t&uacute;nel SSH, por lo que ser&aacute; necesario crearlo
+        abriendo un terminal y ejecutando:
+        <br/>&nbsp;<br/>
+        <span class="codigo">
+            ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es
+        </span>
+        <br/>&nbsp;<br/>
+        Una vez abierto el t&uacute;nel, mediante Safari accedemos a la dirección <em>vnc://localhost:5900</em>
+        <br/>&nbsp;<br/>
+    </dd>
+    <dd>
+        <strong>Acceso mediante escritorio remoto (VNC) desde Windows</strong>
+        <br/>&nbsp;<br/>
+        En el caso de windows no podemos utilizar la aplicaci&oacute;n nativa de escritorio remoto, pues utiliza
+        un protocolo distinto - rdesktop(RDP) en lugar de vnc(RFB) -<br/>
+        Por ello será necesario descargar e instalar
+        las siguientes aplicaciones:
+        <ul>
+            <li>
+                Visor de vnc: <a href="https://www.realvnc.com/es/connect/download/vnc/">RealVnc</a>
+                o <a href="https://bintray.com/tigervnc/stable/tigervnc/1.10.1">TigerVNC</a>
+            </li>
+            <li>Cliente de SSH: <a href="https://www.putty.org/">PuTTy</a></li>
+        </ul>
+        El cliente SSH PuTTy no es necesario en las &uacute;ltimas actualizaciones de Windows10, pues ya incorporan su propio
+        cliente SSH (OpenSSH)
+        <br/>&nbsp;<br/>
+        <em>Creaci&oacute;n del t&uacute;nel mediante OpenSSH (Windows 10)</em>
+        <br/>
+        Abrimos la consola PowerShell y ejecutamos el comando:
+        <br/>&nbsp;<br/>
+        <span class="codigo">
+            ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es
+        </span>
+        <br/>&nbsp;<br/>
+        <em>Creaci&oacute;n del t&uacute;nel mediante Putty</em>
+        <br/>
+        Abrimos PuTTy y lo configuramos seg&uacute;n se indica en las imágenes (mover el rat&oacute;n sobre la figura
+        para ampliar la imagen)
+        <br/>&nbsp<br/>
+        Una vez abierto el t&uacute;nel, bien mediante OpenSSH, bien mediante PuTTy, se arranca el visor VNC
+        en la direcci&oacute;n <em><?php echo $host; ?>.lab.dit.upm.es::5900</em>
+        <br/>&nbsp<br/>
     </dd>
     <dt><strong>Acceso mediante cliente NX (X2Go)</strong></dt>
     <dd>

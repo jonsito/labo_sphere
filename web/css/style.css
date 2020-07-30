@@ -13,6 +13,14 @@ dt {
     background: rgb(224,236,255);
 }
 
+.codigo {
+    background: rgb(220,220,220);
+    border:solid 1px;
+    margin:5px;
+    padding:5px;
+    font-family:Courier New, Courier, monospace
+}
+
 .box {
     display: flex;
     align-items:center;
