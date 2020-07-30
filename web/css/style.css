@@ -8,3 +8,7 @@
 .tt-inner img{
     border:0;
 }
+
+dt {
+    background: rgb(224,236,255);
+}
