@@ -54,59 +54,90 @@ if ($host==="-") $host="&lt;host&gt;";
     </dd>
     <dd>
         <br/>
-        En la pantalla que se nos muestra deberemos indicar:
-        <ul>
-            <li>Nombre de usuario (<strong>SIN</strong> @lab.dit.upm.es ) y contraseña del laboratorio</li>
-            <li>Equipo al que se desea acceder:<br/>
+        <div class="box">
+            <span class="images">
+                        <img id="labo_login"
+                             src="/labo_sphere/web/images/labo_login.png" alt="labo_login"
+                             onmousemove="zoomIn('labo_login',event)" onmouseout="zoomOut('labo_login')"/>
+            </span>
+            <span>
+                En la pesta&ntilde;a marcada como <em>Configuraci&oacute;n</em> deberemos indicar:<br/>&nbsp;
                 <ul>
-                    <li>Equipos del edificio A-127 (Para alumnos de primeros cursos)</li>
-                    <li>Equipos del edificio B-123 (Para alumnos de &uacute;ltimos cursos)</li>
-                    <li>Equipos virtuales (Para prácticas sencillas que no requieran virtualizaci&oacute;n)</li>
-                    <li>Equipos Mac-OSX (Para alumnos que cursan asignaturas que requieren OSX)</li>
-                    <li>Alternativamente se puede seleccionar un equipo concreto, para por ejemplo continuar una
-                    pr&aacute;ctica anterior que usa datos en disco local
+                    <li>Nombre de usuario ( <strong>SIN</strong> <em>@lab.dit.upm.es</em> ) y contraseña del laboratorio</li>
+                    <li>Equipo al que se desea acceder:<br/>
+                        <ul>
+                            <li>Equipos del edificio A-127 (Para alumnos de primeros cursos)</li>
+                            <li>Equipos del edificio B-123 (Para alumnos de &uacute;ltimos cursos)</li>
+                            <li>Equipos virtuales (Para prácticas sencillas que no requieran virtualizaci&oacute;n)</li>
+                            <li>Equipos Mac-OSX (Para alumnos que cursan asignaturas que requieren OSX)</li>
+                            <li>Alternativamente se puede seleccionar un equipo concreto, para por ejemplo continuar una
+                                pr&aacute;ctica anterior que usa datos en disco local
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Duraci&oacute;n de la sesi&oacute;n ( entre 1 y 6 horas )
                     </li>
                 </ul>
-            </li>
-            <li>
-                Duraci&oacute;n de la sesi&oacute;n ( entre 1 y 6 horas )
-            </li>
-        </ul>
+                <br/>(Pase el cursor sobre la figura para agrandar la imagen)<br/>
+            </span>
+            <span class="preview" style="right:50px" id="labo_login_preview" onmouseover="zoomIn('labo_login',event)"></span>
+        </div>
+        <br/>&nbsp;
     </dd>
     <dd>
-        <br/>
-        Al pulsar <em>"Aceptar"</em> se comprueban las credenciales y el sistema busca un equipo libre en el laboratorio.<br/>
+        Al pulsar <em>"Acceder"</em> se comprueban las credenciales y el sistema busca un equipo libre en el laboratorio.<br/>
         Si no hay ning&uacute;n equipo encendido libre, el sistema proceder&aacute; a encender un nuevo equipo.
         En este caso se le indicar&aacute; al alumno que debe esperar un minuto a que la m&aacute;quina est&eacute; disponible
     </dd>
     <dd>
-        <br/>
-        Una vez asignado equipo, en la ventana de la derecha se indicar&aacute;
-        <ul>
-            <li>La IP del alumno desde la que se realiza la conexi&oacute;n</li>
-            <li>El equipo asignado en el laboratorio</li>
-            <li>El comienzo y duraci&oacute;n de la sesi&oacute;n</li>
-            <li>El tiempo restante</li>
-            <li>Un bot&oacute;n adicional para solicitar el cierre de la sesi&oacute;n</li>
-            <li>Dos botones para el acceso al sistema desde el navegador (aplicaci&oacute;n web)
+        <div class="box" style="width:100%">
+            <span class="preview" style="left:50px" id="labo_login_success_preview" onmouseover="zoomIn('labo_login_success',event)"></span>
+            <span>
+                Una vez asignado equipo, en la ventana de la derecha se indicar&aacute;<br/>&nbsp;
                 <ul>
-                    <li>Acceso en modo gr&aacute;fico mediante escritorio remoto (VNC)</li>
-                    <li>Acceso al equipo en modo texto mediante conexi&oacute;n segura (SSH)</li>
+                    <li>La IP del alumno desde la que se realiza la conexi&oacute;n</li>
+                    <li>El equipo asignado en el laboratorio</li>
+                    <li>El comienzo y duraci&oacute;n de la sesi&oacute;n</li>
+                    <li>El tiempo restante</li>
+                    <li>Un bot&oacute;n adicional para solicitar el cierre de la sesi&oacute;n</li>
+                    <li>Dos botones para el acceso al sistema desde el navegador (aplicaci&oacute;n web)
+                        <ul>
+                            <li>Acceso en modo gr&aacute;fico mediante escritorio remoto (VNC)</li>
+                            <li>Acceso al equipo en modo texto mediante conexi&oacute;n segura (SSH)</li>
+                        </ul>
+                    </li>
                 </ul>
-            </li>
-        </ul>
-        <br/>
+                <br/>(Pase el cursor sobre la figura para agrandar la imagen)<br/>
+            </span>
+            <span class="images">
+                <img id="labo_login_success"  style="margin-left:150px;"
+                    src="/labo_sphere/web/images/labo_login_success.png" alt="labo_login_sucess"
+                    onmousemove="zoomIn('labo_login_success',event)" onmouseout="zoomOut('labo_login_success')"/>
+            </span>
+        </div>
     </dd>
-    <dt><strong>Conexiones mediante interfaz web</strong></dt>
+    <dt><strong>Acceso mediante navegador a trav&eacute;s del interfaz web</strong></dt>
     <dd>
         <br/>
         Una vez realizada la conexi&oacute;n puede acceder directamente al equipo seleccionado
         usando el navegador ( Firefox, Chrome, Safari o Edge )<br/>&nbsp;<br/>
-        Para ello utilice los botones correspondientes en la ventana de informaci&oacute;n de la sesi&oacute;n
-        <br/>La acci&oacute;n seleccionada abrir&aacute; una nueva ventana, por lo que deberá habilitar el permitir
-        desplegar ventanas emergentes para esta p&aacute;gina<br/>&nbsp;<br/>
+        Para ello utilice los botones correspondientes en la ventana de informaci&oacute;n de la sesi&oacute;n, seleccionando
+        acceso en modo <em>gr&aacute;fico</em> o en modo <em>texto</em>
+        <br/>&nbsp;<br/>
+        La acci&oacute;n seleccionada abrir&aacute; una nueva ventana, por lo que deberá habilitar el permitir
+        desplegar ventanas emergentes para esta p&aacute;gina
+        <br/>&nbsp;<br/>
     </dd>
-    <dt><strong>Acceso mediante conexi&oacute;n segura en modo texto (SSH) </strong></dt>
+    <dd>
+        Cinco minutos antes de finalizar la sesi&oacute;n se presentar&aacute; un mensaje de aviso.<br/>
+        Al expirar el tiempo asignado las ventanas abiertas mediante interfaz web se cerrar&aacute;n autom&aacute;ticamente
+        <br/>&nbsp<br/>
+        Si el usuario desea continuar la sesi&oacute;n activa, debera solicitar un nuevo acceso,
+        indicando esta vez acceso a la m&aacute;quina que le ha sido asignada en la sesi&oacute;n que va a expirar
+        <br/>&nbsp;<br/>
+    </dd>
+    <dt><strong>Acceso desde el ordenador local mediante conexi&oacute;n segura en modo texto (SSH) </strong></dt>
     <dd>
         <br/>
         Para acceder en modo texto al ordenador seleccionado, una vez iniciada la sesi&oacute;n
@@ -116,10 +147,23 @@ if ($host==="-") $host="&lt;host&gt;";
             ssh <?php echo $host; ?>.lab.dit.upm.es -l <?php echo $user; ?>
         </span>
         <br/>&nbsp;<br/>
-        Desde Windows se puede utilizar cualquier cliente de SSH, por ejemplo PuTTY,
-        creando una sesión contra la máquina <?php echo $host; ?>.lab.dit.upm.es.<br/>
-        Las &uacute;ltimas versiones de windows 10 incluyen un cliente OpenSSH con lo que se puede
-        utilizar el modo texto como desde Linux/Mac<br/>&nbsp;<br/>
+            <div class="box">
+                <span class="images">
+                    <img id="putty_login"
+                         src="/labo_sphere/web/images/putty_login.png" alt="putty_login"
+                        onmousemove="zoomIn('putty_login',event)" onmouseout="zoomOut('putty_login')"/>
+                </span>
+                <span style="vertical-align: text-top">
+                    <br/>&nbsp;<br/>
+                    Desde Windows se puede utilizar cualquier cliente de SSH, por ejemplo PuTTY,
+                    creando una sesión contra la máquina <?php echo $host; ?>.lab.dit.upm.es. en el puerto 22
+                    <br/>&nbsp;<br/>
+                    Las &uacute;ltimas versiones de windows 10 incluyen un cliente OpenSSH con lo que se puede
+                    utilizar el modo texto como desde Linux/Mac
+                    <br>&nbsp;<br/>(Pase el ratron sobre la figura para ampliar la imagen)
+                </span>
+                <span class="preview" style="right:50px" id="putty_login_preview" onmouseover="zoomIn('putty_login',event)"></span>
+            </div>
     </dd>
     <dt><strong>Acceso mediante escritorio remoto (VNC)</strong></dt>
     <dd>

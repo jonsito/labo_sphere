@@ -12,3 +12,46 @@
 dt {
     background: rgb(224,236,255);
 }
+
+.box {
+    display: flex;
+    align-items:center;
+}
+
+/* gestion del zoom de imagenes en la documentacion */
+/* https://www.codesdope.com/blog/article/mouse-rollover-zoom-effect-on-images/ */
+
+.preview {
+    visibility: hidden;
+    position: absolute;
+    margin-top: 10px;
+    width:640px;
+    height:400px;
+    background-repeat: no-repeat;
+    top: 200px;
+}
+
+.images {
+    text-align: center;
+}
+
+.images img {
+    width: 300px;
+    margin: 10px;
+    display: block;
+    border: 2px solid #6A6462;
+}
+
+.images img:hover {
+    cursor: zoom-in;
+    border: 0;
+    -moz-box-shadow:2px 2px 7px 2px rgba(130,130,130,1),-1px -1px 7px 2px rgba(130,130,130,1);
+    -webkit-box-shadow: 2px 2px 7px 2px rgba(130,130,130,.7),-1px -1px 7px 2px rgba(130,130,130,1);
+    box-shadow: 2px 2px 7px 2px rgba(130,130,130,.7),-2px -2px 7px 2px rgba(130,130,130,1);
+}
+
+@media screen and (max-width: 767px){
+    .images img {
+        display: inline-block;
+    }
+}

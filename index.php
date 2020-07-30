@@ -28,6 +28,24 @@ if ($admin<0) {
         var admin_console=null;
         var enable_adm=<?php echo $admin;?>;
 
+        function zoomIn(id,event) {
+            var elm=$('#'+id);
+            var pre=$('#'+id+'_preview');
+            pre.css('visibility','visible');
+            if (elm.is(':hover')) {
+                pre.css('border','1px solid black');
+                pre.css('backgroundImage',"url('/labo_sphere/web/images/"+id+".png')");
+            }
+            var posX = event.offsetX;
+            var posY = event.offsetY;
+            pre.css('backgroundPosition',(-posX)+"px "+(-posY)+"px");
+        }
+
+        function zoomOut(id) {
+            var pre=$('#'+id+'_preview');
+            pre.css('visibility','hidden');
+        }
+
         function initialize() {
             // check browser. If internet explorer redirect to "invalid browser page"
             var isIE = /MSIE|Trident/.test(window.navigator.userAgent);
