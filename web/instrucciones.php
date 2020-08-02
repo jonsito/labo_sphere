@@ -26,6 +26,7 @@ if ($host==="-") $host="&lt;host&gt;";
     </li>
     <li><a href="#accesox2go">Acceso mediante cliente NX (X2Go)</a></li>
     <li><a href="#cierre">Cierre de la sesi&oacute;n</a></li>
+    <li><a href="#problemas">Preguntas y respuestas</a></li>
 </ol>
 <dl>
     <dt>
@@ -326,4 +327,55 @@ if ($host==="-") $host="&lt;host&gt;";
              style="margin:5px; padding:5px; border:solid 1px">
         <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
+    <dt>
+        <a id="problemas"></a>
+        <strong>Preguntas y respuestas</strong>
+    </dt>
+    <dd>&nbsp;<br/></dd>
+    <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">
+        El navegador muestra un aviso de "Alerta de seguridad
+    </dt>
+    <dd style="display:none">
+        Algunos navegadores no reconocen como v&aacute;lido el certificado que presenta la web de acceso, debido
+        a que no incluyen de serie el certificado ra&iacute;z utilidado por la UPM. En estos casos, el navegador presentará
+        un enlace a "Avanzado" donde nos permitira aceptar el certificado y continuar adelante.<br/>
+        Alternativamente, el alumno puede descargar el certificado raíz desde el siguiente enlace:
+    </dd>
+    <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">
+        Una vez abierta sesi&oacute;n al pulsar en los iconos de terminal y/o escritorio no aparece ninguna ventana
+    </dt>
+    <dd style="display:none">
+        La mayor&iacute;a de los navegadores tienen bloqueada la creaci&oacute;n de ventanas emergentes;
+        si este es el caso, aparecer&aacute; un aviso de bloqueo. El usuario debe modificar la configuraci&oacute;n
+        de su navegador para permitir ventanas emergentes desde <em>acceso.lab.dit.upm.es</em>
+    </dd>
+    <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">He cerrado la ventana de la sesi&oacute;n. ¿C&oacute;mo la recupero?</dt>
+    <dd style="display:none">
+        Las sesiones VNC no se pueden recuperar (de manera sencilla). No obstante, el trabajo queda en el ordenador del laboratorio, por lo que el usuario
+        puede iniciar una nueva sesión en el mismo equipo, con lo que podra recuperar todo el trabajo desde la última vez que lo guard&oacute;<br/>
+        Para recuperar una sesi&oacute;n NX (X2Go) basta con conectarse de nuevo. X2Go detectará que hay una sesi&oacute;n iniciada
+        y preguntar&aacute; si se desea reconectar
+    </dd>
+    <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">El tiempo de la sesi&oacute;n va a expirar.
+        ¿C&oacute;mo puedo seguir trabajando?</dt>
+    <dd style="display:none">
+        Para poder seguir con la sesi&oacute;n abierta cuando &eacute;sta va a expirar, basta con indicar un nuevo periodo de tiempo,
+        seleccionar el pc que se tiene actualmente asignado y pulsando en "Acceder" actualizar la sesi&oacute;n
+    </dd>
+    <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">Enlaces de descarga de software</dt>
+    <dd style="display:none">
+        <ul>
+            <li><strong>Putty</strong>: <a href="https://www.putty.org">https://www.putty.org</a></li>
+            <li><strong>TigerVNC</strong>: <a href="https://tigervnc.org/">https://tigervnc.org/</a></li>
+            <li><strong>X2Go</strong>: <a href="https://wiki.x2go.org/doku.php/download:start">https://wiki.x2go.org/doku.php/download:start</a></li>
+        </ul>
+    </dd>
+    <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">Para obtener informaci&oacute;n adicional</dt>
+    <dd style="display:none">
+        Enviar correo electr&oacute;nico a &lt;guru@dit.upm.es&gt;<br/>
+        El correo deber&aacute; indicar el nombre del alumno, las asignaturas que cursa, y una <em>descripci&oacute;n detallada</em>
+        del problema ( no basta con decir "no me funciona 'xxxx' ); y a ser posible, adjuntando capturas de pantalla (completa)
+    </dd>
+    <dt></dt>
+    <dd><a class="indice" href="#index">&Iacute;ndice</a></dd>
 </dl>

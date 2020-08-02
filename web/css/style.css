@@ -13,6 +13,17 @@ dt {
     background: rgb(224,236,255);
 }
 
+dt.faq {
+    display: list-item;
+    list-style-type: square;
+    list-style-position: inside;
+    font-style:italic;
+    font-size: 1.25vw;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: rgb(255,255,255);
+}
+
 .indice {
     display:inline-block;
     width:100%;
