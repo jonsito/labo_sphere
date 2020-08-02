@@ -373,8 +373,8 @@ if ($host==="-") $host="&lt;host&gt;";
     <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">Para obtener informaci&oacute;n adicional</dt>
     <dd style="display:none">
         Enviar correo electr&oacute;nico a &lt;guru@dit.upm.es&gt;<br/>
-        El correo deber&aacute; indicar el nombre del alumno, las asignaturas que cursa, y una <em>descripci&oacute;n detallada</em>
-        del problema ( no basta con decir "no me funciona 'xxxx' ); y a ser posible, adjuntando capturas de pantalla (completa)
+        El correo deber&aacute; indicar el nombre del alumno, las asignaturas que cursa, y una <em>descripci&oacute;n <strong>detallada</strong>
+            del problema</em> ( no basta con decir "no me funciona 'xxxx' ); y a ser posible, adjuntando capturas de pantalla (completa)
     </dd>
     <dt></dt>
     <dd><a class="indice" href="#index">&Iacute;ndice</a></dd>
