@@ -8,9 +8,28 @@ $disabled=($countdown===0)?'disabled="disabled"':'';
 if ($user==="-") $user="&lt;username&gt;";
 if ($host==="-") $host="&lt;host&gt;";
 ?>
-
+<h2>
+    Contenido
+</h2>
+<a id="index"></a>
+<ol>
+    <li><a href="#consideraciones">Consideraciones iniciales</a></li>
+    <li><a href="#apertura">Inicio de sesi&oacute;n</a></li>
+    <li><a href="#accesoweb">Acceso mediante navegador a trav&eacute;s del interfaz web</a></li>
+    <li><a href="#accesossh">Acceso desde el ordenador por conexi&oacute;n segura en modo texto (SSH)</a></li>
+    <li><a href="#accesovnc">Acceso desde el ordenador local mediante cliente de escritorio remoto (VNC)</a>
+        <ul>
+            <li><a href="#vnclinux">Linux</a></li>
+            <li><a href="#vncwindows">Windows</a></li>
+            <li><a href="#vncmac">Mac-OSX</a></li>
+        </ul>
+    </li>
+    <li><a href="#accesox2go">Acceso mediante cliente NX (X2Go)</a></li>
+    <li><a href="#cierre">Cierre de la sesi&oacute;n</a></li>
+</ol>
 <dl>
     <dt>
+        <a name="consideraciones"></a>
         <strong>Consideraciones iniciales</strong>
     </dt>
     <dd>
@@ -40,8 +59,12 @@ if ($host==="-") $host="&lt;host&gt;";
         El acceso a equipos Mac-OSX est&aacute; reservado a los alumnos de las asignaturas relacionadas,
         y no se puede realizar el acceso a dichos equipos con la cuenta normal del laboratorio
         <br/>&nbsp;<br/>
+        <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
-    <dt><strong>Apertura de sesi&oacute;n</strong></dt>
+    <dt>
+        <a name="apertura"></a>
+        <strong>Apertura de sesi&oacute;n</strong>
+    </dt>
     <dd>
         <br/>
         Para iniciar sesi&oacute;n remota accederemos a la p&aacute;gina <a href="https://acceso.lab.dit.upm.es">https://acceso.lab.dit.upm.es</a>
@@ -81,7 +104,8 @@ if ($host==="-") $host="&lt;host&gt;";
                 </ul>
                 <br/>(Pase el cursor sobre la figura para agrandar la imagen)<br/>
             </span>
-            <span class="preview" style="right:50px" id="labo_login_preview" onmouseover="zoomIn('labo_login',event)"></span>
+            <span class="preview" style="right:50px" id="labo_login_preview"
+                  onmouseout="zoomOut('labo_login_preview')" onmouseover="zoomIn('labo_login_preview',event)"></span>
         </div>
         <br/>&nbsp;
     </dd>
@@ -92,7 +116,8 @@ if ($host==="-") $host="&lt;host&gt;";
     </dd>
     <dd>
         <div class="box" style="width:100%">
-            <span class="preview" style="left:50px" id="labo_login_success_preview" onmouseover="zoomIn('labo_login_success',event)"></span>
+            <span class="preview" style="left:50px" id="labo_login_success_preview"
+                  onmouseout="zoomOut('labo_login_success')" onmouseover="zoomIn('labo_login_success',event)"></span>
             <span>
                 Una vez asignado equipo, en la ventana de la derecha se indicar&aacute;<br/>&nbsp;
                 <ul>
@@ -116,8 +141,12 @@ if ($host==="-") $host="&lt;host&gt;";
                     onmousemove="zoomIn('labo_login_success',event)" onmouseout="zoomOut('labo_login_success')"/>
             </span>
         </div>
+        <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
-    <dt><strong>Acceso mediante navegador a trav&eacute;s del interfaz web</strong></dt>
+    <dt>
+        <a name="accesoweb"></a>
+        <strong>Acceso mediante navegador a trav&eacute;s del interfaz web</strong>
+    </dt>
     <dd>
         <br/>
         Una vez realizada la conexi&oacute;n puede acceder directamente al equipo seleccionado
@@ -136,16 +165,20 @@ if ($host==="-") $host="&lt;host&gt;";
         Si el usuario desea continuar la sesi&oacute;n activa, debera solicitar un nuevo acceso,
         indicando esta vez acceso a la m&aacute;quina que le ha sido asignada en la sesi&oacute;n que va a expirar
         <br/>&nbsp;<br/>
+        <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
-    <dt><strong>Acceso desde el ordenador local mediante conexi&oacute;n segura en modo texto (SSH) </strong></dt>
+    <dt>
+        <a id="accesossh"></a>
+        <strong>Acceso desde el ordenador local mediante conexi&oacute;n segura en modo texto (SSH) </strong>
+    </dt>
     <dd>
         <br/>
         Para acceder en modo texto al ordenador seleccionado, una vez iniciada la sesi&oacute;n
         basta con conectarse al ordenador elegido utilizando un cliente de SSH. Por ejemplo desde Linux/Mac:
         <br/>&nbsp;<br/>
-        <span class="codigo">
+        <div class="codigo">
             ssh <?php echo $host; ?>.lab.dit.upm.es -l <?php echo $user; ?>
-        </span>
+        </div>
         <br/>&nbsp;<br/>
             <div class="box">
                 <span class="images">
@@ -162,10 +195,15 @@ if ($host==="-") $host="&lt;host&gt;";
                     utilizar el modo texto como desde Linux/Mac
                     <br>&nbsp;<br/>(Pase el ratron sobre la figura para ampliar la imagen)
                 </span>
-                <span class="preview" style="right:50px" id="putty_login_preview" onmouseover="zoomIn('putty_login',event)"></span>
+                <span class="preview" style="right:50px" id="putty_login_preview"
+                      onmouseout="zoomOut('putty_login')" onmouseover="zoomIn('putty_login',event)"></span>
             </div>
+        <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
-    <dt><strong>Acceso desde el ordenador local mediante cliente de escritorio remoto (VNC)</strong></dt>
+    <dt>
+        <a id="accesovnc"></a>
+        <strong>Acceso desde el ordenador local mediante cliente de escritorio remoto (VNC)</strong>
+    </dt>
     <dd>
         <br/>
         Si no desea utilizar el escritorio remoto web y desea utilizar uno propio (p.e: Remina, TightVnc, RealVNC, etc ),
@@ -188,38 +226,27 @@ if ($host==="-") $host="&lt;host&gt;";
         <br/>&nbsp<br/>
     </dd>
     <dd>
+        <a id="vnclinux"></a>
         <strong>Acceso mediante escritorio remoto (vnc) desde Linux</strong>
         <br/>&nbsp;<br/>
             Se asume que el cliente vnc instalado es <a href="https://tigervnc.org/"><em>TigerVNC</em></a>
         <br/>&nbsp;<br/>
-        <span class="codigo">
+        <div class="codigo">
             vncviewer -via <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es <?php echo $host; ?>.lab.dit.upm.es::5900
-        </span>
+        </div>
         <br/>&nbsp;<br/>
             En el caso de que el visor VNC no soporte tunel SSH ( opci&oacute;n <em>-via</em> ) será necesario
             crearlo manualmente:
         <br/>&nbsp;<br/>
-        <span class="codigo">
-            ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es ;
-            vncviewer localhost::5900
-        </span>
-        <br/>&nbsp;<br/>
-    </dd>
-    <dd>
-        <strong>Acceso mediante escritorio remoto (vnc) desde Mac-OSX</strong>
-        <br/>&nbsp;<br/>
-        En el caso de Mac-OSX, el navegador Safari incorpora un cliente VNC por lo que no es necesario instalarlo<br/>
-        No obstante dicho visor VNC no soporta acceso mediante t&uacute;nel SSH, por lo que ser&aacute; necesario crearlo
-        abriendo un terminal y ejecutando:
-        <br/>&nbsp;<br/>
-        <span class="codigo">
+        <div class="codigo">
             ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es
-        </span>
-        <br/>&nbsp;<br/>
-        Una vez abierto el t&uacute;nel, mediante Safari accedemos a la dirección <em>vnc://localhost:5900</em>
+            <br/>
+            vncviewer localhost::5900
+        </div><br/>
         <br/>&nbsp;<br/>
     </dd>
     <dd>
+        <a id="vncwindows"></a>
         <strong>Acceso mediante escritorio remoto (VNC) desde Windows</strong>
         <br/>&nbsp;<br/>
         En el caso de windows no podemos utilizar la aplicaci&oacute;n nativa de escritorio remoto, pues utiliza
@@ -240,9 +267,9 @@ if ($host==="-") $host="&lt;host&gt;";
         <br/>
         Abrimos la consola PowerShell y ejecutamos el comando:
         <br/>&nbsp;<br/>
-        <span class="codigo">
+        <div class="codigo">
             ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es
-        </span>
+        </div>
         <br/>&nbsp;<br/>
         <em>Creaci&oacute;n del t&uacute;nel mediante Putty</em>
         <br/>
@@ -253,13 +280,36 @@ if ($host==="-") $host="&lt;host&gt;";
         en la direcci&oacute;n <em><?php echo $host; ?>.lab.dit.upm.es::5900</em>
         <br/>&nbsp<br/>
     </dd>
-    <dt><strong>Acceso mediante cliente NX (X2Go)</strong></dt>
+    <dd>
+        <a id="vncmac"></a>
+        <strong>Acceso mediante escritorio remoto (vnc) desde Mac-OSX</strong>
+        <br/>&nbsp;<br/>
+        En el caso de Mac-OSX, el navegador Safari incorpora un cliente VNC por lo que no es necesario instalarlo<br/>
+        No obstante dicho visor VNC no soporta acceso mediante t&uacute;nel SSH, por lo que ser&aacute; necesario crearlo
+        abriendo un terminal y ejecutando:
+        <br/>&nbsp;<br/>
+        <div class="codigo">
+            ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es
+        </div>
+        <br/>&nbsp;<br/>
+        Una vez abierto el t&uacute;nel, mediante Safari accedemos a la dirección <em>vnc://localhost:5900</em>
+        <br/>&nbsp;<br/>
+        <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
+    </dd>
+    <dt>
+        <a id="accesox2go"></a>
+        <strong>Acceso mediante cliente NX (X2Go)</strong>
+    </dt>
     <dd>
         <br/>
         ( pending )
         <br/>&nbsp;<br/>
+        <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
-    <dt><strong>Cierre de la sesi&oacute;n</strong></dt>
+    <dt>
+        <a id="cierre"></a>
+        <strong>Cierre de la sesi&oacute;n</strong>
+    </dt>
     <dd>
         <br/>
         Para cerrar la sesión debe acceder a la pantalla de acceso remoto basta con pulsar "Cerrar Sesi&oacute;n"
@@ -274,5 +324,6 @@ if ($host==="-") $host="&lt;host&gt;";
         <br/>
         <img src="/labo_sphere/web/images/cierre_sesion.png" alt="cierre sesion" width="320" height="320"
              style="margin:5px; padding:5px; border:solid 1px">
+        <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
 </dl>

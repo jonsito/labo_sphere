@@ -13,6 +13,13 @@ dt {
     background: rgb(224,236,255);
 }
 
+.indice {
+    display:inline-block;
+    width:100%;
+    text-align:right;
+    padding-right: 10px
+}
+
 .codigo {
     background: rgb(220,220,220);
     border:solid 1px;
