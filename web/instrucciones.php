@@ -294,9 +294,73 @@ if ($host==="-") $host="&lt;host&gt;";
         <strong>Acceso mediante cliente NX (X2Go)</strong>
     </dt>
     <dd>
-        <br/>
-        ( pending )
-        <br/>&nbsp;<br/>
+        <p>
+            Un metodo alternativo de manejo de escritorios remotos es el uso de tecnologías RDP o NX<br/>
+            El cliente RDP (rdesktop) se utiliza ampliamente en el mundo windows. Desgraciadamente para poder
+            usar RDP en los laboratorios del DIT-UPM es necesario realizar modificaciones substanciales a la infraestructura
+            actual<br/>
+            Como tecnolog&iacute;a alternativa tenemos el uso de clientes basados en el protocolo NX, una variante optimizada
+            del protocolo X-Windows, muy eficiente en escritorios remotos.<br/>
+            Para poder utilizarla deberemos descargar e instalar en nuestro ordenador una aplicación de escritorio remoto
+            que soporte dicho protocolo. Existen diversas implementaciones, siendo la más conocida (y gratu&iacute;ta )
+            el programa <strong>X2Go</strong>. Se puede descargar dicho programa desde la p&aacute;gina web
+            <a href="https://wiki.x2go.org/doku.php/download:start">https://wiki.x2go.org/doku.php/download:start</a><br/>
+            Existen implementaciones para Windows, Mac-OSX y Linux. Consultar la p&aacute;gina web para ver el procedimiento
+            de instalaci&oacute;n
+        </p>
+        <p>
+            <div class="box">
+                <span class="images">
+                    <img id="x2go_config"
+                        src="/labo_sphere/web/images/x2go_config.png" alt="x2go_config"
+                        onclick="showImage('x2go_config');"/>
+                </span>
+                <span style="vertical-align: text-top">
+                    <br/>
+                    ( El funcionamiento es id&eacute;ntico para Linux, Mac-OSX y Windows )
+                    <br/>
+                    Para conectarse a los equipos del laboratorio, una vez iniciada la sesi&oacute;n se inicia x2go y pulsando en
+                    "Sesi&oacute;n" -> "Nueva Sesión" configuramos los par&aacute;metros de acceso seg&uacute;n muestra la figura
+                    <br/>
+                    Indicaremos
+                    <ul>
+                        <li> El nombre de la sesi&oacute;n (p.e: <em>Laboratorio)</em></li>
+                        <li> El equipo en el que hemos iniciado sesi&oacute;n</li>
+                        <li> Nombre de usuario (<em>sin @alumnos.upm.es</em>)</li>
+                        <li> Puerto para la conexi&oacute;n segura: <em>22</em></li>
+                        <li> El tipo de sesi&oacute;n: <em>LXDE</em></li>
+                    </ul>
+                    Podemos ajustar adicionalmente el tama&ntilde;o de las ventanas, la velocidad de conexi&oacute;n, etc<br/>
+                    Finalmente pulsamos en "OK" para guardar la configuraci&oacute;n creada
+                </span>
+            </div>
+        </p>
+        <p>
+        <div class="box">
+            <span style="vertical-align: text-top">
+                <br/>
+                Una vez configurado, en la ventana principal, seleccionamos la sesi&oacute;n que acabamos de configurar
+                , introducimos los datos de conexi&oacute;n ( nombre de usuario y contrase&ntilde;a ) y finalmente pulsamos
+                <em>"Conectar</em>
+                <br/>
+                Es posible que durante el establecimiento de la conexi&oacute;n X2Go pregunte si reconocemos como v&aacute;lidas
+                las credenciales del ordenador remoto, a lo que responderemos afirmativamente
+                <br/>
+                En el caso de que una sesi&oacute;n anterior se hubiera cerrado accidentalmente, X2Go nos ofrece la posibilidad
+                de reconectar dicha sesi&oacute;n
+                <br/>
+                Una vez establecida la conexi&oacute;n se nos abrira la ventana correspondiente al escritorio remoto en el
+                ordenador asignado al iniciar sesi&oacute;n
+                <br/>&nbsp;<br/>
+            </span>
+            <span class="images">
+                <img id="x2go_connect"
+                     src="/labo_sphere/web/images/x2go_connect.png" alt="x2go_connect"
+                     onclick="showImage('x2go_connect');"/>
+            </span>
+        </div>
+
+        </p>
         <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
     <dt>
