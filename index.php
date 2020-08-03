@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . "/server/tools.php");
 $admin=http_request("admin","i",-1);
+$showdoc=http_request("help","i",0); // default is tab 0:operation ( 1:docs )
 if ($admin<0) {
     // no admin mode forced: check client ip address
     $admin=(strpos($_SERVER['REMOTE_ADDR'],"138.4.")===FALSE)?0:1;
@@ -132,6 +133,7 @@ if ($admin<0) {
                 width:'100%'
             });
             ls.tabs('getTab','Instrucciones').panel('refresh','web/instrucciones.php');
+            ls.tabs('select',<?php echo $showdoc; ?>);
 
             $('#labo_sphere-layout').layout({
                     fit:true,
