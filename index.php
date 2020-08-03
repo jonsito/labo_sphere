@@ -28,6 +28,8 @@ if ($admin<0) {
         var admin_console=null;
         var enable_adm=<?php echo $admin;?>;
 
+        /* gestion del zoom de imagenes en la documentacion */
+        /* https://www.codesdope.com/blog/article/mouse-rollover-zoom-effect-on-images/ */
         function zoomIn(id,event) {
             var elm=$('#'+id);
             var pre=$('#'+id+'_preview');
@@ -46,6 +48,24 @@ if ($admin<0) {
             pre.css('visibility','hidden');
         }
 
+        /* presenta una ventana auxiliar con la imagen ampliada */
+        var zoomedImage;
+        function showImage(img) {
+            var msg='<img src="/labo_sphere/web/images/'+img+'.png" alt="'+img+'" style="width:670px;padding:0px" onclick="zoomedImage.dialog(\'close\')">';
+            zoomedImage=$.messager.show({
+                padding:0,
+                modal:true,
+                width:700,
+                height:'auto',
+                title:'Zoom',
+                msg: msg,
+                timeout:0,
+                showType:'fade',
+                showSpeed:700,
+                style:{ right:'', bottom:'' }
+            });
+        }
+        /* termina la configuracion al arrancar la pagina */
         function initialize() {
             // check browser. If internet explorer redirect to "invalid browser page"
             var isIE = /MSIE|Trident/.test(window.navigator.userAgent);

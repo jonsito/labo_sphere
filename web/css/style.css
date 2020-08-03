@@ -23,7 +23,7 @@ dt.faq {
     padding-bottom: 5px;
     background: rgb(255,255,255);
 }
-
+/* marcas de "volver al indice" en la documentacion */
 .indice {
     display:inline-block;
     width:100%;
@@ -31,6 +31,7 @@ dt.faq {
     padding-right: 10px
 }
 
+/* estilo para codigo */
 .codigo {
     background: rgb(220,220,220);
     border:solid 1px;
@@ -39,6 +40,7 @@ dt.faq {
     font-family:Courier New, Courier, monospace
 }
 
+/* ajuste de texto/imagenes en formato tabla */
 .box {
     display: flex;
     align-items:center;

@@ -80,9 +80,7 @@ if ($host==="-") $host="&lt;host&gt;";
         <br/>
         <div class="box">
             <span class="images">
-                        <img id="labo_login"
-                             src="/labo_sphere/web/images/labo_login.png" alt="labo_login"
-                             onmousemove="zoomIn('labo_login',event)" onmouseout="zoomOut('labo_login')"/>
+                <img id="labo_login" src="/labo_sphere/web/images/labo_login.png" alt="labo_login" onclick="showImage('labo_login')"/>
             </span>
             <span>
                 En la pesta&ntilde;a marcada como <em>Configuraci&oacute;n</em> deberemos indicar:<br/>&nbsp;
@@ -103,10 +101,8 @@ if ($host==="-") $host="&lt;host&gt;";
                         Duraci&oacute;n de la sesi&oacute;n ( entre 1 y 6 horas )
                     </li>
                 </ul>
-                <br/>(Pase el cursor sobre la figura para agrandar la imagen)<br/>
+                <br/>(Pulse sobre la figura para agrandar la imagen)<br/>
             </span>
-            <span class="preview" style="right:50px" id="labo_login_preview"
-                  onmouseout="zoomOut('labo_login_preview')" onmouseover="zoomIn('labo_login_preview',event)"></span>
         </div>
         <br/>&nbsp;
     </dd>
@@ -117,8 +113,6 @@ if ($host==="-") $host="&lt;host&gt;";
     </dd>
     <dd>
         <div class="box" style="width:100%">
-            <span class="preview" style="left:50px" id="labo_login_success_preview"
-                  onmouseout="zoomOut('labo_login_success')" onmouseover="zoomIn('labo_login_success',event)"></span>
             <span>
                 Una vez asignado equipo, en la ventana de la derecha se indicar&aacute;<br/>&nbsp;
                 <ul>
@@ -134,12 +128,12 @@ if ($host==="-") $host="&lt;host&gt;";
                         </ul>
                     </li>
                 </ul>
-                <br/>(Pase el cursor sobre la figura para agrandar la imagen)<br/>
+                <br/>(Pulse sobre la  figura para agrandar la imagen)<br/>
             </span>
             <span class="images">
                 <img id="labo_login_success"  style="margin-left:150px;"
-                    src="/labo_sphere/web/images/labo_login_success.png" alt="labo_login_sucess"
-                    onmousemove="zoomIn('labo_login_success',event)" onmouseout="zoomOut('labo_login_success')"/>
+                    src="/labo_sphere/web/images/labo_login_success.png"
+                    alt="labo_login_sucess" onclick="showImage('labo_login_success')"/>
             </span>
         </div>
         <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
@@ -184,8 +178,8 @@ if ($host==="-") $host="&lt;host&gt;";
             <div class="box">
                 <span class="images">
                     <img id="putty_login"
-                         src="/labo_sphere/web/images/putty_login.png" alt="putty_login"
-                        onmousemove="zoomIn('putty_login',event)" onmouseout="zoomOut('putty_login')"/>
+                        src="/labo_sphere/web/images/putty_login.png" alt="putty_login"
+                        onclick="showImage('putty_login');"/>
                 </span>
                 <span style="vertical-align: text-top">
                     <br/>&nbsp;<br/>
@@ -194,10 +188,8 @@ if ($host==="-") $host="&lt;host&gt;";
                     <br/>&nbsp;<br/>
                     Las &uacute;ltimas versiones de windows 10 incluyen un cliente OpenSSH con lo que se puede
                     utilizar el modo texto como desde Linux/Mac
-                    <br>&nbsp;<br/>(Pase el ratron sobre la figura para ampliar la imagen)
+                    <br>&nbsp;<br/>(Pulse sobre la figura para ampliar la imagen)
                 </span>
-                <span class="preview" style="right:50px" id="putty_login_preview"
-                      onmouseout="zoomOut('putty_login')" onmouseover="zoomIn('putty_login',event)"></span>
             </div>
         <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
@@ -367,7 +359,9 @@ if ($host==="-") $host="&lt;host&gt;";
         <ul>
             <li><strong>Putty</strong>: <a href="https://www.putty.org">https://www.putty.org</a></li>
             <li><strong>TigerVNC</strong>: <a href="https://tigervnc.org/">https://tigervnc.org/</a></li>
+            <li><strong>RealVNC</strong>: <a href="https://www.realvnc.com/es/connect/download/viewer/">https://www.realvnc.com/es/connect/download/viewer/</a></li>
             <li><strong>X2Go</strong>: <a href="https://wiki.x2go.org/doku.php/download:start">https://wiki.x2go.org/doku.php/download:start</a></li>
+            <li><strong>XQuartz</strong>: <a href="https://www.xquartz.org/">https://www.xquartz.org/</a></li>
         </ul>
     </dd>
     <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">Para obtener informaci&oacute;n adicional</dt>
