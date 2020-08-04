@@ -65,7 +65,11 @@ function labo_action(action) {
                         "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
                                  "location=0, directories=no, width=780, height=445, left=400, top=300"
                     );
-                    setTimeout(function() {admin_console.focus();},300);
+                    if (admin_console===null) {
+                        $.messager.alert("Error","Cannot open admin console window","error");
+                    } else {
+                        setTimeout(function() {admin_console.focus();},300);
+                    }
                 } else if (action==='status') {
                     console.log('Pending: show returned status')
                 } else {
@@ -87,7 +91,11 @@ function labo_session(mode,tipo,duration) {
             "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
             "location=0, directories=no, width=780, height=445, left=400, top=300"
         );
-        setTimeout(function() {window_console.focus();},300);
+        if (window_console===null) {
+            $.messager.alert("Error","Cannot open console window","error");
+        } else {
+            setTimeout(function() {window_console.focus();},300);
+        }
     }
 
     function fireupDesktop(host,port,delay) {
@@ -102,7 +110,11 @@ function labo_session(mode,tipo,duration) {
                 "resizable=no, toolbar=no, scrollbars=no, menubar=no, status=no,"+
                 "location=0, directories=no, width=1440, height=900, left=400, top=300"
             );
-            setTimeout(function() {window_desktop.focus();},300);
+            if (window_desktop===null) {
+                $.messager.alert("Error","Cannot open desktop window","error");
+            } else {
+                setTimeout(function() {window_desktop.focus();},300);
+            }
         }
 
         if (delay===0) {
