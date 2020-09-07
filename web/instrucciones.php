@@ -211,8 +211,8 @@ if ($host==="-") $host="&lt;host&gt;";
         Para conectarse al laboratorio, una vez abierta la sesión, deberá utilizar como dirección de acceso,
         la indicada en la ventana de conexión. (p.e: l133.lab.dit.upm.es ) y el puerto 5900/TCP.
         <br/>
-        Es recomendable que el cliente VNC soporte encriptación SSL; de lo contrario ser&aacute; necesario establecer un
-        t&uacute;nel para establecer la conexi&oacute;n
+        Es recomendable que el cliente VNC soporte encriptación OpenSSH; de lo contrario ser&aacute; necesario establecer un
+        t&uacute;nel auxiliar para establecer la conexi&oacute;n
         <br/>
         Una vez abierto el cliente VNC aparecerá la pantalla de login/contraseña del equipo como si se estuviera frente
         a la consola.
@@ -268,7 +268,22 @@ if ($host==="-") $host="&lt;host&gt;";
         <br/>
         Abrimos PuTTy y lo configuramos seg&uacute;n se indica en las imágenes (mover el rat&oacute;n sobre la figura
         para ampliar la imagen)
-        <br/>&nbsp<br/>
+        <br/>
+        <div class="box">
+            <span class="images">
+                <img id="putty_login"
+                    src="/labo_sphere/web/images/putty_login.png" alt="putty_login"
+                    onclick="showImage('putty_login');"/>
+            </span>
+            ( El usuario deber&aacute; substituir "l133" por el ordenador asignado a la hora de realizar
+            la solicitud de acceso remoto )
+            <span class="images">
+                <img id="putty_tunel"
+                    src="/labo_sphere/web/images/putty_tunel.png" alt="putty_tunel"
+                    onclick="showImage('putty_tunel');"/>
+            </span>
+        </div>
+        <br/>
         Una vez abierto el t&uacute;nel, bien mediante OpenSSH, bien mediante PuTTy, se arranca el visor VNC
         en la direcci&oacute;n <em><?php echo $host; ?>.lab.dit.upm.es::5900</em>
         <br/>&nbsp<br/>
@@ -282,11 +297,19 @@ if ($host==="-") $host="&lt;host&gt;";
         abriendo un terminal y ejecutando:
         <br/>&nbsp;<br/>
         <div class="codigo">
-            ssh -f -N -L 5900:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es
+            ssh -f -N -L 5901:<?php echo $host; ?>.lab.dit.upm.es:5900 <?php echo $user?>@<?php echo $host?>.lab.dit.upm.es
         </div>
+        <br/>
+        Una vez abierto el t&uacute;nel, mediante el navegador Safari accedemos a la dirección <em>vnc://localhost:5901</em>
+        <br/>
+        Aparecer&aacute; una ventana solicitando una contraseña. Deberemos indicar como contraseña
+        "<strong><em>laboratorio</em></strong>" ( sin comillas, y en min&uacute;sculas )
         <br/>&nbsp;<br/>
-        Una vez abierto el t&uacute;nel, mediante Safari accedemos a la dirección <em>vnc://localhost:5900</em>
-        <br/>&nbsp;<br/>
+        <strong>NOTA:</strong>
+        <br/>
+        Algunas versiones de Mac-OSX no permiten el acceso desde Safari a otros servidores VNC que no sean Mac.<br/>
+        Si éste es el caso, se deberá instalar un cliente VNC. Se recomienda la combinación TigerVNC+XQuartz.<br/>
+        Al final del documento se pueden encontrar los enlaces de descarga
         <a class="indice" href="#index">&Iacute;ndice</a><br/>&nbsp;<br/>
     </dd>
     <dt>
@@ -387,7 +410,7 @@ if ($host==="-") $host="&lt;host&gt;";
         <a id="problemas"></a>
         <strong>Preguntas y respuestas</strong>
     </dt>
-    <dd>&nbsp;<br/></dd>
+    <dd><br/>(Pulse sobre la pregunda para mostrar la respuesta)<br/>&nbsp;</dd>
     <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">
         El navegador muestra un aviso de "Alerta de seguridad
     </dt>
