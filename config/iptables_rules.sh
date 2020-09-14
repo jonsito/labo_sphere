@@ -414,6 +414,9 @@ $IPTABLES -A FORWARD -o eth1 -p udp -m multiport --destination-port 161 -m state
 #
 # permitimos llegar a acceso.lab desde el universo por http/https
 $IPTABLES -A FORWARD -d 138.4.30.120/32 -p tcp -m multiport --destination-port 80,443 -m state --state NEW -j ACCEPT
+# permitimos llegar a acceso.lab al puerto 6002 ( websocket monitorizacion de estado )
+# Nota: El fw-dit limita el acceso al dit
+$IPTABLES -A FORWARD -d 138.4.30.120/32 -p tcp -m multiport --destination-port 6002 -m state --state NEW -j ACCEPT
 
 # Bloqueamos el trafico que no venga hacia el laboratorio desde el dit y haya conseguido llegar hasta aqui
 # tener en cuenta que www, ldap, acceso y similares deben haber sido habilitados antes

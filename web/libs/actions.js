@@ -5,7 +5,8 @@ function delayAction(message,delay,callback) {
         msg: 'Please wait <span id="timeout_delay">'+delay+'</span> seconds to make sure<br/> that client is up and running',
         interval: 1000,
         text:'Waiting...',
-        top: 100
+        top: 100,
+        width:400
     });
     var interval=setInterval(function(){$('#timeout_delay').html(count.toString());count--;},990)
     setTimeout(function(){

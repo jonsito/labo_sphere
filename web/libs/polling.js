@@ -1,4 +1,36 @@
 
+var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
+var haveWebsockets=false;
+
+function enableWebSockets() {
+    let socket = new WebSocket("wss://acceso.lab.dit.upm.es:6002");
+    if (socket) haveWebsockets=true;
+
+    socket.onopen = function(e) {
+        alert("[open] Connection established");
+        alert("Sending to server");
+        socket.send("My name is John");
+    };
+
+    socket.onmessage = function(event) {
+        alert(`[message] Data received from server: ${event.data}`);
+    };
+
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+        } else {
+            // e.g. server process killed or network down
+            // event.code is usually 1006 in this case
+            alert('[close] Connection died');
+        }
+    };
+
+    socket.onerror = function(error) {
+        alert(`[error] ${error.message}`);
+    };
+}
+
 function updateTree(data,parentid){
     var tg=$('#labo_treegrid');
     for(n=0;n<data.length;n++) {
@@ -16,18 +48,23 @@ function updateTree(data,parentid){
     }
 }
 
-var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
+
 /**
  * llamada a comprobar el estado de un grupo de servidores. puede estar vacio,
  * en cuyo caso hay que verificar si es un servidor o un grupo vacio
  * @param node selected treenode node
  */
 function checkNode(node) {
+    // if node is about Linux clients, do nothing: use websockets for push refresh
+    const hasntPolling=Array("Lab. B-123-1","Lab. B-123-2","Lab. A-127-4","Lab. A-127-3","Lab. A-127-2","Despachos y Acc. Remoto" );
+    if (hasntPolling.includes(node.name) && (haveWebsockets===true) ) return; // just do nothing.
+
+    // else use poll refresh
     if(typeof(pending_nodes[node.id])=="undefined") pending_nodes[node.id]=0; // initialize if not yet
     if (pending_nodes[node.id]!==0) return; // still busy do nothing
     // retrieve and compose children list
     var hosts=node.children;
-
+    if (node.name)
     // split host list in groups of 10 hosts
     var i,j,temparray,chunk = 5;
     for (i=0,j=hosts.length; i<j; i+=chunk) {
@@ -60,6 +97,7 @@ function checkNode(node) {
 }
 
 function pollNodes() {
+    if (haveWebsockets===false) enableWebSockets(); // try to open websocket. on fail retry at next loop iteration
     if($('#poll_running').val()==="1") {
         var roots=$('#labo_treegrid').treegrid('getRoots');
         roots.forEach(function(node,index,parent) {

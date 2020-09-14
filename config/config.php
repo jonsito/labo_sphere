@@ -52,7 +52,7 @@ class Configuration {
      * Lista de equipos Mac-OSX del A-127-4
      */
     static $desktop_macs = array(
-        "Lab. A-127-4" => "a127_4"
+        "MACs A-127-4" => "macs"
     );
 
     /*

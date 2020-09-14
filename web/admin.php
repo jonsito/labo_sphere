@@ -45,8 +45,8 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
                     <th data-options="field:'level',hidden:'true'"></th>
                     <th data-options="field:'ip',width:'20%',align:'center'">IP Addr</th>
                     <th data-options="field:'status',width:'7%',align:'center',styler:statusStyler">Estado</th>
-                    <th data-options="field:'actions',width:'15%',align:'center'">Acciones</th>
-                    <th data-options="field:'comments',width:'28%'">Observaciones</th>
+                    <th data-options="field:'server',width:'15%',align:'center'">Servidor</th>
+                    <th data-options="field:'users',width:'28%'">Usuarios</th>
                 </tr>
             </thead>
         </table>

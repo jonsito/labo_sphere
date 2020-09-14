@@ -84,7 +84,7 @@ class VboxClientHandler extends ClientHandler {
         $command="/usr/bin/VBoxManage guestproperty get '{$name}' /VirtualBox/GuestInfo/Net/0/V4/IP";
         $a=explode("@",$this->location);
         $fp=$this->ssh_exec($a[0],$a[1],$command);
-        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'Off','actions'=>'','comments'=>'','children'=>array());
+        if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>'','status'=>'Off','server'=>'','users'=>'','children'=>array());
         $ip="";
         $status="Off";
         stream_set_blocking($fp, true);
