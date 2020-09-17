@@ -44,7 +44,7 @@ get_chain_name() { # from to expire
 create_chain() {
   # extract vnc port from argument "to" ( eg l225->port 6100+225 )
   # port=`expr 6100 + ${2:1}`
-  port=$(echo $2 | awk -F'.' '{print 6100+$4}')
+  port=$(echo $2 | awk -F'.' '{ print 6100+$4 }')
   channel=$(get_chain_name $1 $2 $3)
   do_log "Create channel ${channel}"
   # crear canal
@@ -70,7 +70,7 @@ delete_chain() {
   # recuperamos las ips del nombre del canal
   src=`printf '%d.%d.%d.%d' $(echo $1 | awk -F'_' '{ print $2 }' | sed 's/../0x& /g' ) `
   dest=`printf '%d.%d.%d.%d' $(echo $1 | awk -F'_' '{ print $3 }' | sed 's/../0x& /g' ) `
-  port=$(echo $dest | awk -F'.' '{print 6100+$4}')
+  port=$(echo $dest | awk -F'.' '{ print 6100+$4 }')
   # borrar regla de canal forward
   echo "$IPTABLES -D FORWARD -p tcp -s $src -d 138.4.30.120 -m state --state NEW -m multiport --destination-port 6001,$port -j ACCEPT" >> ${IPTFILE}
   echo "$IPTABLES -D FORWARD -s $src -d $dest -j $1" >> ${IPTFILE}
@@ -87,7 +87,7 @@ search_and_delete() {
   f=$(gethostip -x $1)
   t=$(gethostip -x $2)
   # enumerar reglas creadas con este script
-  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e "^Chain Lab_${f}_${t}_" | awk '{print $2 " "; }' `
+  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e "^Chain Lab_${f}_${t}_" | awk '{ printf("%s",$2); }' `
   # las cadenas tienen el formato: Lab_fromhost_tohost_expiretime
   # donde las ips y el expire time están en formato hexadecimal
   for i in $channels; do
@@ -99,7 +99,7 @@ search_and_delete() {
 # desde el crontab se debería ejecutar este comando cada media hora
 crontab_chain() {
   # enumerar reglas creadas con este script
-  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e '^Chain Lab_' | awk '{print $2 " "; }'`
+  channels=`${SSH} router.lab.dit.upm.es iptables -L | grep -e '^Chain Lab_' | awk '{ printf("%s ",$2); }'`
   # las cadenas tienen el formato: Lab_fromhost_tohost_expiretime
   # donde las ips y el expire time están en formato hexadecimal
   for i in $channels; do
