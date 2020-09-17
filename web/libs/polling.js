@@ -1,19 +1,40 @@
 
 var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
 var haveWebsockets=false;
+var nodes=null;
 
 function enableWebSockets() {
+    // analizamos treegred para obtener los ID's de los nodos que necesitamos:
+    if (nodes===null) nodes=$('#labo_treegrid').treegrid('getData')
+
+    function findTreeNodeByName(name) {
+
+    }
+
+    // abrimos web socket
     let socket = new WebSocket("wss://acceso.lab.dit.upm.es:6002");
     if (socket) haveWebsockets=true;
 
     socket.onopen = function(e) {
         alert("[open] Connection established");
-        alert("Sending to server");
-        socket.send("My name is John");
     };
 
+    // received data is in json format
     socket.onmessage = function(event) {
         alert(`[message] Data received from server: ${event.data}`);
+        // buscamos el node ID que tiene el nombre recibido
+        data=JSON.parse(event.data);
+        id=getTreeNodeByName(data);
+        if (id<=0) return;
+        let tg=$('#labo_treegrid');
+        row=tg.treegrid('find',id);
+        if (row==null) return;
+        // update row data
+        row.state=data.state;
+        row.server=data.server;
+        row.users=data.users;
+        // and refresh gui
+        tg.treegrid('refresh',id);
     };
 
     socket.onclose = function(event) {

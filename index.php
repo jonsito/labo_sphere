@@ -108,6 +108,8 @@ if ($admin<0) {
                 onChange: function(newValue,oldValue) { $('#selected_sesion').val(newValue); }
             });
             $('#username').textbox({
+                validType:"regexp['^[a-z]+[0-9a-z_\.\-]*$']",
+                invalidMessage:'Formato inv&aacute;lido: el usuario no puede incluir<br/>direcciones de correo ni letras mayusculas',
                 prompt: 'User name',
                 iconCls:'icon-man'
             });

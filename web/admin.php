@@ -87,7 +87,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         idField: 'id',
         treeField: 'name',
         onBeforeLoad: function() { enablePolling("0"); return true; },
-        onLoadSuccess: function() { enablePolling("1"); return true; },
+        onLoadSuccess: function(row,data) { enablePolling("1"); return true; },
         onBeforeSelect: function(row) { return (parseInt(row.level) > 1); }
     });
 </script>
