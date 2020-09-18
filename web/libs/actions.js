@@ -68,7 +68,9 @@ function labo_action(action) {
                     );
                     setTimeout(function() {
                         if ( !admin_console || admin_console.closed ) {
-                            $.messager.alert("Error","Cannot open admin console window","error");
+                            $.messager.alert({
+                                title:"Error",msg:"Cannot open admin console window",icon:"error",style:{right:'', bottom:250}
+                            });
                         } else {
                             admin_console.focus();
                         }
@@ -96,7 +98,9 @@ function labo_session(mode,tipo,duration) {
         );
         setTimeout(function() {
             if ( !window_console || window_console.closed ) {
-                $.messager.alert("Error","Cannot open console window","error");
+                $.messager.alert({
+                    title:"Error",msg:"Cannot open console window",icon:"error",style:{right:'', bottom:250}
+                });
             } else {
                 window_console.focus();
             }
@@ -117,7 +121,9 @@ function labo_session(mode,tipo,duration) {
             );
             setTimeout(function() {
                 if (!window_desktop || window_desktop.closed ) {
-                    $.messager.alert("Error","Cannot open admin desktop window","error");
+                    $.messager.alert({
+                        title:"Error",msg:"Cannot open admin desktop window",icon:"error",style:{right:'', bottom:250}
+                    });
                 } else {
                     window_desktop.focus();
                 }
