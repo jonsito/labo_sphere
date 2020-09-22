@@ -13,7 +13,7 @@ class View {
 
     static function defaultEntry($name,$level,$status='???') {
         static $index=1;
-        return array('id'=>$index++,'level'=>$level,'name'=>$name,'ip'=>'','status'=>$status,'server'=>'','users'=>array());
+        return array('id'=>$index++,'level'=>$level,'name'=>$name,'ip'=>'','status'=>$status,'server'=>'','users'=>array(),'children'=>array());
     }
 
     function checkGroup($id,$name,$children) {
