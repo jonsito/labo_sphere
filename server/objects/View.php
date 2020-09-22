@@ -56,6 +56,7 @@ class View {
                 $handler=ClientHandler::getInstance($className,$serverData);
                 $server=View::defaultEntry($serverName,2,'');
                 $server['ip']=$ip;
+                if (! in_array('children',$server) ) $server['children']=array();
                 // para cada server buscamos los hosts
                 $hosts=$handler->enumerate();
                 foreach($hosts as $hostName) {

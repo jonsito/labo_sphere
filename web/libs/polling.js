@@ -16,12 +16,12 @@ function enableWebSockets() {
     if (socket) haveWebsockets=true;
 
     socket.onopen = function(e) {
-        alert("[open] Connection established");
+        console.log("[open] Connection established");
     };
 
     // received data is in json format
     socket.onmessage = function(event) {
-        alert(`[message] Data received from server: ${event.data}`);
+        console.log(`[message] Data received from server: ${event.data}`);
         // buscamos el node ID que tiene el nombre recibido
         data=JSON.parse(event.data);
         id=getTreeNodeByName(data);
