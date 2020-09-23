@@ -9,7 +9,7 @@ function populateTree(data) {
     for (node in data) {
         if (node.children.length!==0) populateTree(node);
     }
-    nodeListByName[node.name]=node;
+    if (data.name!=='rootNode') nodeListByName[data.name]=data;
 }
 
 function enableWebSockets() {
