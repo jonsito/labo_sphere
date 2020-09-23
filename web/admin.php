@@ -90,7 +90,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         onBeforeLoad: function() { enablePolling("0"); return true; },
         onLoadSuccess: function(row,data) {
             // populate name tables by adding root node to data to allow recursive iteration
-            populateTree( { 'id':0,'name':'rootNode', 'children':data };
+            populateTree( [ { 'id':0,'name':'rootNode', 'children':data } ] );
             // start polling
             enablePolling("1");
             return true;

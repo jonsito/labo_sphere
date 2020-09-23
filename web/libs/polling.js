@@ -6,8 +6,8 @@ var nodeListByName=[];
 
 // iterate recursively node tree to index elements by name
 function populateTree(data) {
-    for (node in data) {
-        if (node.children.length!==0) populateTree(node);
+    for (let n=0; n<data.length;n++) {
+        if (data[n].children.length!==0) populateTree(data[n]);
     }
     if (data.name!=='rootNode') nodeListByName[data.name]=data;
 }
