@@ -120,13 +120,13 @@ class VboxClientHandler extends ClientHandler {
         $fp=$this->ssh_exec($serverUser,$serverHost,$command);
         if (!$fp) {
             // marcamos el servidor de maquinas virtuales como off
-            array_push($result,array("id"=>$id,"name"=>$name,"status"=>'Off'));
+            array_push($result,array("id"=>$id,"name"=>$name,"status"=>'Off',"server"=>'-',"users"=>'-'));
             // y marcamos todas las maquinas recibidas como "desconocido"
             foreach($vhostList as $host) {
                 if ($host==='BEGIN') continue;
                 if ($host==='END') continue;
                 list($vid,$vname,$status)=explode(":",$host);
-                array_push($result,array("vid"=>$id,"vname"=>$name,"status"=>'???'));
+                array_push($result,array("vid"=>$id,"vname"=>$name,"status"=>'???',"server"=>'-',"users"=>'-'));
             }
             return $result;
         }
@@ -137,7 +137,7 @@ class VboxClientHandler extends ClientHandler {
         stream_set_blocking($fp, true);
         $line=preg_replace("/.*:[\t]/","",trim(fgets($fp)));
         fclose($fp);
-        array_push($result,array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'On','comments'=>$line));
+        array_push($result,array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'On','comments'=>$line,"server"=>'-',"users"=>'-'));
         // y ahora obtenemos datos de las maquinas que estan corriendo en dicho servidor
 
         // primero generamos la lista por defecto, poniendo todos a 'Old'
