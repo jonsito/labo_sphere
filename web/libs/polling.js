@@ -13,8 +13,6 @@ function populateTree(data) {
 }
 
 function enableWebSockets() {
-    // analizamos treegred para obtener los ID's de los nodos que necesitamos:
-    if (nodes===null) nodes=$('#labo_treegrid').treegrid('getData')
 
     function findTreeNodeByName(name) {
         if (typeof(nodeListByName[name])==='undefined') return -1;
