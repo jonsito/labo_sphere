@@ -79,6 +79,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 </div>
 
 <script type="text/javascript">
+
     $('#labo_treegrid').treegrid( {
         toolbar: '#labo_treegrid_toolbar',
         method: 'get',
@@ -87,7 +88,13 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         idField: 'id',
         treeField: 'name',
         onBeforeLoad: function() { enablePolling("0"); return true; },
-        onLoadSuccess: function(row,data) { enablePolling("1"); return true; },
+        onLoadSuccess: function(row,data) {
+            // populate name tables
+            nodeListByName[0]=array();
+            // start polling
+            enablePolling("1");
+            return true;
+        },
         onBeforeSelect: function(row) { return (parseInt(row.level) > 1); }
     });
 </script>

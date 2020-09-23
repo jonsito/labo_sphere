@@ -2,13 +2,15 @@
 var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
 var haveWebsockets=false;
 var nodes=null;
+var nodeListByName=array();
 
 function enableWebSockets() {
     // analizamos treegred para obtener los ID's de los nodos que necesitamos:
     if (nodes===null) nodes=$('#labo_treegrid').treegrid('getData')
 
     function findTreeNodeByName(name) {
-
+        if (typeof(nodeListByName[name])==='undefined') return -1;
+        return nodeListByName[name].id;
     }
 
     // abrimos web socket
@@ -30,7 +32,11 @@ function enableWebSockets() {
         row=tg.treegrid('find',id);
         if (row==null) return;
         // update row data
-        row.state=data.state;
+        var st=parseInt(data.state);
+        if (st<0) row.state='???';
+        if (st===0) row.state='Off';
+        if (st>0) row.state="On";
+        if (data.users!=='-') row.state="Busy";
         row.server=data.server;
         row.users=data.users;
         // and refresh gui
