@@ -90,7 +90,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         onBeforeLoad: function() { enablePolling("0"); return true; },
         onLoadSuccess: function(row,data) {
             // populate name tables
-            nodeListByName[0]=array();
+            populateTree(data);
             // start polling
             enablePolling("1");
             return true;

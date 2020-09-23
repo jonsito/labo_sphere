@@ -2,7 +2,15 @@
 var pending_nodes=Array(0,0,0,0); /* vm servers, pcs, extra, servers */
 var haveWebsockets=false;
 var nodes=null;
-var nodeListByName=array();
+var nodeListByName=[];
+
+// iterate recursively node tree to index elements by name
+function populateTree(data) {
+    for (node in data) {
+        if (node.children.length!==0) populateTree(node);
+    }
+    nodeListByName[node.name]=node;
+}
 
 function enableWebSockets() {
     // analizamos treegred para obtener los ID's de los nodos que necesitamos:
