@@ -84,7 +84,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         toolbar: '#labo_treegrid_toolbar',
         method: 'get',
         url: '/labo_sphere/web/ajax/viewFunctions.php?Operation=clients',
-        rownumbers: true,
+        rownumbers: false,
         idField: 'id',
         treeField: 'name',
         onBeforeLoad: function() { enablePolling("0"); return true; },
