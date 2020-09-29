@@ -44,7 +44,7 @@ function enableWebSockets() {
         if (st<0) row.status='???';
         if (st===0) row.status='Off';
         if (st>0) row.status="On";
-        if (users!=='-') row.status="Busy";
+        if ( (users!=='-') && (users!=='') ) row.status="Busy";
         row.server=server;
         row.users=users;
         // and refresh gui
