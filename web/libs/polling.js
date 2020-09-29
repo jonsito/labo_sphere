@@ -5,18 +5,22 @@ var nodes=null;
 var nodeListByName=[];
 
 // iterate recursively node tree to index elements by name
+// data is an object array, that contains id,name children
 function populateTree(data) {
     for (let n=0; n<data.length;n++) {
-        if (data[n].children.length!==0) populateTree(data[n]);
+        if (data[n].children.length!==0) populateTree(data[n].children);
     }
-    if (data.name!=='rootNode') nodeListByName[data.name]=data;
+    if (data.name!=='rootNode') {
+        console.log("adding node:'"+ data.name + "' id:"+data.id);
+        nodeListByName[data.name]=data.id;
+    }
 }
 
 function enableWebSockets() {
 
     function findTreeNodeByName(name) {
         if (typeof(nodeListByName[name])==='undefined') return -1;
-        return nodeListByName[name].id;
+        return nodeListByName[name];
     }
 
     // abrimos web socket
