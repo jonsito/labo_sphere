@@ -20,7 +20,7 @@ function enableWebSockets() {
     }
 
     // abrimos web socket
-    let socket = new WebSocket("wss://acceso.lab.dit.upm.es:6002");
+    let socket = new WebSocket("wss://acceso.lab.dit.upm.es:6002","imalive");
     if (socket) haveWebsockets=true;
 
     socket.onopen = function(e) {
@@ -30,9 +30,9 @@ function enableWebSockets() {
     // received data is in json format
     socket.onmessage = function(event) {
         console.log(`[message] Data received from server: ${event.data}`);
+        [ host,state,server,users ]= event.data.split(":");
         // buscamos el node ID que tiene el nombre recibido
-        data=JSON.parse(event.data);
-        id=getTreeNodeByName(data);
+        id=findTreeNodeByName(host);
         if (id<=0) return;
         let tg=$('#labo_treegrid');
         row=tg.treegrid('find',id);
@@ -42,25 +42,25 @@ function enableWebSockets() {
         if (st<0) row.state='???';
         if (st===0) row.state='Off';
         if (st>0) row.state="On";
-        if (data.users!=='-') row.state="Busy";
-        row.server=data.server;
-        row.users=data.users;
+        if (users!=='-') row.state="Busy";
+        row.server=server;
+        row.users=users;
         // and refresh gui
         tg.treegrid('refresh',id);
     };
 
     socket.onclose = function(event) {
         if (event.wasClean) {
-            alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+            $.messager.alert("info",`[ws close] Connection closed cleanly, code=${event.code} reason=${event.reason}`,"info");
         } else {
             // e.g. server process killed or network down
             // event.code is usually 1006 in this case
-            alert('[close] Connection died');
+            $.messager.alert("error",`[ws close] Connection died,  code=${event.code} reason=${event.reason}`,"error");
         }
     };
 
     socket.onerror = function(error) {
-        alert(`[error] ${error.message}`);
+        $.messager.alert("error",`[ws error] code=${error.code} reason=${error.reason}`,"error");
     };
 }
 
