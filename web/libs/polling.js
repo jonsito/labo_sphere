@@ -40,11 +40,11 @@ function enableWebSockets() {
         row=tg.treegrid('find',id);
         if (row==null) return;
         // update row data
-        var st=parseInt(data.state);
-        if (st<0) row.state='???';
-        if (st===0) row.state='Off';
-        if (st>0) row.state="On";
-        if (users!=='-') row.state="Busy";
+        var st=parseInt(state);
+        if (st<0) row.status='???';
+        if (st===0) row.status='Off';
+        if (st>0) row.status="On";
+        if (users!=='-') row.status="Busy";
         row.server=server;
         row.users=users;
         // and refresh gui
