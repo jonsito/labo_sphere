@@ -41,7 +41,7 @@ function handleWSData(data) {
         row.server=server;
         row.users=users;
         // and refresh gui
-        setTimeout(function() {tg.treegrid('refresh',id)},0);
+        tg.treegrid('refresh',id);
     }
 }
 
