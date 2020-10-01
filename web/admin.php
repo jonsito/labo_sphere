@@ -52,7 +52,9 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         </table>
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/servers.png'/><br>Servers</span>" style="padding:10px">
-        <p>In computing, an image scanner—often abbreviated to just scanner—is a device that optically scans images, printed text, handwriting, or an object, and converts it to a digital image.</p>
+        <p>
+            <?php include_once(__DIR__."./map.php");?>
+        </p>
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/config.png'/><br>Config</span>" style="padding:10px">
         <p>A personal digital assistant (PDA), also known as a palmtop computer, or personal data assistant, is a mobile device that functions as a personal information manager. PDAs are largely considered obsolete with the widespread adoption of smartphones.</p>
