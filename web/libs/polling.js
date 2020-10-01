@@ -57,7 +57,7 @@ function enableWebSockets() {
 
     // received data is in json format
     socket.onmessage = function(event) {
-        console.log(`[message] Data received from server: ${event.data}`);
+        // console.log(`[message] Data received from server: ${event.data}`);
         handleWSData(event.data);
     };
 
