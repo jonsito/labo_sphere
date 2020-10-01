@@ -19,10 +19,10 @@ foreach ($rows as $row) {
             case "null":
             case "none":
             case "serv":
-                echo "<td><img src=\"images/icons/{$item}.png\" width=\"32\" height=\"32\" alt=\"{$item}\"></td>\n";
+                echo "<td><img src=\"/labo_spher/web/images/icons/{$item}.png\" width=\"32\" height=\"32\" alt=\"{$item}\"></td>\n";
                 break;
             default:
-                echo "<td><img id=\"img_{$item}\" src=\"/web/getImage.php?host={$item}&mode=0\" width=\"32\" height=\"32\" alt=\"{$item}\"></td>\n";
+                echo "<td><img id=\"img_{$item}\" src=\"/labo_sphere/web/getImage.php?host={$item}&mode=0\" width=\"32\" height=\"32\" alt=\"{$item}\"></td>\n";
                 break;
         }
         echo "</td>";
