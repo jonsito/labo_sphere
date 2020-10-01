@@ -23,7 +23,7 @@ class DesktopClientHandler extends ClientHandler {
         if ($this->location=='b123_1') { // l056-l100
             for($i=56;$i<=100;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='b123_2') { // l101-l124
-            for($i=101;$i<=124;$i++) array_push($res,sprintf("l%03d",$i));
+            for($i=101;$i<=125;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='macs') { // l134-l148
             for($i=134;$i<=148;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='a127_4') { // 133,149-186.
@@ -34,7 +34,7 @@ class DesktopClientHandler extends ClientHandler {
         } else if ($this->location=='a127_2') { // 221-254
             for($i=221;$i<=254;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='extra') { // equipos de los despachos
-            foreach(array(50,51,52,53,54,55,125,126) as $item) array_push($res,sprintf("l%03d",$item));
+            foreach(array(50,51,52,53,54,55,126,127,128) as $item) array_push($res,sprintf("l%03d",$item));
         }
         return $res;
     }
@@ -66,7 +66,7 @@ class DesktopClientHandler extends ClientHandler {
      * @param int $id treegrid entry id or zero
      * @return array
      */
-    private function hostStatus_old($name,$id=0){
+    private function hostStatus_old($name,$id=0) {
         // $command="/usr/bin/who";
         $command=self::MASTER_CMD." status '{$name}' >/dev/null 2>&1";
         $ip=$this->tablanumeros[$name]['ip'];
