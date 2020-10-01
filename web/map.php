@@ -11,7 +11,7 @@ foreach ($rows as $row) {
     echo "<tr>";
     $items=explode(":",$row);
     foreach ($items as $item) {
-        echo '<td style=="padding:0px">';
+        echo '<td style="padding:0px">';
         switch ($item) {
             case "wall":
             case "wind":
@@ -22,7 +22,7 @@ foreach ($rows as $row) {
                 echo "<td><img src=\"images/icons/{$item}.png\" width=\"32\" height=\"32\" alt=\"{$item}\"></td>\n";
                 break;
             default:
-                echo "<td><img id=\"img_{$item}\" src=\"images/getImage.php?host={$item}&mode=0\" width=\"32\" height=\"32\" alt=\"{$item}\"></td>\n";
+                echo "<td><img id=\"img_{$item}\" src=\"/web/getImage.php?host={$item}&mode=0\" width=\"32\" height=\"32\" alt=\"{$item}\"></td>\n";
                 break;
         }
         echo "</td>";
