@@ -23,8 +23,9 @@ function handleWSData(data) {
     // dividimos el mensaje en trozos separados por '\n'
     let a=data.split('\n');
     for (let n=0;n<a.length;n++) {
+        if (a[n]==="") continue; // empty, at end of data
         // analizamos cada data individual
-        [ host,state,server,users ]= data.split(":");
+        [ host,state,server,users ]= a[n].split(":");
         // buscamos el node ID que tiene el nombre recibido
         id=findTreeNodeByName(host);
         if (id<=0) continue;
