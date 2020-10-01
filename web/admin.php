@@ -53,7 +53,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/servers.png'/><br>Servers</span>" style="padding:10px">
         <p>
-            <?php include_once(__DIR__."./map.php");?>
+            <?php include_once(__DIR__."/map.php");?>
         </p>
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/config.png'/><br>Config</span>" style="padding:10px">

@@ -10,8 +10,8 @@ switch($mode) {
     case 2: $img="busy";
     default: $img="base";
 }
-$image=imagecreatefrompng($img.".png");
-if (!$image) $image= imagecreate(35,35); // pslm
+$image=imagecreatefrompng(__DIR__."/icons/{$img}.png");
+if (!$image) $image= imagecreate(33,33); // pslm
 //$colorWhite=imagecolorallocate($image, 255, 255, 255);
 $colorBlack=imagecolorallocate($image, 0, 0, 0);
 $colorGrey=imagecolorallocate($image, 128, 128, 128);

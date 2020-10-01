@@ -1,6 +1,6 @@
 <?php
 
-$mapfile=__DIR__."../config/layout_labo.map";
+$mapfile=__DIR__."/../config/layout_labo.map";
 $rows=@file($mapfile,FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES);
 if (!$rows) {
     echo ("<strong>Cannot find mapfile '{$mapfile}'</strong>");
@@ -9,7 +9,8 @@ if (!$rows) {
 echo "<table>";
 foreach ($rows as $row) {
     echo "<tr>";
-    foreach ($row as $item) {
+    $items=explode(":",$row);
+    foreach ($items as $item) {
         echo '<td style=="padding:0px">';
         switch ($item) {
             case "wall":
