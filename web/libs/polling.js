@@ -14,12 +14,37 @@ function populateTree(data) {
     nodeListByName[data.name]=data.id;
 }
 
-function enableWebSockets() {
+function findTreeNodeByName(name) {
+    if (typeof(nodeListByName[name])==='undefined') return -1;
+    return nodeListByName[name];
+}
 
-    function findTreeNodeByName(name) {
-        if (typeof(nodeListByName[name])==='undefined') return -1;
-        return nodeListByName[name];
+function handleWSData(data) {
+    // dividimos el mensaje en trozos separados por '\n'
+    let a=data.split('\n');
+    for (let n=0;n<a.length;n++) {
+        // analizamos cada data individual
+        [ host,state,server,users ]= data.split(":");
+        // buscamos el node ID que tiene el nombre recibido
+        id=findTreeNodeByName(host);
+        if (id<=0) continue;
+        let tg=$('#labo_treegrid');
+        row=tg.treegrid('find',id);
+        if (row==null) continue;
+        // update row data
+        var st=parseInt(state);
+        if (st<0) row.status='???';
+        if (st===0) row.status='Off';
+        if (st>0) row.status="On";
+        if ( (users!=='-') && (users!=='') ) row.status="Busy";
+        row.server=server;
+        row.users=users;
+        // and refresh gui
+        setTimeout(function() {tg.treegrid('refresh',id)},0);
     }
+}
+
+function enableWebSockets() {
 
     // abrimos web socket
     let socket = new WebSocket("wss://acceso.lab.dit.upm.es:6002","imalive");
@@ -32,23 +57,7 @@ function enableWebSockets() {
     // received data is in json format
     socket.onmessage = function(event) {
         console.log(`[message] Data received from server: ${event.data}`);
-        [ host,state,server,users ]= event.data.split(":");
-        // buscamos el node ID que tiene el nombre recibido
-        id=findTreeNodeByName(host);
-        if (id<=0) return;
-        let tg=$('#labo_treegrid');
-        row=tg.treegrid('find',id);
-        if (row==null) return;
-        // update row data
-        var st=parseInt(state);
-        if (st<0) row.status='???';
-        if (st===0) row.status='Off';
-        if (st>0) row.status="On";
-        if ( (users!=='-') && (users!=='') ) row.status="Busy";
-        row.server=server;
-        row.users=users;
-        // and refresh gui
-        tg.treegrid('refresh',id);
+        handleWSData(event.data);
     };
 
     socket.onclose = function(event) {
