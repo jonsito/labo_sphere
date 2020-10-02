@@ -19,14 +19,14 @@ wind:l186:null:l183:null:l180:null:l177:null:l174:null:l171:null:null:wall:none:
 wind:l185:null:l182:null:l179:null:l176:null:l173:null:l170:null:null:wall:none:null:null:null:null:null:null:wall:null:null:null:null:null:null:null:null:wind
 wind:l184:null:l181:null:l178:null:l175:null:l172:null:l169:null:null:wall:none:null:null:null:null:null:null:wall:wall:door:wall:wall:wall:wall:wall:wall:wall
 wind:null:null:null:null:null:null:null:null:null:null:null:null:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
-wind:l168:null:l165:null:l162:null:l159:null:l157:null:l154:null:l133:wall:none:null:null:l050:null:l051:null:l052:null:l053:null:l054:null:l055:null:null:null
+wind:l168:null:l165:null:l162:null:l159:null:l157:null:l154:null:l133:wall:none:null:null:l050:null:null:l051:null:null:l052:null:null:l053:null:null:null:null
 wind:l167:null:l164:null:l161:null:l158:null:l156:null:l153:null:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
-wall:l166:null:l163:null:l160:null:wall:null:l155:null:l152:null:null:wall:none:null:null:l126:null:l127:null:l128:null:null:null:null:null:null:null:null:null
+wall:l166:null:l163:null:l160:null:wall:null:l155:null:l152:null:null:wall:none:null:null:l054:null:null:l055:null:null:l126:null:null:null:null:null:null:null
 wind:null:null:null:null:null:null:null:null:null:null:null:null:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
 wind:l151:null:l148:null:l145:null:l142:null:l139:null:l136:null:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
 wind:l150:null:l147:null:l144:null:l141:null:l138:null:l135:null:null:door:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
 wind:l149:null:l146:null:l143:null:l140:null:l137:null:l134:null:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
 wall:wind:wind:wind:wind:wind:wind:wall:wind:wind:wind:wind:wind:door:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
-wind:null:null:null:null:null:null:wall:serv:none:none:serv:none:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
+wind:null:null:null:null:null:null:wall:l127:l128:none:serv:none:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
 wind:null:null:null:null:null:null:door:null:null:null:null:null:null:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null
 wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:none:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null:null

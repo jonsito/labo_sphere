@@ -19,6 +19,15 @@ function findTreeNodeByName(name) {
     return nodeListByName[name];
 }
 
+function displayToolTip(name) {
+    if (typeof(nodeListByName[name])==='undefined') return;
+    let id=nodeListByName[name];
+    if (id<0) return;
+    row=$('#labo_treegrid').treegrid('find',id);
+    msg="Status: "+row.status+"<br/>Server: "+row.server+"<br/>Users: "+row.users;
+    addTooltip($('#img_'+name),msg);
+}
+
 function handleWSData(data) {
     // dividimos el mensaje en trozos separados por '\n'
     let a=data.split('\n');
@@ -41,7 +50,9 @@ function handleWSData(data) {
         row.server=server;
         row.users=users;
         // and refresh gui
-        tg.treegrid('refresh',id);
+        tg.treegrid('refresh',id); // treegrid
+        css=statusStyler(row.status,null,null).split(':'); // background-color:#XXXXX
+        $('#img_'+host).css(css[0],css[1]);
     }
 }
 
