@@ -37,7 +37,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 <h2>Administraci&oacute;n de equipos del laboratorio</h2>
 <div style="margin:20px 0;"></div>
 <div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:1000px;height:720px">
-    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Clients</span>" style="padding:5px">
+    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute:rbol</span>" style="padding:5px">
         <table id="labo_treegrid" style="width:100%;height:550px">
             <thead>
                 <tr>
@@ -51,7 +51,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
             </thead>
         </table>
     </div>
-    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/servers.png'/><br>Servers</span>" style="padding:10px">
+    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/mapa_labos.png'/><br>Vista mapa</span>" style="padding:10px">
         <p>
             <?php include_once(__DIR__."/map.php");?>
         </p>

@@ -5,7 +5,7 @@ if (!$rows) {
     echo ("<strong>Cannot find mapfile '{$mapfile}'</strong>");
     return;
 }
-echo "<p><strong>Distribuci&oacute;n de los recursos del laboratorio</strong>strong></p>";
+echo "<p><strong>Distribuci&oacute;n de los recursos del laboratorio</strong></p>";
 echo '<p style="overflow:auto;display:inline-block">';
 foreach ($rows as $row) {
     $items=explode(":",$row);
@@ -20,17 +20,14 @@ foreach ($rows as $row) {
                 echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$item}.png\"  alt=\"{$item}\">";
                 break;
             default:
-?>
-                <a href="#" id="img_<?php echo $item; ?>" >
-                    <img style="border:0"
+                ?><a href="#" id="img_<?php echo $item; ?>" ><img style="border:0"
                          src="/labo_sphere/web/getImage.php?host=<?php echo $item; ?>"
                          alt="<?php echo $item; ?>"
                          class="easyui-tooltip" data-options="
                             position: 'top',
-                            onShow: function(e) { $(this).tooltip('options').content=getTooltip('<?php echo $item; ?>') }
-                    >
-                </a>
-<?php
+                            onShow: function(e) { $(this).tooltip('update',getToolTip('<?php echo $item; ?>')); }
+                         "
+                    ></a><?php
                 break;
         }
     }
