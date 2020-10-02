@@ -19,13 +19,13 @@ function findTreeNodeByName(name) {
     return nodeListByName[name];
 }
 
-function displayToolTip(name) {
-    if (typeof(nodeListByName[name])==='undefined') return;
+function getToolTip(name) {
+    if (typeof(nodeListByName[name])==='undefined') return "";
     let id=nodeListByName[name];
-    if (id<0) return;
+    if (id<0) return "";
     row=$('#labo_treegrid').treegrid('find',id);
     msg="Status: "+row.status+"<br/>Server: "+row.server+"<br/>Users: "+row.users;
-    addTooltip($('#img_'+name),msg);
+    return msg;
 }
 
 function handleWSData(data) {

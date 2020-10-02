@@ -20,9 +20,17 @@ foreach ($rows as $row) {
                 echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$item}.png\"  alt=\"{$item}\">";
                 break;
             default:
-                echo "<span  id=\"img_{$item}\"  style=\"background-color:#C0C000\" onmouseover=\"displayToolTip({$item})\"'>";
-                echo "<img style=\"border:0\" src=\"/labo_sphere/web/getImage.php?host={$item}\" alt=\"{$item}\">";
-                echo "</span>";
+?>
+                <a href="#" id="img_<?php echo $item; ?>" >
+                    <img style="border:0"
+                         src="/labo_sphere/web/getImage.php?host=<?php echo $item; ?>"
+                         alt="<?php echo $item; ?>"
+                         class="easyui-tooltip" data-options="
+                            position: 'top',
+                            onShow: function(e) { $(this).tooltip('options').content=getTooltip('<?php echo $item; ?>') }
+                    >
+                </a>
+<?php
                 break;
         }
     }
