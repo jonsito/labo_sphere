@@ -11,7 +11,7 @@ switch($mode) {
     default: $img="base";
 }
 $image=imagecreatefrompng(__DIR__."/images/icons/{$img}.png");
-if (!$image) $image= imagecreate(32,32); // pslm
+if (!$image) $image= imagecreate(31,31); // pslm
 //$colorWhite=imagecolorallocate($image, 255, 255, 255);
 $colorBlack=imagecolorallocate($image, 0, 0, 0);
 $colorGrey=imagecolorallocate($image, 128, 128, 128);
