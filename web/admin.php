@@ -37,7 +37,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 <h2>Administraci&oacute;n de equipos del laboratorio</h2>
 <div style="margin:20px 0;"></div>
 <div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:1000px;height:720px">
-    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute:rbol</span>" style="padding:5px">
+    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute;rbol</span>" style="padding:5px">
         <table id="labo_treegrid" style="width:100%;height:550px">
             <thead>
                 <tr>
@@ -56,10 +56,10 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
             <?php include_once(__DIR__."/map.php");?>
         </p>
     </div>
-    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/config.png'/><br>Config</span>" style="padding:10px">
+    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/servers.png'/><br>Servidores</span>" style="padding:10px">
         <p>A personal digital assistant (PDA), also known as a palmtop computer, or personal data assistant, is a mobile device that functions as a personal information manager. PDAs are largely considered obsolete with the widespread adoption of smartphones.</p>
     </div>
-    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/tools.png'/><br>Tools</span>" style="padding:10px">
+    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/tools.png'/><br>Herramientas</span>" style="padding:10px">
         <p>A tablet computer, or simply tablet, is a one-piece mobile computer. Devices typically have a touchscreen, with finger or stylus gestures replacing the conventional computer mouse.</p>
     </div>
 </div>
