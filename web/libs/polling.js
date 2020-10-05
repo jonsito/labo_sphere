@@ -24,7 +24,7 @@ function getToolTip(name) {
     let id=nodeListByName[name];
     if (id<0) return "";
     row=$('#labo_treegrid').treegrid('find',id);
-    msg="Host: "+name+"</br>Status: "+row.status+"<br/>Server: "+row.server+"<br/>Users: "+row.users;
+    msg="Host : "+name+"</br>Status: "+row.status+"<br/>Server: "+row.server+"<br/>Users: "+row.users;
     return msg;
 }
 
