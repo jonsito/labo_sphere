@@ -41,14 +41,14 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         <table id="labo_treegrid" style="width:100%;height:550px">
             <thead>
                 <tr>
-                    <th data-options="field:'name',width:'30%',align:'left'">Nombre</th>
+                    <th data-options="field:'name',width:'20%',align:'left'">Nombre</th>
                     <th data-options="field:'level',hidden:'true'"></th>
-                    <th data-options="field:'ip',width:'15%',align:'center'">IP Addr</th>
+                    <th data-options="field:'ip',width:'10%',align:'center'">IP Addr</th>
                     <th data-options="field:'status',width:'4%',align:'center',styler:statusStyler">Estado</th>
-                    <th data-options="field:'server',width:'10%',align:'center'">Servidor</th>
-                    <th data-options="field:'load',width:'10%'">Carga</th>
-                    <th data-options="field:'meminfo',width:'10%'">MemInfo</th>
-                    <th data-options="field:'users',width:'20%'">Usuarios</th>
+                    <th data-options="field:'server',width:'8%',align:'center'">Servidor</th>
+                    <th data-options="field:'load',align:'center',width:'15%'">Carga</th>
+                    <th data-options="field:'meminfo',align:'center',width:'17%'">MemInfo</th>
+                    <th data-options="field:'users',width:'25%'">Usuarios</th>
                 </tr>
             </thead>
         </table>
