@@ -24,7 +24,13 @@ function getToolTip(name) {
     let id=nodeListByName[name];
     if (id<0) return "";
     row=$('#labo_treegrid').treegrid('find',id);
-    msg="Host: "+name+"<br/>Status: "+row.status+"<br/>Server: "+row.server+"<br/>Load: "+row.load+"<br/>MemUsage: "+row.meminfo+"<br/>Users: "+row.users;
+    msg=     "Host:   "+name+
+        "<br/>Status: "+row.status+
+        "<br/>Uptime: "+row.uptime+
+        "<br/>Server: "+row.server+
+        "<br/>Load:   "+row.load+
+        "<br/>Memory: "+row.meminfo+
+        "<br/>Users:  "+row.users;
     return msg;
 }
 
@@ -43,9 +49,16 @@ function handleWSData(data) {
         if (row==null) continue;
         // update row data
         var st=parseInt(state);
-        if (st<0) row.status='???';
-        if (st===0) row.status='Off';
-        if (st>0) row.status="On";
+        if (st<0) { row.status='???'; row.uptime=""; }
+        if (st===0) { row.status='Off'; row.uptime=""; }
+        if (st>0) {
+            row.status="On";
+            days = parseInt(st/(60*60*24));
+            hours = parseInt((st/(60*60)))%24;
+            minutes = parseInt(st/60)%60;
+            seconds = parseInt(st)%60;
+            row.uptime=""+days+" days "+hours+":"+minutes+":"+seconds;
+        }
         if ( (users!=='-') && (users!=='') ) row.status="Busy";
         row.server=server;
         row.users=users;

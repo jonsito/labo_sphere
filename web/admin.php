@@ -43,6 +43,7 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
                 <tr>
                     <th data-options="field:'name',width:'20%',align:'left'">Nombre</th>
                     <th data-options="field:'level',hidden:'true'"></th>
+                    <th data-options="field:'uptime',hidden:'true'"></th>
                     <th data-options="field:'ip',width:'10%',align:'center'">IP Addr</th>
                     <th data-options="field:'status',width:'4%',align:'center',styler:statusStyler">Estado</th>
                     <th data-options="field:'server',width:'8%',align:'center'">Servidor</th>
