@@ -24,7 +24,7 @@ function getToolTip(name) {
     let id=nodeListByName[name];
     if (id<0) return "";
     row=$('#labo_treegrid').treegrid('find',id);
-    msg="Status: "+row.status+"<br/>Server: "+row.server+"<br/>Users: "+row.users;
+    msg="Host: "+name+"<br/>Status: "+row.status+"<br/>Server: "+row.server+"<br/>Load: "+row.load+"<br/>MemUsage: "+row.meminfo+"<br/>Users: "+row.users;
     return msg;
 }
 
@@ -34,7 +34,7 @@ function handleWSData(data) {
     for (let n=0;n<a.length;n++) {
         if (a[n]==="") continue; // empty, at end of data
         // analizamos cada data individual
-        [ host,state,server,users ]= a[n].split(":");
+        [ host,state,server,users,load,meminfo ]= a[n].split(":");
         // buscamos el node ID que tiene el nombre recibido
         id=findTreeNodeByName(host);
         if (id<=0) continue;
@@ -49,6 +49,8 @@ function handleWSData(data) {
         if ( (users!=='-') && (users!=='') ) row.status="Busy";
         row.server=server;
         row.users=users;
+        row.load=load;
+        row.meminfo=meminfo;
         // and refresh gui
         tg.treegrid('refresh',id); // treegrid
         css=statusStyler(row.status,null,null).split(':'); // background-color:#XXXXX
