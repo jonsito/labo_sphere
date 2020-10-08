@@ -36,7 +36,7 @@ function getToolTip(name) {
 
 function fireActionFromMap(action) {
     // vemos a qué pc corresponde
-    let host=$('#current_host').val();
+    let host=$('#current_host').html();
     let id=findTreeNodeByName(host);
     if (id<0) { console.log("invalid host name selected: "+host); return 0; }
     // en función de la acción solicitada llamamos a las rutinas correspondientes
