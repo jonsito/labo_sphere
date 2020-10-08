@@ -46,6 +46,13 @@ class Action {
         if ($level==3) return $this->handler->hostStop($this->name);
         return "stop():: invalid host level:{$level} provided for host {$this->name}";
     }
+    function restart($level) {
+        if ($this->handler==null) return "stop(): Cannot find handler for service {$this->parent}";
+        if ($level==1) return $this->handler->serverRestart($this->name);
+        if ($level==2) return $this->handler->groupRestart($this->name);
+        if ($level==3) return $this->handler->hostRestart($this->name);
+        return "stop():: invalid host level:{$level} provided for host {$this->name}";
+    }
 
     function status($level) {
         if ($this->handler==null) return "status(): Cannot find handler for service {$this->parent}";

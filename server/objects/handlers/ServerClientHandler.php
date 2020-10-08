@@ -19,19 +19,15 @@ class ServerClientHandler extends ClientHandler {
         return "";
     }
 
-    // stop/shutdown web
-    function hostStop($name){
-        return "";
-    }
-    function groupStop($name) {
-        // PENDING: Implement groupStop() method.
-        return "";
-    }
-    function serverStop($name) {
-        // PENDING: Implement serverStop() method.
-        return "";
-    }
+    // stop/shutdown web. PENDING
+    function hostStop($name){ return ""; }
+    function groupStop($name) { return ""; }
+    function serverStop($name) {  return ""; }
 
+    // reboot web.
+    function hostRestart($name){ $this->hostStop($name); $this->hostStart($name); return ""; }
+    function groupRestart($name) { $this->groupStop($name); $this->groupStart($name);return ""; }
+    function serverRestart($name) { $this->serverStop($name); $this->serverStart($name); return ""; }
 
     // pause/suspend web ( use with care )
     function hostPause($name){

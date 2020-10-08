@@ -37,6 +37,11 @@ class VMWareClientHandler extends ClientHandler {
         // PENDING: Implement serverStop() method. WARN ON THIS METHOD as affect to vm server
     }
 
+    // reboot web.
+    function hostRestart($name){ $this->hostStop($name); $this->hostStart($name); return ""; }
+    function groupRestart($name) { $this->groupStop($name); $this->groupStart($name);return ""; }
+    function serverRestart($name) { $this->serverStop($name); $this->serverStart($name); return ""; }
+
     function hostPause($name) {
         // PENDING: Implement hostPause() method.
     }

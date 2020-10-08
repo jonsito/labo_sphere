@@ -32,6 +32,7 @@ if ( $operation==='fireup') {
 switch ($operation) {
     case "start": $res=$a->start($level); break; // start host
     case "stop": $res=$a->stop($level); break; // stop host
+    case "restart": $res=$a->restart($level); break; // stop host
     case "status": $res=$a->status($level); break; // status host
     case "console": // fireup admin ssh terminal on host
         $res=$a->console($level);

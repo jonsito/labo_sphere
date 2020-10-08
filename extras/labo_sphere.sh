@@ -94,6 +94,9 @@ case $1 in
   "stop" ) # "stop host|alias|list"
       bgjob /usr/local/bin/apagamaq.sh -q $2
     ;;
+  "restart" ) # "restart host|alias|list"
+      bgjob /usr/local/bin/apagamaq.sh --reboot -q $2
+    ;;
   "status" ) # "stop host|alias|list"
       bgjob /usr/local/bin/compruebamaq.sh -q $2
     ;;

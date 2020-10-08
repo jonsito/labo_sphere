@@ -128,6 +128,16 @@ class DesktopClientHandler extends ClientHandler {
     function groupStop($name) { return ""; }
     function serverStop($name) { return ""; }
 
+    function hostRestart($name) {
+        $command=self::MASTER_CMD." restart '{$name}' >/dev/null 2>&1";
+        // $command="/usr/local/bin/apagamaq.sh --reboot '{$name}' >/dev/null 2>&1";
+        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        if (!$res) return "Failed on stop physical host '{$name}'";
+        return "";
+    }
+    function groupRestart($name) { return ""; }
+    function serverRestart($name) { return ""; }
+
     function hostPause($name) { return "Cannot pause physical host {$name}"; }
     function groupPause($name) { return ""; }
     // serverPause is handled in parent class

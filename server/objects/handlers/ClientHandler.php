@@ -83,6 +83,12 @@ abstract class ClientHandler {
     abstract function groupStop($name);
 
     /**
+     * stop/shutdown web
+     */
+    abstract function hostRestart($name);
+    abstract function serverRestart($name);
+    abstract function groupRestart($name);
+    /**
      * pause/suspend web ( use with care )
      */
     abstract function hostPause($name);

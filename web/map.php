@@ -6,7 +6,7 @@ if (!$rows) {
     return;
 }
 echo "<h2><em>Distribuci&oacute;n de los recursos del laboratorio</em></h>";
-echo "<p style=\"font-size:0.8vw\">Desplazar el rat&oacute;n sobre un equipo para ver informaci&oacute;n de su estado<br>Pulsar elbotón derecho para desplegar opciones</p>";
+echo "<p style=\"font-size:0.8vw\">Desplazar el rat&oacute;n sobre un equipo para ver informaci&oacute;n de su estado<br>Pulsar el bot&oacute;n derecho para desplegar opciones</p>";
 echo '<p style="overflow:auto;display:inline-block">';
 foreach ($rows as $row) {
     $items=explode(":",$row);
@@ -37,7 +37,7 @@ foreach ($rows as $row) {
 echo "</p>"
 ?>
 <div id="map_menu" style="width:120px;">
-    <div id="current_host"></div>
+    <div><strong>Host: <span id="current_host"></span></strong></div>
     <div class="menu-sep"></div>
     <div data-options="iconCls:'icon-redo'" onclick="fireActionFromMap('start')">Start</div>
     <div data-options="iconCls:'icon-reload'" onclick="fireActionFromMap('restart')">Restart</div>

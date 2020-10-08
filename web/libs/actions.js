@@ -30,9 +30,7 @@ function labo_action(action) {
         case 'stop': msg="Stopping node "+node.name; break;
         case 'status': msg="Retrieve node status: "+node.name; break;
         case 'console': msg="Launch SSH console on node "+node.name; break;
-        case 'restart':
-            $.messager.alert("Error","Restart is not yet available. Please use 'Stop' and then 'Start'","error");
-            return false;
+        case 'restart': msg="Restarting node "+node.name; break;
         default:
             $.messager.alert("Error","Unknown action selected on node "+node.name,"error");
             return false;

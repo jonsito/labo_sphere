@@ -28,6 +28,7 @@ class VboxClientHandler extends ClientHandler {
         if (!$res) return "Failed on stop virtual machine '{$vm}'";
         return "";
     }
+
     function groupStop($name) {
         // PENDING: Implement groupStop() method.
         return "";
@@ -36,6 +37,11 @@ class VboxClientHandler extends ClientHandler {
         // PENDING: Implement serverStop() method. WARNING: this method affects wm server
         return "";
     }
+
+    // reboot web.
+    function hostRestart($name){ $this->hostStop($name); $this->hostStart($name); return ""; }
+    function groupRestart($name) { $this->groupStop($name); $this->groupStart($name);return ""; }
+    function serverRestart($name) { $this->serverStop($name); $this->serverStart($name); return ""; }
 
     function hostPause($vm) {
         if (!$this->isRunning($vm))  return true;
