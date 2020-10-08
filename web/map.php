@@ -20,7 +20,7 @@ foreach ($rows as $row) {
                 echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$item}.png\"  alt=\"{$item}\">";
                 break;
             default:
-                ?><a href="#" id="img_<?php echo $item; ?>" ><img style="border:0"
+                ?><a href="#" class="cl_menu" id="img_<?php echo $item; ?>" ><img style="border:0"
                          src="/labo_sphere/web/getImage.php?host=<?php echo $item; ?>"
                          alt="<?php echo $item; ?>"
                          class="easyui-tooltip" data-options="
@@ -35,3 +35,23 @@ foreach ($rows as $row) {
 }
 echo "</p>"
 ?>
+<div id="map_menu" style="width:120px;">
+    <div data-options="iconCls:'icon-redo'">Start</div>
+    <div data-options="iconCls:'icon-reload'">Restart</div>
+    <div data-options="iconCls:'icon-undo'">Stop</div>
+    <div class="menu-sep"></div>
+    <div data-options="iconCls:'icon-console'">SSH Console</div>
+</div>
+
+<script>
+    $(function(){
+        $('#map_menu').menu();
+        $(".cl_menu").bind('contextmenu',function(e){
+            e.preventDefault();
+            $('#map_menu').menu('show', {
+                left: e.pageX,
+                top: e.pageY
+            });
+        });
+    });
+</script>
