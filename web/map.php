@@ -37,6 +37,7 @@ foreach ($rows as $row) {
 echo "</p>"
 ?>
 <div id="map_menu" style="width:120px;">
+    <input type="hidden" id="current_host" value=""/>
     <div data-options="iconCls:'icon-redo'" onclick="fireActionFromMap('start')">Start</div>
     <div data-options="iconCls:'icon-reload'" onclick="fireActionFromMap('restart')">Restart</div>
     <div data-options="iconCls:'icon-undo'" onclick="fireActionFromMap('stop')">Stop</div>
@@ -49,6 +50,7 @@ echo "</p>"
         $('#map_menu').menu();
         $(".cl_menu").bind('contextmenu',function(e){
             e.preventDefault();
+            $('#current_host').val(e.target.alt);
             $('#map_menu').menu('show', {
                 left: e.pageX,
                 top: e.pageY

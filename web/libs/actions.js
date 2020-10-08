@@ -30,10 +30,12 @@ function labo_action(action) {
         case 'stop': msg="Stopping node "+node.name; break;
         case 'status': msg="Retrieve node status: "+node.name; break;
         case 'console': msg="Launch SSH console on node "+node.name; break;
-    }
-    if (msg==="") {
-        $.messager.alert("Error","Unknown action selected on node "+node.name,"error");
-        return false;
+        case 'restart':
+            $.messager.alert("Error","Restart is not yet available. Please use 'Stop' and then 'Start'","error");
+            return false;
+        default:
+            $.messager.alert("Error","Unknown action selected on node "+node.name,"error");
+            return false;
     }
     // PENDING: on level 2 must choose between server/group action
     // this is done in server by mean of change level to 1:server or 2:group
