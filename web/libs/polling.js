@@ -34,6 +34,12 @@ function getToolTip(name) {
     return msg;
 }
 
+function fireActionFromMap(action) {
+    // vemos a qué pc corresponde
+    // en función de la acción solicitada llamamos a las rutinas correspondientes
+    alert(JSON.stringify(this),action);
+}
+
 function handleWSData(data) {
     // dividimos el mensaje en trozos separados por '\n'
     let a=data.split('\n');
