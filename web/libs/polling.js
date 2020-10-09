@@ -138,7 +138,7 @@ function updateTree(data,parentid){
  */
 function checkNode(node) {
     // if node is about Linux clients, do nothing: use websockets for push refresh
-    const hasntPolling=Array("Lab. B-123-1","Lab. B-123-2","Lab. A-127-4","Lab. A-127-3","Lab. A-127-2","Despachos y Acc. Remoto" );
+    const hasntPolling=Array("Lab. B-123-1","Lab. B-123-2","Lab. A-127-4","Lab. A-127-3","Lab. A-127-2","MACs A-127-4","Despachos y Acc. Remoto" );
     if (hasntPolling.includes(node.name) && (haveWebsockets===true) ) return; // just do nothing.
 
     // else use poll refresh

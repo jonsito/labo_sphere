@@ -16,7 +16,7 @@ $host=http_request("host","s","");
 $port=http_request("port","i",0);
 $duration=http_request("duration","i",0);
 
-if ( in_array($operation,array('start','stop','status','console')) ) $a=new Action($node,$parent,$level);
+if ( in_array($operation,array('start','stop','restart','status','console')) ) $a=new Action($node,$parent,$level);
 if ( $operation==='fireup') {
     // authenticate user
     $auth=new AuthLDAP();
