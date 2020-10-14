@@ -35,8 +35,14 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 <img src="images/cdcTitle.png" alt="cdc logo header" style="width:900px">
 <input type="hidden" id="poll_running" value="0"/>
 <h2>Administraci&oacute;n de equipos del laboratorio</h2>
-<div style="margin:20px 0;"></div>
-<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80" style="width:1000px;height:720px">
+<div id="tab_tools" style="margin:20px 0;">
+    <span style="border:solid black 1px">
+        <label for="global_state">Estado:</label><input id="global_state" type="text" class="global_st" value=""><br/>
+        <label for="global_servers">Servidores:</label><input id="global_servers" type="text" class="global_st" value=""><br/>
+        <label for="global_users">Usuarios:</label><input id="global_users" type="text" class="global_st" value="">
+    </span>
+</div>
+<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80,tools:'#tab-tools'" style="width:1000px;height:720px">
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute;rbol</span>" style="padding:5px">
         <table id="labo_treegrid" style="width:100%;height:550px">
             <thead>

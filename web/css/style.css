@@ -78,6 +78,18 @@ dt.faq {
     box-shadow: 2px 2px 7px 2px rgba(130,130,130,.7),-2px -2px 7px 2px rgba(130,130,130,1);
 }
 
+/* usar input text como cajas para meter texto */
+.global_st {
+    background-color: transparent;
+    border: 0px solid;
+    height: 20px;
+    width: 160px;
+    color: #CCC;
+}
+.global_st:focus {
+    outline: none;
+}
+
 @media screen and (max-width: 767px){
     .images img {
         display: inline-block;
