@@ -64,7 +64,7 @@ function handleWSData(data) {
         [ host,state,server,users,load,meminfo,model ]= a[n].split(":");
         // buscamos el node ID que tiene el nombre recibido
         if(host==='l000') {
-            set_global_scores(state,server,users);
+            handleGlobalScores(state,server,users);
             continue;
         }
         id=findTreeNodeByName(host);
