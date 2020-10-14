@@ -48,7 +48,7 @@ function fireActionFromMap(action) {
 
 function handleGlobalScores(state,servers,users) {
     let st=state.split('/');
-    $('#global_state').val("On:"+st[0]+" Off:"+st[1]+" Busy:"+st[2]+" Unknown:"+st[3]+" Total:"+st[4]);
+    $('#global_state').val("On:"+st[0]+" Off:"+st[1]+" Busy:"+st[2]+" ???:"+st[3]+" Total:"+st[4]);
     let srv=servers.split('/');
     $('#global_servers').val("Bin1:"+srv[0]+" Bin2:"+srv[1]+" Bin3:"+srv[2]+" Bin4:"+srv[3]+" Macs:"+srv[4]);
     let usr=users.split('/');
