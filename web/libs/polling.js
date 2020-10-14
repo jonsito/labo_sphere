@@ -46,6 +46,15 @@ function fireActionFromMap(action) {
     labo_action(action);
 }
 
+function handleGlobalScores(state,servers,users) {
+    let st=state.split('/');
+    $('#global_state').val("On:"+st[0]+" Off:"+st[1]+" Busy:"+st[2]+" Unknown:"+st[3]+" Total:"+st[4]);
+    let srv=servers.split('/');
+    $('#global_servers').val("Bin1:"+srv[0]+" Bin2:"+srv[1]+" Bin3:"+srv[2]+" Bin4:"+srv[3]+" Macs:"+srv[4]);
+    let usr=users.split('/');
+    $('#global_users').val("Users:"+usr[0]+" Load:"+usr[1]+"%");
+}
+
 function handleWSData(data) {
     // dividimos el mensaje en trozos separados por '\n'
     let a=data.split('\n');
@@ -54,6 +63,10 @@ function handleWSData(data) {
         // analizamos cada data individual
         [ host,state,server,users,load,meminfo,model ]= a[n].split(":");
         // buscamos el node ID que tiene el nombre recibido
+        if(host==='l000') {
+            set_global_scores(state,server,users);
+            continue;
+        }
         id=findTreeNodeByName(host);
         if (id<=0) continue;
         let tg=$('#labo_treegrid');

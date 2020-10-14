@@ -37,9 +37,9 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 <h2>Administraci&oacute;n de equipos del laboratorio</h2>
 <div id="tab_tools">
         <strong>Resumen:</strong><br/>
-        <label for="global_state">Estado: </label><input id="global_state" type="text" class="global_st" value="On:xx Off:yy Busy:zz ???:tt"><br/>
-        <label for="global_servers">Servidores: </label><input id="global_servers" type="text" class="global_st" value="Bin1:xx Bin2:yy Bin3:zz Bin4:tt"><br/>
-        <label for="global_users">Usuarios: </label><input id="global_users" type="text" class="global_st" value="xx">
+        <label for="global_state">Estado: </label><input id="global_state" type="text" class="global_st" value="On:xx Off:yy Busy:zz ???:uu Total:tt"><br/>
+        <label for="global_servers">Servidores: </label><input id="global_servers" type="text" class="global_st" value="Bin1:xx Bin2:yy Bin3:zz Bin4:tt Macs:mm"><br/>
+        <label for="global_users">Usuarios: </label><input id="global_users" type="text" class="global_st" value="Users:xx Load:yy%">
 </div>
 <div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80,tools:'#tab_tools'" style="width:1000px;height:720px">
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute;rbol</span>" style="padding:5px">
