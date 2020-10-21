@@ -12,8 +12,8 @@ class DesktopClientHandler extends ClientHandler {
         $f=file(self::MAQUINAS_LABO,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $this->status_table=@file(self::STATUS_FILE,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($f as $line) {
-            list($host,$ip,$ether)=explode(" ",$line);
-            $this->tablanumeros[$host]=array("ip"=>$ip,"ether"=>$ether);
+            list($host,$ip)=explode(" ",$line);
+            $this->tablanumeros[$host]=array("ip"=>$ip);
         }
     }
 
