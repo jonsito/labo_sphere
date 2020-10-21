@@ -37,13 +37,15 @@ find_freehost() {
   ( for i in $lista; do grep "Client:$i" ${STATUS_FILE} ; done ) | shuf >> /tmp/find_freehost.$$
   # cogemos el fichero y buscamos el primer equipo encendido y sin usuarios
   equipo=`cat /tmp/find_freehost.$$ | grep -e 'State:UP Server:.*Users:-$' | sed -e 's/Client:\(.*\) State.*/\1/g' | head -1`
-  echo "fireup $zona. Seleccionado host $equipo" >> ${REPORT}
+  # echo "fireup $zona. Seleccionado host $equipo" >> ${REPORT}
+  do_log "fireup $zona. Seleccionado host $equipo"
   # si hemos encontrado un equipo valido cogemos ademas otro equipo apagado
   # si no, cogemos dos equipos equipos apagados
   down=`cat /tmp/find_freehost.$$ | grep -e 'State:DOWN Server:- Users:-$' | sed -e 's/Client:\(.*\) State.*/\1/g' | head -2`
   # damos la orden de encender los equipos seleccionados.
   # lo normal es que uno de ellos este ya encendido, pero vamos, el wakeup es gratis
-  echo "fireup $zona. Encendiendo host(s): $equipo" >> ${REPORT}
+  # echo "fireup $zona. Encendiendo host(s): $equipo" >> ${REPORT}
+  do_log "fireup $zona. Encendiendo host(s): $equipo"
   /usr/local/bin/wakeup.sh $equipo $down
   if [ $? -ne 0 ]; then
     # si llega aqui es que no hay equipos ni vacios ni apagados
@@ -76,6 +78,7 @@ stop_tunnel() {  # $1:source $2:destination
 }
 
 bgjob() {
+  do_log "launch bgjob $*"
   $* 2>&1 >>${REPORT} &
 }
 
@@ -124,6 +127,7 @@ case $1 in
       # port=6100+host
       port=$(expr 6100 + `echo $host | sed -e 's/l//g'`)
       # echo "wss://acceso.lab.dit.upm.es:6001/${host}:${port}"
+      do_log "fireup websockify $host $port returns:"
       fireup_websockify $host $port 2>&1 >>${REPORT}
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}}";
       ;;
