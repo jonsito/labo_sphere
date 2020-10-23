@@ -121,7 +121,9 @@ if ($admin<0) {
             });
             $('#password').passwordbox({
                 prompt: 'Password',
-                showEye: true
+                showEye: true,
+                checkInterval: 10,
+                lastDelay: 10
             });
             $('#password').passwordbox('textbox').bind('keydown', function(e){
                 if (e.keyCode === 13){   // when press ENTER key, accept the inputed value.
