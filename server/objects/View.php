@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__."/Config.php");
 require_once(__DIR__."/handlers/ClientHandler.php");
+require_once(__DIR__."/ResourceHandler.php");
 
 class View {
     var $config;
@@ -76,5 +77,10 @@ class View {
     function serversInfo() {
         $rh=new ResourceHandler("","");
         return $rh->serversInfo();
+    }
+
+    function loggingInfo() {
+        $rh=new ResourceHandler("","");
+        return $rh->loggingInfo();
     }
 }

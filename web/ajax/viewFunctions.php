@@ -8,6 +8,9 @@ switch ($operation) {
     case "serversinfo":
         echo $v->serversInfo();
         return;
+    case "logginginfo":
+        echo $v->loggingInfo();
+        return;
     case "clients":
         $res=$v->enumerate();
         echo json_encode($res);

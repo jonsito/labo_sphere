@@ -5,8 +5,8 @@ require_once(__DIR__."/NetworkInterfaces.php");
 
 class ResourceHandler
 {
-    const remote_dir = "/home/operador/administracion/servicios_ubuntu-18.04/tools";
-    const remote_cmd = "/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
+    protected $remote_dir = "/home/operador/administracion/servicios_ubuntu-18.04/tools";
+    protected $remote_cmd = "/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
     protected $user;
     protected $password;
     protected $myLogger;
@@ -55,16 +55,15 @@ class ResourceHandler
     {
         // $this->myLogger->enter("findResourece($name)");
         // PENDING: real work of find, deploy and start a free resource
-        $result = array('success' => true);
         switch ($type) {
             case 'desktop':
-                $cmd = self::remote_cmd . " vnc_console ";
+                $cmd = $this->remote_cmd . " vnc_console ";
                 break;
             case 'console':
-                $cmd = self::remote_cmd . " ssh_console";
+                $cmd = $this->remote_cmd . " ssh_console";
                 break;
             case 'tunel':
-                $cmd = self::remote_cmd . " tunnel";
+                $cmd = $this->remote_cmd . " tunnel";
                 break;
             default:
                 $this->myLogger->error("unknown resource type {$type}");
@@ -113,9 +112,13 @@ class ResourceHandler
     }
 
     public function serversInfo() {
-        $res=$this->callMaestro($this.self::remote_dir."/comprueba_estado_web.sh",true);
+        $cmd=$this->remote_dir."/comprueba_estado_web.sh";
+        $this->myLogger->trace("Ejecutando callMaestro() cmd: {$cmd}");
+        $res=$this->callMaestro($cmd,true);
+        return $res;
     }
 
     public function loggingInfo() {
+        return "PENDING: To be written";
     }
 }
