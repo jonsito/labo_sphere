@@ -23,7 +23,7 @@ class ResourceHandler
      * Notice that provided ssh key should be restricted in host maestro3
      * to execute only script
      */
-    protected function callMaestro($command)
+    protected function callMaestro($command,$multiline=false)
     {
         $host = "maestro3.lab.dit.upm.es";
         $connection = @ssh2_connect($host, 22, array('hostkey' => 'ssh-rsa'));
@@ -40,9 +40,14 @@ class ResourceHandler
         $fp = ssh2_exec($connection, $command);
         if (!$fp) $this->myLogger->error("Execution of ssh {$command} on maestro.lab failed");
         stream_set_blocking($fp, true);
-        $line = trim(fgets($fp)); // these functions only return host:port json string
+        $res="";
+        if ($multiline==false) {
+            $res = trim(fgets($fp)); // these functions only return host:port json string
+        } else {
+            while ( ($line=fgets($fp))!==false ) $res.=$line;
+        }
         fclose($fp);
-        return $line;
+        return $res;
     }
 
     // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm") or given host
@@ -108,7 +113,7 @@ class ResourceHandler
     }
 
     public function serversInfo() {
-        $res=$this->callMaestro($this.self::remote_dir."/comprueba_estado_web.sh");
+        $res=$this->callMaestro($this.self::remote_dir."/comprueba_estado_web.sh",true);
     }
 
     public function loggingInfo() {
