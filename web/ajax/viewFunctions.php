@@ -5,8 +5,8 @@ require_once(__DIR__ . "/../../server/objects/View.php");
 $operation=http_request("Operation","s",null);
 $v=new View();
 switch ($operation) {
-    case "serverstatus":
-        echo $v->serverStatus();
+    case "serversinfo":
+        echo $v->serversInfo();
         return;
     case "clients":
         $res=$v->enumerate();

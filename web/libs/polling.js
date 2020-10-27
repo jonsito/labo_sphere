@@ -11,7 +11,7 @@ var nodeListByName=[];
 function adminTabSelected(index) {
     switch (index) {
         case 2: // server status
-            $('#servers_state').panel('refresh','/web/ajax/viewFunctions.php?Operation=serverStatus');
+            $('#servers_state').panel('refresh','/web/ajax/viewFunctions.php?Operation=serversinfo');
             break;
         case 3: // handle logs
             break;

@@ -73,7 +73,8 @@ class View {
         return $data;
     }
 
-    function serverStatus() {
-        return "<p>Not available yet<br/>sorry</p>";
+    function serversInfo() {
+        $rh=new ResourceHandler("","");
+        return $rh->serversInfo();
     }
 }
