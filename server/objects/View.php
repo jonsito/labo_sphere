@@ -72,4 +72,8 @@ class View {
         }
         return $data;
     }
+
+    function serverStatus() {
+        return "<p>Not available yet<br/>sorry</p>";
+    }
 }

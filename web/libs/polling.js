@@ -4,6 +4,21 @@ var haveWebsockets=false;
 var nodes=null;
 var nodeListByName=[];
 
+// this function is called when an admin tab is selected.
+// on "Server" tab, call maestro to invoke comprueba_estado_web.sh
+// on "Tools" tab, retrieve logs and show according filters
+// else ignore
+function adminTabSelected(index) {
+    switch (index) {
+        case 2: // server status
+            $('#servers_state').panel('refresh','/web/ajax/viewFunctions.php?Operation=serverStatus');
+            break;
+        case 3: // handle logs
+            break;
+        default: return;
+    }
+}
+
 // iterate recursively node tree to index elements by name
 // data is an array of objects, that contains id,name,children[]
 function populateTree(data) {

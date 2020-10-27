@@ -41,7 +41,14 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         <label for="global_servers">Servidores: </label><input id="global_servers" type="text" class="global_st" value="Bin1:xx Bin2:yy Bin3:zz Bin4:tt Macs:mm"><br/>
         <label for="global_users">Usuarios: </label><input id="global_users" type="text" class="global_st" value="Users:xx Load:yy%">
 </div>
-<div class="easyui-tabs" data-options="tabWidth:100,tabHeight:80,tools:'#tab_tools'" style="width:1000px;height:720px">
+<div class="easyui-tabs"
+     data-options="
+        tabWidth:100,
+        tabHeight:80,
+        tools:'#tab_tools',
+        onSelect: function(title,index) { adminTabSelected(index); }
+    "
+     style="width:1000px;height:720px">
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute;rbol</span>" style="padding:5px">
         <table id="labo_treegrid" style="width:100%;height:550px">
             <thead>
@@ -66,10 +73,16 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         </p>
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/servers.png'/><br>Servidores</span>" style="padding:10px">
-        <p>A personal digital assistant (PDA), also known as a palmtop computer, or personal data assistant, is a mobile device that functions as a personal information manager. PDAs are largely considered obsolete with the widespread adoption of smartphones.</p>
+        <div id="servers_state" class="easyui-panel"
+            data-options="fit:true,border:false,noheader:true">
+        Please wait while server status is being evaluated....
+        </div>
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/tools.png'/><br>Herramientas</span>" style="padding:10px">
-        <p>A tablet computer, or simply tablet, is a one-piece mobile computer. Devices typically have a touchscreen, with finger or stylus gestures replacing the conventional computer mouse.</p>
+        <div id="log_reports" class="easyui-panel"
+             data-options="fit:true,border:false,noheader:true">
+            Log handling needs to be written :-(
+        </div>
     </div>
 </div>
 <!-- BARRA DE TAREAS DEL ARBOL DE MAQUINAS-->

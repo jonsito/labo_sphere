@@ -5,11 +5,13 @@ require_once(__DIR__ . "/../../server/objects/View.php");
 $operation=http_request("Operation","s",null);
 $v=new View();
 switch ($operation) {
+    case "serverstatus":
+        echo $v->serverStatus();
+        return;
     case "clients":
         $res=$v->enumerate();
         echo json_encode($res);
         return;
-        break;
     case "checkgroup":
         $id=http_request("id","i",0);
         $name=http_request("name","s","");
