@@ -3,12 +3,12 @@ function statusStyler(val,row,idx) {
     if      (val==="Off") color="#EE3030";
     else if (val==="On") {
         color="#80FF30";
-        if (row.uptime && (parseInt(row.uptime)>=1 ) ) color="#309900";
+        if (row && row.uptime && (parseInt(row.uptime)>=1 ) ) color="#309900";
     }
     else if (val==="???") color="#C0C000";
     else if (val==="Busy") {
         color="#00FFFF";
-        if (row.uptime && (parseInt(row.uptime)>=1 ) ) color="#009999";
+        if (row && row.uptime && (parseInt(row.uptime)>=1 ) ) color="#009999";
     }
     else if (val==="Error") color="#FF8020";
     return 'background-color:'+color;
