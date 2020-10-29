@@ -107,7 +107,7 @@ function handleWSData(data) {
         row.model=model;
         // and refresh gui
         tg.treegrid('refresh',id); // treegrid
-        css=statusStyler(row.status,null,null).split(':'); // background-color:#XXXXX
+        css=statusStyler(row.status,row,null).split(':'); // background-color:#XXXXX
         $('#img_'+host).css(css[0],css[1]);
     }
 }
