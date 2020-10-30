@@ -115,39 +115,67 @@ class DesktopClientHandler extends ClientHandler {
         if (!$res) return "Failed on start physical host '{$name}'";
         return "";
     }
-    function groupStart($name) { return ""; }
+    function groupStart($name){
+        if (!array_key_exists($name,Configuration::$desktop_pcs)) {
+            $this->myLogger->error("Invalid Desktop group name: {$name}");
+            return "";
+        }
+        $group=Configuration::$desktop_pcs[$name];
+        $command=self::MASTER_CMD." start '{$group}' >/dev/null 2>&1";
+        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        if (!$res) return "Failed on start host group: '{$name}'";
+        return "";
+    }
     function serverStart($name) { return ""; }
 
     function hostStop($name) {
         $command=self::MASTER_CMD." stop '{$name}' >/dev/null 2>&1";
-        // $command="/usr/local/bin/apagamaq.sh '{$name}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
         if (!$res) return "Failed on stop physical host '{$name}'";
         return "";
     }
-    function groupStop($name) { return ""; }
+    function groupStop($name) {
+        if (!array_key_exists($name,Configuration::$desktop_pcs)) {
+            $this->myLogger->error("Invalid Desktop group name: {$name}");
+            return "";
+        }
+        $group=Configuration::$desktop_pcs[$name];
+        $command=self::MASTER_CMD." stop '{$group}' >/dev/null 2>&1";
+        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        if (!$res) return "Failed on stop host group: '{$name}'";
+        return "";
+    }
     function serverStop($name) { return ""; }
 
     function hostRestart($name) {
         $command=self::MASTER_CMD." restart '{$name}' >/dev/null 2>&1";
-        // $command="/usr/local/bin/apagamaq.sh --reboot '{$name}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
         if (!$res) return "Failed on stop physical host '{$name}'";
         return "";
     }
-    function groupRestart($name) { return ""; }
+    function groupRestart($name) {
+        if (!array_key_exists($name,Configuration::$desktop_pcs)) {
+            $this->myLogger->error("Invalid Desktop group name: {$name}");
+            return "";
+        }
+        $group=Configuration::$desktop_pcs[$name];
+        $command=self::MASTER_CMD." restart '{$group}' >/dev/null 2>&1";
+        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        if (!$res) return "Failed on restart host group: '{$name}'";
+        return "";
+    }
     function serverRestart($name) { return ""; }
 
     function hostPause($name) { return "Cannot pause physical host {$name}"; }
-    function groupPause($name) { return ""; }
+    function groupPause($name) { return "Cannot pause physical host group {$name}"; }
     // serverPause is handled in parent class
 
     function hostResume($name) { return "Cannot resume physical host {$name}"; }
-    function groupResume($name) { return ""; }
+    function groupResume($name) { return "Cannot resume physical host group {$name}"; }
     // serverResume is handled in parent class
 
     function hostDestroy($name) { return "Cannot destroy physical host {$name}"; }
-    function groupDestroy($name) { return ""; }
+    function groupDestroy($name) { return "Cannot destroy physical host group {$name}"; }
     // serverDestroy is handled in parent class
 
     // hostConsole is handled in parent clase
