@@ -93,6 +93,8 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 	<span style="float:right;padding:5px">
 		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-start'"
            onclick="labo_action('start');">Start</a>
+		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-reload'"
+           onclick="labo_action('restart');">Restart</a>
    		<a id="labo-stopBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-stop'"
            onclick="labo_action('stop');">Stop</a>
    		<a id="labo-statusBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-info'"
