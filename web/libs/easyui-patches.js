@@ -1,16 +1,29 @@
 function statusStyler(val,row,idx) {
+    // color por defecto
     color ="#FFFFFF";
+    // equipo apagado
     if      (val==="Off") color="#EE3030";
+    // estado desconocido
+    else if (val==="???") color="#C0C000";
+    // equipo encendido
     else if (val==="On") {
         color="#80FF30";
         if (row && row.uptime && (parseInt(row.uptime)>=1 ) ) color="#30BB00";
+        if (row && row.network) {
+            if (/10000.*Full/.test(row.network)===false) color="#FF8020";
+        }
     }
-    else if (val==="???") color="#C0C000";
+    // equipo ocupado
     else if (val==="Busy") {
         color="#00FFFF";
         if (row && row.uptime && (parseInt(row.uptime)>=1 ) ) color="#00BBBB";
+        if (row && row.network) {
+            if (/1000.*Full/.test(row.network)===false) color="#CC7080";
+        }
     }
+    // error de comprobacion
     else if (val==="Error") color="#FF8020";
+
     return 'background-color:'+color;
 }
 

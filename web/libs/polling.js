@@ -44,6 +44,7 @@ function getToolTip(name) {
         "<br/>Status: "+row.status+
         "<br/>Uptime: "+row.uptime+
         "<br/>Server: "+row.server+
+        "<br/>Network:"+row.network+
         "<br/>Load:   "+row.load+
         "<br/>Memory: "+row.meminfo+
         "<br/>Users:  "+row.users;
@@ -76,7 +77,7 @@ function handleWSData(data) {
     for (let n=0;n<a.length;n++) {
         if (a[n]==="") continue; // empty, at end of data
         // analizamos cada data individual
-        [ host,state,server,users,load,meminfo,model ]= a[n].split(":");
+        [ host,state,server,users,load,meminfo,model,network ]= a[n].split(":");
         // buscamos el node ID que tiene el nombre recibido
         if(host==='l000') {
             handleGlobalScores(state,server,users);
@@ -105,6 +106,7 @@ function handleWSData(data) {
         row.load=load;
         row.meminfo=meminfo;
         row.model=model;
+        row.network=network;
         // and refresh gui
         tg.treegrid('refresh',id); // treegrid
         css=statusStyler(row.status,row,null).split(':'); // background-color:#XXXXX

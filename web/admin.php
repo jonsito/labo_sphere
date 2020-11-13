@@ -91,11 +91,11 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         <strong>Despliegue de equipos</strong>
     </span>
 	<span style="float:right;padding:5px">
-		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-start'"
+		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-redo'"
            onclick="labo_action('start');">Start</a>
 		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-reload'"
            onclick="labo_action('restart');">Restart</a>
-   		<a id="labo-stopBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-stop'"
+   		<a id="labo-stopBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-undo'"
            onclick="labo_action('stop');">Stop</a>
    		<a id="labo-statusBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-info'"
            onclick="labo_action('status')">Status</a>
