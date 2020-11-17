@@ -10,7 +10,7 @@ function statusStyler(val,row,idx) {
         color="#80FF30";
         if (row && row.uptime && (parseInt(row.uptime)>=1 ) ) color="#30BB00";
         if (row && row.network) {
-            if (/10000.*Full/.test(row.network)===false) color="#FF8020";
+            if (/1000.*Full/.test(row.network)===false) color="#FF8020";
         }
     }
     // equipo ocupado
