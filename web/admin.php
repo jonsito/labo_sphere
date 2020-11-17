@@ -44,12 +44,12 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
 <div class="easyui-tabs"
      data-options="
         tabWidth:100,
-        tabHeight:80,
+        tabHeight:70,
         tools:'#tab_tools',
         onSelect: function(title,index) { adminTabSelected(index); }
     "
      style="width:1000px;height:720px">
-    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute;rbol</span>" style="padding:5px">
+    <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/clients.png'/><br>Vista &aacute;rbol</span>" style="padding:10px">
         <table id="labo_treegrid" style="width:100%;height:550px">
             <thead>
                 <tr>
@@ -68,9 +68,10 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
         </table>
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/mapa_labos.png'/><br>Vista mapa</span>" style="padding:10px">
-        <p>
+        <div id="map_view" class="easyui-panel"
+             data-options="height:'100%',fit:true,border:false,noheader:true">
             <?php include_once(__DIR__."/map.php");?>
-        </p>
+        </div>
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/servers.png'/><br>Servidores</span>" style="padding:10px">
         <div id="servers_state" class="easyui-panel"
@@ -80,8 +81,8 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
     </div>
     <div title="<span class='tt-inner'><img src='/labo_sphere/web/images/tools.png'/><br>Herramientas</span>" style="padding:10px">
         <div id="log_reports" class="easyui-panel"
-             data-options="fit:true,border:false,noheader:true">
-            Log handling needs to be written :-(
+             data-options="height:'100%',fit:true,border:false,noheader:true" style="overflow:hidden">
+            <iframe src="https://acceso.lab.dit.upm.es:9090" style="width:100%;height:100%"></iframe>
         </div>
     </div>
 </div>
