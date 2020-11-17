@@ -10,7 +10,7 @@ function statusStyler(val,row,idx) {
         color="#80FF30";
         if (row && row.uptime && (parseInt(row.uptime)>=1 ) ) color="#30BB00";
         if (row && row.network) {
-            if (/1000.*Full/.test(row.network)===false) color="#FF8020";
+            if (/1000.*full/.test(row.network)===false) color="#FF8020";
         }
     }
     // equipo ocupado
@@ -18,7 +18,7 @@ function statusStyler(val,row,idx) {
         color="#00FFFF";
         if (row && row.uptime && (parseInt(row.uptime)>=1 ) ) color="#00BBBB";
         if (row && row.network) {
-            if (/1000.*Full/.test(row.network)===false) color="#CC7080";
+            if (/1000.*full/.test(row.network)===false) color="#CC7080";
         }
     }
     // error de comprobacion
