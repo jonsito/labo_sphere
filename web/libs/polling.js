@@ -44,7 +44,7 @@ function getToolTip(name) {
         "<br/>Status: "+row.status+
         "<br/>Uptime: "+row.uptime+
         "<br/>Server: "+row.server+
-        "<br/>Network:"+row.network+
+        "<br/>Network: "+row.network+
         "<br/>Load:   "+row.load+
         "<br/>Memory: "+row.meminfo+
         "<br/>Users:  "+row.users;
