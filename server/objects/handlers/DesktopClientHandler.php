@@ -24,9 +24,11 @@ class DesktopClientHandler extends ClientHandler {
             for($i=56;$i<=100;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='b123_2') { // l101-l124
             for($i=101;$i<=125;$i++) array_push($res,sprintf("l%03d",$i));
-        } else if ($this->location=='macs') { // l134-l148
+        } else if ($this->location=='macs') { // l130,l131,l134-l148
+            array_push($res,"l130");
+            array_push($res,"l131");
             for($i=134;$i<=148;$i++) array_push($res,sprintf("l%03d",$i));
-        } else if ($this->location=='a127_4') { // 133,149-186.
+        } else if ($this->location=='a127_4') { // 133,149-186
             array_push($res,"l133");
             for($i=149;$i<=186;$i++) array_push($res,sprintf("l%03d",$i));
         } else if ($this->location=='a127_3') { // 187-220
