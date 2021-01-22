@@ -130,4 +130,12 @@ abstract class ClientHandler {
     }
     function groupConsole($name) { return "Cannot fire up multiple consoles at once"; }
     abstract function serverConsole($name);
+
+    /**
+     * Kill active sessions on host $name
+     * @param $name host where to kill active sessions
+     */
+    function hostKill($name) {
+        return "Kill active sessions is not implemented (yet) in {$name}";
+    }
 }

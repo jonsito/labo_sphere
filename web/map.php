@@ -43,6 +43,8 @@ echo "</p>"
     <div data-options="iconCls:'icon-reload'" onclick="fireActionFromMap('restart')">Restart</div>
     <div data-options="iconCls:'icon-undo'" onclick="fireActionFromMap('stop')">Stop</div>
     <div class="menu-sep"></div>
+    <div data-options="iconCls:'icon-no'" onclick="fireActionFromMap('kill')">Kill Session(s)</div>
+    <div class="menu-sep"></div>
     <div data-options="iconCls:'icon-console'" onclick="fireActionFromMap('console')">SSH Console</div>
 </div>
 

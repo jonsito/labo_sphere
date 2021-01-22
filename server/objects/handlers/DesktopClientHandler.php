@@ -3,6 +3,7 @@ class DesktopClientHandler extends ClientHandler {
     const MASTER_CMD="/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
     const STATUS_FILE="/var/www/html/labo_sphere/logs/client_status.log";
     const MAQUINAS_LABO=__DIR__."/../../../config/maquinas_labo.txt";
+    const MAESTRO="maestro3.lab.dit.upm.es";
 
     protected $tablanumeros=array();
     protected $status_table=array();
@@ -76,7 +77,7 @@ class DesktopClientHandler extends ClientHandler {
         if (array_key_exists($name,$this->tablanumeros)) $ip=$this->tablanumeros[$name]['ip'];
         else $ip=gethostbyname("{$name}.lab.dit.upm.es");
         */
-        $fp=$this->ssh_exec('root',"maestro3.lab.dit.upm.es",$command);
+        $fp=$this->ssh_exec('root',self::MAESTRO,$command);
         if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
         $status="On";
         stream_set_blocking($fp, true);
@@ -113,7 +114,7 @@ class DesktopClientHandler extends ClientHandler {
     function hostStart($name) {
         $command=self::MASTER_CMD." start '{$name}' >/dev/null 2>&1";
         // $command="/usr/local/bin/wakeup.sh '{$name}' >/dev/null 2>&1";
-        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
         if (!$res) return "Failed on start physical host '{$name}'";
         return "";
     }
@@ -124,15 +125,22 @@ class DesktopClientHandler extends ClientHandler {
         }
         $group=Configuration::$desktop_pcs[$name];
         $command=self::MASTER_CMD." start '{$group}' >/dev/null 2>&1";
-        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
         if (!$res) return "Failed on start host group: '{$name}'";
         return "";
     }
     function serverStart($name) { return ""; }
 
+    function hostKill($name) {
+        $command=self::MASTER_CMD." stop '{$name}' >/dev/null 2>&1";
+        $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
+        if (!$res) return "Failed on kill sessions in host '{$name}'";
+        return "";
+    }
+
     function hostStop($name) {
         $command=self::MASTER_CMD." stop '{$name}' >/dev/null 2>&1";
-        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
         if (!$res) return "Failed on stop physical host '{$name}'";
         return "";
     }
@@ -143,7 +151,7 @@ class DesktopClientHandler extends ClientHandler {
         }
         $group=Configuration::$desktop_pcs[$name];
         $command=self::MASTER_CMD." stop '{$group}' >/dev/null 2>&1";
-        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
         if (!$res) return "Failed on stop host group: '{$name}'";
         return "";
     }
@@ -151,7 +159,7 @@ class DesktopClientHandler extends ClientHandler {
 
     function hostRestart($name) {
         $command=self::MASTER_CMD." restart '{$name}' >/dev/null 2>&1";
-        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
         if (!$res) return "Failed on stop physical host '{$name}'";
         return "";
     }
@@ -162,7 +170,7 @@ class DesktopClientHandler extends ClientHandler {
         }
         $group=Configuration::$desktop_pcs[$name];
         $command=self::MASTER_CMD." restart '{$group}' >/dev/null 2>&1";
-        $res=$this->ssh_exec_noreturn('root','maestro3.lab.dit.upm.es',$command);
+        $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
         if (!$res) return "Failed on restart host group: '{$name}'";
         return "";
     }

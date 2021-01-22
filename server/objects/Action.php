@@ -31,6 +31,7 @@ class Action {
         }
 
     }
+
     function start($level) {
         if ($this->handler==null) return "start(): Cannot find handler for service {$this->parent}";
         if ($level==1) return $this->handler->serverStart($this->name);
@@ -67,5 +68,9 @@ class Action {
         if ($level==2) return $this->handler->groupConsole($this->name);
         if ($level==3) return $this->handler->hostConsole($this->name);
         return "console():: invalid host level:{$level} provided for host {$this->name}";
+    }
+    function kill($level) {
+        if ($level!==3) return "kill():: invalid host level:{$level} provided for host {$this->name}";
+        return $this->handler->hostKill($this->name);
     }
 }

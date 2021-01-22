@@ -101,6 +101,10 @@ case $1 in
   "status" ) # "stop host|alias|list"
       bgjob /usr/local/bin/compruebamaq.sh -q $2
     ;;
+  "kill" ) # "kill active sessions in host" (except root :-) )
+      users=`ssh $2 who | grep -v root | awk '{ print $1}'`
+      for i in $users; do ssh $2 pkill -KILL -u $i; done
+    ;;
   # actualmente ssh_console, vnc_console y tunnel hacen lo mismo
   # salvo el puerto que se devuelve ( que no se utiliza )
   # los pongo separados por si esto cambia en un futuro
