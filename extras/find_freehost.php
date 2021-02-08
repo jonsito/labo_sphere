@@ -86,7 +86,8 @@ class DBConnection {
         $rs->free();
         return $res;
     }
-}
+} // class
+
 /* just for debugging
 $login='mirella.adazo';
 $dbc=new DBConnection();
@@ -97,3 +98,58 @@ echo "Puestos NO reservados por {$login}:\n".json_encode($list)."\n";
 $list=$dbc->getReserved(1584968400,1,$login,1);
 echo "Puestos reservados por {$login}:\n".json_encode($list)."\n";
 */
+
+function findFreeHost($zone,$duration,$user) {
+    $dbc=new DBConnection();
+    $currentHour=$timestamp=mktime(date("G"),0,0,date("n"),date("j"),date("Y") );
+    // obtenemos la lista de equipos de la zona
+    $items=shell_exec("/home/operador/administracion/servicios_ubuntu-18.04/lista_maquinas {$zone}");
+    $list=explode(" ",trim($items));
+    // le quitamos la lista "exclude"
+    $items=shell_exec("/home/operador/administracion/servicios_ubuntu-18.04/lista_maquinas exclude");
+    $invalid=explode(" ",trim($items));
+    $list=array_diff($list,$invalid);
+    // barajamos el resultado
+    shuffle($list);
+    // componemos tres listas:
+    // - la lista de reservados por el usuario
+    $userList=$dbc->getReserved($currentHour,$duration,$user,1);
+    if ($userList===null) {
+        doLog("Cannot retrieve list of hosts reserved by user '{$user}'");
+        return "";
+    }
+    // - la lista de reservados por otros
+    $otherList=$dbc->getReserved($currentHour,$duration,$user,0);
+    if ($otherList===null) {
+        doLog("Cannot retrieve list of hosts reserved by other people than '{$user}'");
+        return "";
+    }
+    // - la lista de equipos sin reservar
+    $freeList=array_diff($list,$userList,$otherList);
+
+    // re-ordenamos segun el criterio:
+    // $userOn, $userOff, $freeOn, $freeOff, $otherOff, $otherOn
+    // (notese que el otherOn/otherOff esta invertido, para coger siempre primero uno reservado que no se este usando
+    // PENDING
+    // cogemos como seleccionado el primero de la lista
+    $host=$list[0];
+    $delay=0;
+    // cogemos además uno "free" y uno "other" apagados
+
+    // mandamos la orden de encender a los tres equipos
+
+    // retornamos el host seleccionado y si estaba encendido o apagado
+    return array("host" => $host, "delay" =>$delay);
+}
+
+// invocacion:
+// php -f path/to/findFreeHost zone duration user
+
+// ponemos lock
+$sem = sem_get(12345,1,0666);
+sem_acquire($sem);
+// invocamos funcion
+findFreeHost($argv[1],$argv[2],$argv[3]);
+// quitamos semaforo
+sem_release($sem);
+sem_remove($sem);
