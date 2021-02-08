@@ -132,7 +132,7 @@ class DesktopClientHandler extends ClientHandler {
     function serverStart($name) { return ""; }
 
     function hostKill($name) {
-        $command=self::MASTER_CMD." stop '{$name}' >/dev/null 2>&1";
+        $command=self::MASTER_CMD." kill '{$name}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
         if (!$res) return "Failed on kill sessions in host '{$name}'";
         return "";
