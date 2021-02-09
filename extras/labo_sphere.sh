@@ -133,7 +133,7 @@ case $1 in
       fireup_websockify $host $port 2>&1 >>${REPORT}
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}}";
       ;;
-  "tunnel" ) # zone host from timeout
+  "tunnel" ) # $1:oper $2:zone $3:host $4:from $5:timeout
       # locate free host
       host=$(find_freehost $2 $3)
       iphost=$(host -t a $host | awk '{ print $NF }')

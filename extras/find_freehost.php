@@ -99,7 +99,7 @@ $list=$dbc->getReserved(1584968400,1,$login,1);
 echo "Puestos reservados por {$login}:\n".json_encode($list)."\n";
 */
 
-function findFreeHost($zone,$duration,$user) {
+function find_freeHost($zone,$duration,$user="") {
     $dbc=new DBConnection();
     $currentHour=$timestamp=mktime(date("G"),0,0,date("n"),date("j"),date("Y") );
     // obtenemos la lista de equipos de la zona
@@ -117,10 +117,13 @@ function findFreeHost($zone,$duration,$user) {
 
     // componemos tres listas:
     // - la lista de reservados por el usuario
-    $userList=$dbc->getReserved($currentHour,$duration,$user,1);
-    if ($userList===null) {
-        doLog("Cannot retrieve list of hosts reserved by user '{$user}'");
-        return "";
+    $userList=array();
+    if($user!=="") { // si no hay usuario definido, no buscamos nada en la base de datos :-)
+        $userList=$dbc->getReserved($currentHour,$duration,$user,1);
+        if ($userList===null) {
+            doLog("Cannot retrieve list of hosts reserved by user '{$user}'");
+            return "";
+        }
     }
     shuffle($userList);
     // doLog("\nuserlist:\n".json_encode($userList));
@@ -197,7 +200,8 @@ function findFreeHost($zone,$duration,$user) {
 $sem = sem_get(12345,1,0666);
 sem_acquire($sem);
 // invocamos funcion
-$result=findFreeHost($argv[1],$argv[2],$argv[3]);
+if (!array_key_exists(3,$argv)) $result=find_freeHost($argv[1],$argv[2]);
+else $result=find_freeHost($argv[1],$argv[2],$argv[3]);
 doLog("\nSelected host: ".json_encode($result)."\n");
 // quitamos semaforo
 sem_release($sem);
