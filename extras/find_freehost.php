@@ -105,12 +105,16 @@ function findFreeHost($zone,$duration,$user) {
     // obtenemos la lista de equipos de la zona
     $items=shell_exec("/home/operador/administracion/servicios_ubuntu-18.04/lista_maquinas {$zone}");
     $list=explode(" ",trim($items));
+    // doLog("\noriginal zone {$zone}\n".json_encode($list));
     // le quitamos la lista "exclude"
     $items=shell_exec("/home/operador/administracion/servicios_ubuntu-18.04/lista_maquinas exclude");
-    $invalid=explode(" ",trim($items));
+    $invalid=array();
+    if (trim($items)!=="") $invalid=explode(" ",trim($items)); // may be empty
+    // doLog("\noriginal exclude\n".json_encode($invalid));
+
     $list=array_diff($list,$invalid);
-    // barajamos el resultado
-    shuffle($list);
+    // doLog("\noriginal minus exclude:\n".json_encode($list));
+
     // componemos tres listas:
     // - la lista de reservados por el usuario
     $userList=$dbc->getReserved($currentHour,$duration,$user,1);
@@ -118,15 +122,20 @@ function findFreeHost($zone,$duration,$user) {
         doLog("Cannot retrieve list of hosts reserved by user '{$user}'");
         return "";
     }
+    shuffle($userList);
+    // doLog("\nuserlist:\n".json_encode($userList));
     // - la lista de reservados por otros
     $otherList=$dbc->getReserved($currentHour,$duration,$user,0);
     if ($otherList===null) {
         doLog("Cannot retrieve list of hosts reserved by other people than '{$user}'");
         return "";
     }
+    shuffle($otherList);
+    // doLog("\nOtherlist:\n".json_encode($otherList));
     // - la lista de equipos sin reservar
     $freeList=array_diff($list,$userList,$otherList);
-
+    shuffle($freeList);
+    // doLog("\nFreelist:\n".json_encode($freeList));
     // re-ordenamos segun el criterio:
     // $userOn, $userOff, $userBusy; $freeOn, $freeOff, $otherOff, $freeBusy, $otherOn
     // (notese que el otherOn/otherOff esta invertido, para coger siempre primero uno reservado que no se este usando
@@ -141,6 +150,7 @@ function findFreeHost($zone,$duration,$user) {
         if ($a[3]!=="Users:-") $st="busy";
         $state[$host]=$st;
     }
+    // doLog("\nState:\n".json_encode($state));
     // y empezamos a ordenar.
     $list=array();
     $towakeup=array();
@@ -151,25 +161,27 @@ function findFreeHost($zone,$duration,$user) {
     }
     $wkf=1;
     foreach ($userList as $item) if ($state[$item]==="down") {
-        array_push($item); // user OFF
+        array_push($list,$item); // user OFF
         if ($wkf==1) { $wkf=0; array_push($towakeup,$item); } //add first host to to_send_wakeup_list
     }
-    foreach ($userList as $item) if ($state[$item]==="busy") array_push($item); // user BUSY
-    foreach ($freeList as $item) if ($state[$item]==="up") array_push($item); // free on
+    foreach ($userList as $item) if ($state[$item]==="busy") array_push($list,$item); // user BUSY
+    foreach ($freeList as $item) if ($state[$item]==="up") array_push($list,$item); // free on
     $wkf=1;
     foreach ($freeList as $item) if ($state[$item]==="down") {
-        array_push($item); // free off
+        array_push($list,$item); // free off
         if ($wkf==1) { $wkf=0; array_push($towakeup,$item); } //add first host to to_send_wakeup_list
     }
     $wkf=1;
     foreach ($otherList as $item) if ($state[$item]==="down") {
-        array_push($item); // other off
+        array_push($list,$item); // other off
         if ($wkf==1) { $wkf=0; array_push($towakeup,$item); } //add first host to to_send_wakeup_list
     }
-    foreach ($freeList as $item) if ($state[$item]==="busy") array_push($item); // free busy
-    foreach ($otherList as $item) if ($state[$item]==="up") array_push($item); // other up
-    foreach ($otherList as $item) if ($state[$item]==="busy") array_push($item); // other busy
+    foreach ($freeList as $item) if ($state[$item]==="busy") array_push($list,$item); // free busy
+    foreach ($otherList as $item) if ($state[$item]==="up") array_push($list,$item); // other up
+    foreach ($otherList as $item) if ($state[$item]==="busy") array_push($list,$item); // other busy
     // cogemos como seleccionado el primero de la lista
+    // doLog("\nToWakeUp:\n".json_encode($towakeup));
+    // doLog("\nFinalList:\n".json_encode($list));
     $host=$list[0];
     $delay=0;
     // mandamos la orden de encender a los tres equipos
@@ -185,7 +197,8 @@ function findFreeHost($zone,$duration,$user) {
 $sem = sem_get(12345,1,0666);
 sem_acquire($sem);
 // invocamos funcion
-findFreeHost($argv[1],$argv[2],$argv[3]);
+$result=findFreeHost($argv[1],$argv[2],$argv[3]);
+doLog("\nSelected host: ".json_encode($result)."\n");
 // quitamos semaforo
 sem_release($sem);
 sem_remove($sem);
