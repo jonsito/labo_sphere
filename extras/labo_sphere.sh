@@ -44,7 +44,7 @@ find_freehost() {
   # damos la orden de encender los equipos seleccionados.
   # lo normal es que uno de ellos este ya encendido, pero vamos, el wakeup es gratis
   do_log "fireup $zona. Encendiendo host(s): $equipo (seleccionado) $down (nuevos)"
-  /usr/local/bin/wakeup.sh $equipo $down
+  /usr/local/bin/wakeup.sh -b $equipo $down
   if [ $? -ne 0 ]; then
     # si llega aqui es que no hay equipos ni vacios ni apagados
     # cogemos pues los tres primeros disponibles de la lista (recordar que era aleatoria )

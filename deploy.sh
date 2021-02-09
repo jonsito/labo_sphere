@@ -82,5 +82,7 @@ MAESTRO=/home/operador/administracion/servicios_ubuntu-18.04/tools
   # copiamos labo_sphere.sh a maestro3
   scp -i /var/www/.ssh/id_rsa extras/labo_sphere.sh root@maestro3.lab:${MAESTRO}/labo_sphere.sh
   scp -i /var/www/.ssh/id_rsa extras/iptables_handle.sh root@maestro3.lab:${MAESTRO}/iptables_handle.sh
+  scp -i /var/www/.ssh/id_rsa extras/find_freehost.php root@maestro3.lab:${MAESTRO}/find_freehost.php
+  scp -i /var/www/.ssh/id_rsa extras/lista_maquinas.sh root@maestro3.lab:${MAESTRO}/../lista_maquinas
   # Esto es todo, amigos
   exit 0

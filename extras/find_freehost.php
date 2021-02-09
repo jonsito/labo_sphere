@@ -128,16 +128,52 @@ function findFreeHost($zone,$duration,$user) {
     $freeList=array_diff($list,$userList,$otherList);
 
     // re-ordenamos segun el criterio:
-    // $userOn, $userOff, $freeOn, $freeOff, $otherOff, $otherOn
+    // $userOn, $userOff, $userBusy; $freeOn, $freeOff, $otherOff, $freeBusy, $otherOn
     // (notese que el otherOn/otherOff esta invertido, para coger siempre primero uno reservado que no se este usando
-    // PENDING
+
+    // para ello analizamos el fichero de estado de equipos, y componemos el array de estados
+    $statusFile=file("/home/operador/administracion/servicios_ubuntu-18.04/estado_clientes.log");
+    $state=array();
+    foreach ($statusFile as $item) {
+        $a=explode(" ",$item);
+        $host=substr($a[0],7);
+        $st=strtolower(substr($a[1],6));
+        if ($a[3]!=="Users:-") $st="busy";
+        $state[$host]=$st;
+    }
+    // y empezamos a ordenar.
+    $list=array();
+    $towakeup=array();
+    $wkf=0;
+    foreach ($userList as $item) if ($state[$item]==="up") {
+        array_push($list,$item); // user ON
+        if ($wkf==1) { $wkf=0; array_push($towakeup,$item); } //add first host to to_send_wakeup_list
+    }
+    $wkf=1;
+    foreach ($userList as $item) if ($state[$item]==="down") {
+        array_push($item); // user OFF
+        if ($wkf==1) { $wkf=0; array_push($towakeup,$item); } //add first host to to_send_wakeup_list
+    }
+    foreach ($userList as $item) if ($state[$item]==="busy") array_push($item); // user BUSY
+    foreach ($freeList as $item) if ($state[$item]==="up") array_push($item); // free on
+    $wkf=1;
+    foreach ($freeList as $item) if ($state[$item]==="down") {
+        array_push($item); // free off
+        if ($wkf==1) { $wkf=0; array_push($towakeup,$item); } //add first host to to_send_wakeup_list
+    }
+    $wkf=1;
+    foreach ($otherList as $item) if ($state[$item]==="down") {
+        array_push($item); // other off
+        if ($wkf==1) { $wkf=0; array_push($towakeup,$item); } //add first host to to_send_wakeup_list
+    }
+    foreach ($freeList as $item) if ($state[$item]==="busy") array_push($item); // free busy
+    foreach ($otherList as $item) if ($state[$item]==="up") array_push($item); // other up
+    foreach ($otherList as $item) if ($state[$item]==="busy") array_push($item); // other busy
     // cogemos como seleccionado el primero de la lista
     $host=$list[0];
     $delay=0;
-    // cogemos además uno "free" y uno "other" apagados
-
     // mandamos la orden de encender a los tres equipos
-
+    foreach ($towakeup as $item) system("/usr/local/bin/wakeup.sh -b {$item}");
     // retornamos el host seleccionado y si estaba encendido o apagado
     return array("host" => $host, "delay" =>$delay);
 }

@@ -4,6 +4,9 @@
 EXIT=exit
 [ "${BASH_SOURCE[0]}" != "${0}" ] && EXIT=return
 
+# Lista de maquinas temporalmente fuera de servicvio
+EXCLUDE="l127 l128"
+
 # A-127-2 equipos del 221 al 254.
 # el l221 es el del profesor
 A127_2=$(a=221; while [ $a -lt 255 ]; do printf "l%03d " $a; a=`expr $a + 1`; done )
