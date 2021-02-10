@@ -45,7 +45,7 @@ switch ($operation) {
             $res="FireUp Error: must provide host to close tunnel to";
             break;
         }
-        // on resource name ("laboA","laboB","macs","host","virtual","newvm")
+        // on resource name ("a127","b127","macs","host","remoto","newvm")
         $item=$rh->fireUp($node,$type,$host,$duration);
         // return data with parameters to send via post to requested resource url
         if (is_array($item)) { echo json_encode($item); return; }

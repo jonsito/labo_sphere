@@ -6,7 +6,8 @@
  */
 
 function doLog($msg) {
-    echo $msg;
+    $logFile="/var/log/labo_sphere.log";
+    file_put_contents($logFile,"{$msg}\n",FILE_APPEND);
 }
 
 class DBConnection {
@@ -196,13 +197,25 @@ function find_freeHost($zone,$duration,$user="") {
 // invocacion:
 // php -f path/to/findFreeHost zone duration user
 
+// preliminary checks
+if ($argc<3) {
+    doLog("find_freehost.php usage: zone|host nturnos user");
+}
+$turnos= parseInt($argv[2]);
+if ($turnos>10) $turnos=$turnos/3600; // if timeout is given in seconds, translate to hours
 // ponemos lock
 $sem = sem_get(12345,1,0666);
 sem_acquire($sem);
 // invocamos funcion
-if (!array_key_exists(3,$argv)) $result=find_freeHost($argv[1],$argv[2]);
-else $result=find_freeHost($argv[1],$argv[2],$argv[3]);
-doLog("\nSelected host: ".json_encode($result)."\n");
-// quitamos semaforo
+if (!array_key_exists(3,$argv)) {
+    doLog("find_freehost.php Call args {$argv[1]} {$argv[2]}");
+    $result=find_freeHost($argv[1],$turnos);
+} else {
+    doLog("find_freehost.php Call args {$argv[1]} {$argv[2]} {$argv[3]}");
+    $result=find_freeHost($argv[1],$turnos,$argv[3]);
+}
+doLog("\nfind_freehost.php: Selected host: ".json_encode($result)."\n");
+echo $result['host'];
+// liberamos semaforo
 sem_release($sem);
-sem_remove($sem);
+// sem_remove($sem);

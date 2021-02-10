@@ -50,7 +50,8 @@ class ResourceHandler
         return $res;
     }
 
-    // find of type("desktop","console","tunel") on resource name ("laboA","laboB","virtual","macs","newvm") or given host
+    // find of type("desktop","console","tunel")
+    // on resource name ("a127","b123","virtual","macs","newvm") or given host
     public function fireUp($name, $type, $host = "none", $timeout = 0)
     {
         // $this->myLogger->enter("findResourece($name)");
@@ -70,17 +71,17 @@ class ResourceHandler
                 return null;
         }
         switch ($name) {
-            case "laboA":
-            case "laboB":
+            case "a127":
+            case "b123":
             case "macs":
-            case "virtual":
+            case "remoto":
             case "host":
                 $oper = (intval($timeout !== 0)) ? "Connect" : "Disconnect";
                 $user = http_request("username", "s", "");
                 $this->myLogger->info(
                     "FIREUP for user:{$user} operation:{$oper} action:{$type} from:{$_SERVER['REMOTE_ADDR']} to:{$name}/{$host} timeout:{$timeout}"
                 );
-                $cmd .= " {$name} {$host} {$_SERVER['REMOTE_ADDR']} {$timeout}";
+                $cmd .= " {$name} {$host} {$_SERVER['REMOTE_ADDR']} {$timeout} {$user}";
                 break;
             case "newvm":
                 $this->myLogger->error("fireup in on-demand VM's not available yet");
@@ -90,7 +91,8 @@ class ResourceHandler
                 return null;
         }
         $res = $this->callMaestro($cmd);
-        $this->myLogger->trace("callMaestro '{$cmd}' returns {$res} ");
+        $args=strstr($cmd," ");
+        $this->myLogger->trace("labo_sphere.sh '{$args}' returns {$res} ");
         // result es un string json
         $result = json_decode($res, true);
         if ($result === FALSE) return $res; // no se puede leer el json: retorna el error recibido

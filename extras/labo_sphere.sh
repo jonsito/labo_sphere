@@ -9,6 +9,7 @@
 BASE=/data/maestro3-labadmin/servicios_ubuntu-18.04
 REPORT=/var/log/labo_sphere.log
 STATUS_FILE=${BASE}/estado_clientes.log
+FIND_FREEHOST=/home/operador/administracion/servicios_ubuntu-18.04/tools/find_freehost.php
 
 source ${BASE}/lista_maquinas
 
@@ -17,15 +18,21 @@ do_log() {
   echo ${a} - $* >> ${REPORT}
 }
 
+# zone host timeout user
+find_freehost() {
+  if [ "Z$2" != "Znone" ]; then echo $2; return; fi
+  php -f ${FIND_FREEHOST} $1 $3 $4
+}
+
 # buscar un equipo apagado de la zona deseada y encenderlo
 # parametro: zona host
-find_freehost() {
+find_freehost_old() {
   if [ "Z$2" != "Znone" ]; then echo $2; return; fi
   lista=""
   case $1 in
-    "laboA" ) lista="${A127}" ;;
-    "laboB" ) lista="${B123}" ;;
-    "virtual" ) lista="${REMOTO}" ;;
+    "a127" ) lista="${A127}" ;;
+    "b123" ) lista="${B123}" ;;
+    "remoto" ) lista="${REMOTO}" ;;
     "macs" ) lista="${MACS}" ;;
     * ) echo ""; return ;;
   esac
@@ -108,9 +115,9 @@ case $1 in
   # actualmente ssh_console, vnc_console y tunnel hacen lo mismo
   # salvo el puerto que se devuelve ( que no se utiliza )
   # los pongo separados por si esto cambia en un futuro
-  "ssh_console" ) # zone host
+  "ssh_console" ) # ssh_console zone host remote_addr timeout user
       # locate free host
-      host=$(find_freehost $2 $3)
+      host=$(find_freehost $2 $3 $5 $6)
       # wake up selected host. if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host
       delay=$(isAlive $host)
@@ -118,9 +125,9 @@ case $1 in
       # return #return wss://acceso.lab.dit.upm.es:6001/host:22
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":22}";
       ;;
-  "vnc_console" ) # zone host
+  "vnc_console" ) # vnc_console zone host remote_addr timeout user
       # locate free host
-      host=$(find_freehost $2 $3)
+      host=$(find_freehost $2 $3 $5 $6)
       # wake up selected host. if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host
       delay=$(isAlive $host)
@@ -133,9 +140,9 @@ case $1 in
       fireup_websockify $host $port 2>&1 >>${REPORT}
       echo "{\"host\":\"${host}\",\"delay\":${delay},\"port\":${port}}";
       ;;
-  "tunnel" ) # $1:oper $2:zone $3:host $4:from $5:timeout
+  "tunnel" ) # tunnel zone host remote_addr timeoutt user
       # locate free host
-      host=$(find_freehost $2 $3)
+      host=$(find_freehost $2 $3 $5 $6)
       iphost=$(host -t a $host | awk '{ print $NF }')
       # wake up selected host.  if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host

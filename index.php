@@ -104,7 +104,7 @@ if ($admin<0) {
                 height:18,
                 width:150,
                 panelHeight:'auto',
-                value:'laboA',
+                value:'a127',
                 onChange: function(newValue,oldValue) { $('#selected_sesion').val(newValue); }
             });
             $('#username').textbox({
@@ -143,7 +143,7 @@ if ($admin<0) {
                     fit:true,
             });
             ls.tabs('resize');
-            $('#selected_sesion').val('LaboA');
+            $('#selected_sesion').val('a127');
             $('#family_labo').prop("checked", true);
             selectFamily('labo');
             $('#admin_radio').css('display',(enable_adm===0)?'none':'inherit');
@@ -265,7 +265,7 @@ if ($admin<0) {
 <body onload="initialize()">
 <form id="formulario" method="POST" action="web/admin.php" >
 
-    <input type="hidden" name="sesion" id="selected_sesion" value="laboA"/>
+    <input type="hidden" name="sesion" id="selected_sesion" value="a127A"/>
     <input type="hidden" name="sesion" id="countdown" value="0"/>
 
     <div class="cabecera">
@@ -304,10 +304,10 @@ if ($admin<0) {
                             <label for="family_labo">Acceso a equipos del laboratorio</label>
                             <span id="labo_span" style="text-align:center;display:none">
                                 <select id="labo" name="labo" class="easyui-combobox">
-                                    <option value="laboA" selected="selected">Lab. Edificio A</option>
-                                    <option value="laboB">Lab. Edificio B</option>
+                                    <option value="a127" selected="selected">Lab. Edificio A</option>
+                                    <option value="b123">Lab. Edificio B</option>
                                     <option value="macs">Equipos Mac-OSX</option>
-                                    <option value="virtual">Puestos virtuales</option>
+                                    <option value="remoto">Puestos virtuales</option>
                                 </select>
                             </span>
                         </li>

@@ -56,4 +56,5 @@ case $1 in
   "LAB*" | "lab*" ) echo ${LABORATORIO};;
   "TOD*" | "ALL" | "tod*" | "all" ) echo ${TODOS};;
   "EXC*" | "exc*" ) echo ${EXCLUDE};;
+  * ) echo $* ;;
 esac
