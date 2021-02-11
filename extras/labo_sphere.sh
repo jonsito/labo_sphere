@@ -11,8 +11,6 @@ REPORT=/var/log/labo_sphere.log
 STATUS_FILE=${BASE}/estado_clientes.log
 FIND_FREEHOST=/home/operador/administracion/servicios_ubuntu-18.04/tools/find_freehost.php
 
-source ${BASE}/lista_maquinas
-
 do_log() {
   a=$(date +"%Y-%m-%d %H:%M:%S")
   echo ${a} - $* >> ${REPORT}
@@ -22,48 +20,6 @@ do_log() {
 find_freehost() {
   if [ "Z$2" != "Znone" ]; then echo $2; return; fi
   php -f ${FIND_FREEHOST} $1 $3 $4
-}
-
-# buscar un equipo apagado de la zona deseada y encenderlo
-# parametro: zona host
-find_freehost_old() {
-  if [ "Z$2" != "Znone" ]; then echo $2; return; fi
-  lista=""
-  case $1 in
-    "a127" ) lista="${A127}" ;;
-    "b123" ) lista="${B123}" ;;
-    "remoto" ) lista="${REMOTO}" ;;
-    "macs" ) lista="${MACS}" ;;
-    * ) echo ""; return ;;
-  esac
-  #cogemos lista de equipos del grupo escogido
-  # y los barajamos para:
-  # - minimizar las posibilidades de asignar una maquina estropeada
-  # - maximizar el reparto de carga en la alimentación de los equipos
-  cp /dev/null /tmp/find_freehost.$$
-  ( for i in $lista; do grep "Client:$i" ${STATUS_FILE} ; done ) | shuf >> /tmp/find_freehost.$$
-  # cogemos el fichero y buscamos el primer equipo encendido y sin usuarios
-  equipo=`cat /tmp/find_freehost.$$ | grep -e 'State:UP Server:.*Users:-$' | sed -e 's/Client:\(.*\) State.*/\1/g' | head -1`
-  do_log "fireup $zona. Seleccionado host $equipo"
-  # si hemos encontrado un equipo valido cogemos ademas otro equipo apagado
-  # si no, cogemos dos equipos equipos apagados
-  down=`cat /tmp/find_freehost.$$ | grep -e 'State:DOWN Server:- Users:-$' | sed -e 's/Client:\(.*\) State.*/\1/g' | head -2`
-  # damos la orden de encender los equipos seleccionados.
-  # lo normal es que uno de ellos este ya encendido, pero vamos, el wakeup es gratis
-  do_log "fireup $zona. Encendiendo host(s): $equipo (seleccionado) $down (nuevos)"
-  /usr/local/bin/wakeup.sh -b $equipo $down
-  if [ $? -ne 0 ]; then
-    # si llega aqui es que no hay equipos ni vacios ni apagados
-    # cogemos pues los tres primeros disponibles de la lista (recordar que era aleatoria )
-    # y a rezar para que no tengan demasiados usuarios
-    equipo=""
-    down=`cat /tmp/find_freehost.$$ | sed -e 's/Client:\(.*\) State.*/\1/g' | head -3`
-  fi
-  # retornamos el primer equipo seleccionado.
-  # como $equipo puede ser null, anyadimos a la lista los down para que siempre haya algun equipo a devolver
-  echo $equipo $down | awk '{ print $1 }'
-  rm -f /tmp/find_freehost.$$
-  return
 }
 
 # arranca un servidor vnc en $1:host $2:port
@@ -143,6 +99,7 @@ case $1 in
   "tunnel" ) # tunnel zone host remote_addr timeoutt user
       # locate free host
       host=$(find_freehost $2 $3 $5 $6)
+      do_log "find_freehost returns ${host}"
       iphost=$(host -t a $host | awk '{ print $NF }')
       # wake up selected host.  if already alive, set wait delay to zero
       bgjob /usr/local/bin/wakeup.sh -q $host

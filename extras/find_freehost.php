@@ -89,17 +89,6 @@ class DBConnection {
     }
 } // class
 
-/* just for debugging
-$login='mirella.adazo';
-$dbc=new DBConnection();
-$list=$dbc->getReserved(1584968400,1);
-echo "Puestos reservados:\n".json_encode($list)."\n";
-$list=$dbc->getReserved(1584968400,1,$login,0);
-echo "Puestos NO reservados por {$login}:\n".json_encode($list)."\n";
-$list=$dbc->getReserved(1584968400,1,$login,1);
-echo "Puestos reservados por {$login}:\n".json_encode($list)."\n";
-*/
-
 function find_freeHost($zone,$duration,$user="") {
     $dbc=new DBConnection();
     $currentHour=$timestamp=mktime(date("G"),0,0,date("n"),date("j"),date("Y") );
@@ -201,7 +190,7 @@ function find_freeHost($zone,$duration,$user="") {
 if ($argc<3) {
     doLog("find_freehost.php usage: zone|host nturnos user");
 }
-$turnos= parseInt($argv[2]);
+$turnos= intval($argv[2]);
 if ($turnos>10) $turnos=$turnos/3600; // if timeout is given in seconds, translate to hours
 // ponemos lock
 $sem = sem_get(12345,1,0666);
