@@ -57,7 +57,7 @@ echo "</p>"
     <div data-options="iconCls:'icon-console'" onclick="fireActionFromMap('console')">SSH Console</div>
 </div>
 
-<div id="sock_menu" style="width:150px;">
+<div id="sock_menu" style="width:200px;">
     <div><strong>PowerIP: <span id="powerip"></span> Socket: <span id="socket"></span></strong></div>
     <div><strong>Hosts: </strong><span id="hostlist"></span></div>
     <div class="menu-sep"></div>
