@@ -84,6 +84,12 @@
 .icon-console{
 	background:url('icons/l_console.png') no-repeat center center;
 }
+.icon-on{
+	background:url('icons/on.png') no-repeat center center;
+}
+.icon-off{
+	background:url('icons/off.png') no-repeat center center;
+}
 
 
 .icon-mini-add{
