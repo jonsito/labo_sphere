@@ -18,9 +18,19 @@ foreach ($rows as $row) {
             case "door":
             case "null":
             case "none":
-            case "sock":
             case "serv":
                 echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$a[0]}.png\"  alt=\"{$item}\">";
+                break;
+            case "sock":
+                ?><a href="#" class="cl_sock" id="sock_<?php echo $item; ?>" >
+                    <img style="border:0"
+                        src="/labo_sphere/web/images/icons/<?php echo $a[0]; ?>.png"
+                        alt="<?php echo $item; ?>"
+                    class="easyui-tooltip" data-options="
+                        position: 'top',
+                        onShow: function(e) { $(this).tooltip('update',getSockTip('<?php echo $item; ?>')); }
+                    "
+                ></a><?php
                 break;
             default:
                 ?><a href="#" class="cl_menu" id="img_<?php echo $a[0]; ?>" ><img style="border:0"

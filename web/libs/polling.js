@@ -34,6 +34,12 @@ function findTreeNodeByName(name) {
     return nodeListByName[name];
 }
 
+function getSockTip(name) {
+    let data=name.split(",");
+    msg="PowerIP-"+data[1]+"<br/>Socket: "+data[2];
+    return msg;
+}
+
 function getToolTip(name) {
     if (typeof(nodeListByName[name])==='undefined') return "";
     let id=nodeListByName[name];
