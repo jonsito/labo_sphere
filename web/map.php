@@ -57,16 +57,43 @@ echo "</p>"
     <div data-options="iconCls:'icon-console'" onclick="fireActionFromMap('console')">SSH Console</div>
 </div>
 
-<div id="sock_menu" style="width:120px;">
-    <div><strong>PowerIP</strong>: <span id="current_sock"></span></strong></div>
+<div id="sock_menu" style="width:150px;">
+    <div><strong>PowerIP: <span id="powerip"></span> Socket: <span id="socket"></span></strong></div>
+    <div><strong>Hosts: </strong><span id="hostlist"></span></div>
     <div class="menu-sep"></div>
-    <div data-options="iconCls:'icon-redo'" onclick="fireActionFromMap('poweron')">Power On</div>
+    <div data-options="iconCls:'icon-on'" onclick="fireActionFromMap('poweron')">Power On</div>
     <div data-options="iconCls:'icon-reload'" onclick="fireActionFromMap('restart')">Restart</div>
-    <div data-options="iconCls:'icon-undo'" onclick="fireActionFromMap('poweroff')">Power Off</div>
+    <div data-options="iconCls:'icon-off'" onclick="fireActionFromMap('poweroff')">Power Off</div>
 </div>
 
 <script>
     $(function(){
+        // iteramos el mapa agrupando hosts por powerip
+<?php
+        $hostsList=array();
+        foreach ($rows as $row) {
+            $items=explode(":",$row);
+            foreach ($items as $item) {
+                $a = explode(",", $item);
+                switch ($a[0]) {
+                    case "sock":
+                    case "wall":
+                    case "wind":
+                    case "door":
+                    case "null":
+                    case "none":
+                    case "serv":
+                        break; // lXXX
+                    default:
+                        $key = "{$a[1]},{$a[2]}}";
+                        if (array_key_exists($hostsList, $key)) $hostsList[$key] .= $a[0];
+                        else $hostsList[$key] = $a[0];
+                        break;
+                } // switch
+            } // foreach item in row
+        }
+        echo "var hostsBySocket=".json_encode($hostsList).";";
+?>
         $('#map_menu').menu();
         $('#sock_menu').menu();
         $(".cl_menu").bind('contextmenu',function(e){
@@ -79,8 +106,11 @@ echo "</p>"
         });
         $(".cl_sock").bind('contextmenu',function(e){
             e.preventDefault();
-            $('#current_sock').html(e.target.alt.split(",")[1]);
-            $('#map_menu').menu('show', {
+            let a=e.target.alt.split(",");
+            $('#powerip').html(a[1]);
+            $('#socket').html(a[2]);
+            $('#hostlist').html(hostsBySocket[''+a[1]+','+a[2]]);
+            $('#sock_menu').menu('show', {
                 left: e.pageX,
                 top: e.pageY
             });
