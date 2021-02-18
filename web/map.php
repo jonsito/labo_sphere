@@ -6,8 +6,9 @@ if (!$rows) {
     return;
 }
 echo "<h2><em>Distribuci&oacute;n de los recursos del laboratorio</em></h>";
-echo "<p style=\"font-size:0.8vw\">Desplazar el rat&oacute;n sobre un equipo para ver informaci&oacute;n de su estado<br>Pulsar el bot&oacute;n derecho para desplegar opciones</p>";
-echo '<p style="overflow:auto;display:inline-block">';
+echo "<p style=\"font-size:0.8vw\">Desplazar el rat&oacute;n sobre un equipo para ver informaci&oacute;n de su estado<br>\n";
+echo "Pulsar el bot&oacute;n derecho para desplegar opciones</p>";
+echo '<p style="line-height:1px;overflow:auto;display:inline-block">';
 foreach ($rows as $row) {
     $items=explode(":",$row);
     foreach ($items as $item) {
@@ -19,8 +20,8 @@ foreach ($rows as $row) {
             case "null":
             case "none":
             case "serv":
-                echo '<img style="border:0" ';
-                echo '    src="/labo_sphere/web/images/icons/{$a[0]}.png"  alt="{$item}">';
+                echo "<img style=\"border:0\"\n";
+                echo "    src=\"/labo_sphere/web/images/icons/{$a[0]}.png\"  alt=\"{$item}\">";
                 break;
             case "sock":
                 ?><a href="#" class="cl_sock" id="sock_<?php echo $item; ?>" ><img style="border:0"
