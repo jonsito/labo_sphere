@@ -11,14 +11,16 @@ echo '<p style="overflow:auto;display:inline-block">';
 foreach ($rows as $row) {
     $items=explode(":",$row);
     foreach ($items as $item) {
-        switch ($item) {
+        $a=explode(",",$item);
+        switch ($a[0]) {
             case "wall":
             case "wind":
             case "door":
             case "null":
             case "none":
+            case "sock":
             case "serv":
-                echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$item}.png\"  alt=\"{$item}\">";
+                echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$a[0]}.png\"  alt=\"{$item}\">";
                 break;
             default:
                 ?><a href="#" class="cl_menu" id="img_<?php echo $item; ?>" ><img style="border:0"
