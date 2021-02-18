@@ -23,12 +23,12 @@ foreach ($rows as $row) {
                 echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$a[0]}.png\"  alt=\"{$item}\">";
                 break;
             default:
-                ?><a href="#" class="cl_menu" id="img_<?php echo $item; ?>" ><img style="border:0"
-                         src="/labo_sphere/web/getImage.php?host=<?php echo $item; ?>"
+                ?><a href="#" class="cl_menu" id="img_<?php echo $a[0]; ?>" ><img style="border:0"
+                         src="/labo_sphere/web/getImage.php?host=<?php echo $a[0]; ?>"
                          alt="<?php echo $item; ?>"
                          class="easyui-tooltip" data-options="
                             position: 'top',
-                            onShow: function(e) { $(this).tooltip('update',getToolTip('<?php echo $item; ?>')); }
+                            onShow: function(e) { $(this).tooltip('update',getToolTip('<?php echo $a[0]; ?>')); }
                          "
                     ></a><?php
                 break;

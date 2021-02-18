@@ -1,7 +1,7 @@
 wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall:none:wall:wind:wind:wind:wind:wind:wall:wall:wall:wall:wall:wall:wall:wall:wall:wall
-wind:l254:null:l248:null:l242:null:l236:null:l231:null:l226:null:null:wall:none:wall:null:l125:null:null:null:null:none:null:l056:null:null:null:null:null:wall
-wind:l253:null:l247:null:l241:null:l235:null:l230:null:l225:null:null:door:none:wall:null:null:null:null:null:null:none:null:null:null:null:null:null:null:wind
-wind:l252:null:l246:null:l240:null:null:null:null:null:null:null:null:wall:none:wall:l105:l104:l103:null:l102:l101:none:l062:l061:null:l060:l059:l058:l057:wind
+wind:l254:null:l248:null:l242:null:l236:null:l231:null:l226:null:null:wall:none:wall:null:l125:null:null:null:null:none:null:l056,1,1:null:null:null:null:null:wall
+wind:l253:null:l247:null:l241:null:l235:null:l230:null:l225:null:null:door:none:wall:null:null:null:null:null:null:none:null:sock,1,1:null:sock,1,2:null:sock,1,3:null:wind
+wind:l252:null:l246:null:l240:null:null:null:null:null:null:null:null:wall:none:wall:l105:l104:l103:null:l102:l101:none:l062,1,1:l061,1,1:null:l060,1,2:l059,1,2:l058,1,3:l057,1,3:wind
 wind:null:null:null:null:null:null:null:null:null:null:null:null:null:wall:none:wall:null:null:null:null:null:null:none:null:null:null:null:null:null:null:wind
 wind:l251:null:l245:null:l239:null:l234:null:l229:null:l224:null:l221:wall:none:wall:l110:l109:l108:null:l107:l106:none:l068:l067:null:l066:l065:l064:l063:wind
 wind:l250:null:l244:null:l238:null:l233:null:l228:null:l223:null:null:wall:none:wall:null:null:null:null:null:null:none:null:null:null:null:null:null:null:wind
