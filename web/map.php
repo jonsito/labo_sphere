@@ -67,6 +67,7 @@ echo "</p>"
 </div>
 
 <script>
+    var hostsBySocket;
     $(function(){
         // iteramos el mapa agrupando hosts por powerip
 <?php
@@ -75,6 +76,7 @@ echo "</p>"
             $items=explode(":",$row);
             foreach ($items as $item) {
                 $a = explode(",", $item);
+                if (count($a)!==3) continue;
                 switch ($a[0]) {
                     case "sock":
                     case "wall":
@@ -85,14 +87,14 @@ echo "</p>"
                     case "serv":
                         break; // lXXX
                     default:
-                        $key = "{$a[1]},{$a[2]}}";
-                        if (array_key_exists($hostsList, $key)) $hostsList[$key] .= $a[0];
+                        $key = "{$a[1]},{$a[2]}";
+                        if (array_key_exists($key,$hostsList)) $hostsList[$key] .= ",{$a[0]}";
                         else $hostsList[$key] = $a[0];
                         break;
                 } // switch
             } // foreach item in row
         }
-        echo "var hostsBySocket=".json_encode($hostsList).";";
+        echo "hostsBySocket=".json_encode($hostsList).";";
 ?>
         $('#map_menu').menu();
         $('#sock_menu').menu();
