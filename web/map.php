@@ -19,7 +19,8 @@ foreach ($rows as $row) {
             case "null":
             case "none":
             case "serv":
-                echo "<img style=\"border:0\" src=\"/labo_sphere/web/images/icons/{$a[0]}.png\"  alt=\"{$item}\">";
+                echo '<img style="border:0" ';
+                echo '    src="/labo_sphere/web/images/icons/{$a[0]}.png"  alt="{$item}">';
                 break;
             case "sock":
                 ?><a href="#" class="cl_sock" id="sock_<?php echo $item; ?>" ><img style="border:0"
