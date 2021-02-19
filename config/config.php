@@ -91,6 +91,14 @@ class Configuration {
     );
 
     /*
+     * Lista de regletas de alimentacion inteligentes
+     */
+    static $powerip = array(
+        "Lab B-123" => "b123",
+        "Lab A-127" => "a127"
+    );
+
+    /*
      * Arbol principal de maquinas y servicios
      * normalmente no sera necesario tocar aqui
      */
@@ -101,7 +109,8 @@ class Configuration {
             "Equipos Mac-OSX" => array("MacOSXClientHandler", Configuration::$desktop_macs),
             "PC's del laboratorio" => array("DesktopClientHandler", Configuration::$desktop_pcs),
             "Equipos adicionales" => array("DesktopClientHandler", Configuration::$extra_pcs),
-            "Servidores Laboratorio" => array("ServerClientHandler", Configuration::$servers)
+            "Servidores Laboratorio" => array("ServerClientHandler", Configuration::$servers),
+            "Regletas PowerIP" => array("PowerIPClientHandler", Configuration::$powerip),
         );
     }
 }
