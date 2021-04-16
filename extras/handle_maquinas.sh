@@ -92,13 +92,13 @@ do_info() {
 	# obtenemos la lista de maquinas vivas de la red, para optimizar la busqueda
 	nmap -n -sn 138.4.30.0/23 | awk '/138.4.3/ { printf("%s ",$5); }' > /tmp/handle_maquinas.$$
 	for cliente in $* ; do
-	    ip=`host -t a $cliente| awk '{print $NF}'`
-	    grep -q $ip /tmp/handle_maquinas.$$
-	    if [ $? -eq 0 ]; then  
-		check_client $cliente; 
-	    else 
-		echo "Client:$cliente State:DOWN Server:- Users:-" >> ${PIDFILE}
-	    fi
+	  ip=`host -t a $cliente| awk '{print $NF}'`
+	  grep -q $ip /tmp/handle_maquinas.$$
+	  if [ $? -eq 0 ]; then
+	    check_client $cliente;
+	  else
+	    echo "Client:$cliente State:DOWN Server:- Users:-" >> ${PIDFILE}
+	  fi
 	done
 	rm -f /tmp/handle_maquinas.$$
 }
@@ -108,10 +108,10 @@ do_check_client() {
 		alive=`is_alive $1`
 		if [ $alive -ne 0 ]; then
 			debug "Host: $1 is unreachable"
-			continue;
+		else
+		  users=`${SSH} $1 ${WHO} | awk '{printf("%s ",$1);}'`
+		  echo "Client: $1 - Active users: $users"
 		fi
-		users=`${SSH} $1 ${WHO} | awk '{printf("%s ",$1);}'`
-		echo "Client: $1 - Active users: $users"
 }
 
 do_check_powerip() {
@@ -134,17 +134,17 @@ do_check() {
 do_poweron_client() {
 	ETHERS=${BASE}/arranque_maquinas/ethers/build/ethers.admin
 	[ -f ${ETHERS} ] || die "File ${ETHERS} not found"
-		${SSH} $1 ls >/dev/null 2>/dev/null
-		if [ $? -eq 0 ]; then
-			debug "Host: $1 is already up"
-			continue;
-		fi
-		MAC=`grep $1 ${ETHERS} | awk '{ print $1 }'`
-		[ ! -z $MAC ] || die "Cannot locate mac address for host $1"
-		debug "sending wakeup message to $1 mac ${MAC}"
-		${SSH} router.lab.dit.upm.es ether-wake ${MAC}
-		${SSH} router.lab.dit.upm.es ether-wake ${MAC}
-		${SSH} router.lab.dit.upm.es ether-wake ${MAC}
+	${SSH} $1 ls >/dev/null 2>/dev/null
+	if [ $? -eq 0 ]; then
+		debug "Host: $1 is already up"
+	else
+	  MAC=`grep $1 ${ETHERS} | awk '{ print $1 }'`
+	  [ ! -z $MAC ] || die "Cannot locate mac address for host $1"
+	  debug "sending wakeup message to $1 mac ${MAC}"
+	  ${SSH} router.lab.dit.upm.es ether-wake ${MAC}
+	  ${SSH} router.lab.dit.upm.es ether-wake ${MAC}
+	  ${SSH} router.lab.dit.upm.es ether-wake ${MAC}
+	fi
 }
 
 do_poweron_powerip() {
@@ -170,15 +170,15 @@ do_reboot_client() {
   ${SSH} $1 ls >/dev/null 2>/dev/null
 		if [ $? -ne 0 ]; then
 			debug "Host: $1 is unreachable"
-			continue;
+			return
 		fi
 		count=`${SSH} $1 ${WHO} | wc -l`
 		if [ $count -ne 0 ]; then
-			debug "There are $count users logged into $1"
-			[ $force -eq 0 ] && continue;
-		fi
-		debug "Rebooting : $1"
-		count=`${SSH} $1 ${REBOOT}`
+  	  debug "There are $count users logged into $1"
+  	  [ $force -eq 0 ] && return;
+  	fi
+  	debug "Rebooting : $1"
+  	count=`${SSH} $1 ${REBOOT}`
 }
 
 do_reboot_powerip() {
@@ -208,12 +208,12 @@ do_poweroff_client() {
   ${SSH} $1 ls >/dev/null 2>/dev/null
 		if [ $? -ne 0 ]; then
 			debug "Host: $1 is unreachable"
-			continue;
+			return;
 		fi
 		count=`${SSH} $1 ${WHO} | wc -l`
 		if [ $count -ne 0 ]; then
 			debug "There are $count users logged into $1"
-			[ $force -eq 0 ] && continue;
+			[ $force -eq 0 ] && return;
 		fi
 		debug "Shutting down : $1"
 		count=`${SSH} $1 ${POWEROFF}`
