@@ -5,7 +5,8 @@ SSH="ssh -n -q -x -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o
 REBOOT="/sbin/reboot -h now"
 POWEROFF="/sbin/poweroff"
 WHO="/usr/bin/who"
-
+# How to mangage powerIP devices: "url" or "json"
+PIP_MODE="json"
 #
 # Lista de pcs a excluir del reboot/halt ( separados por espacios )
 EXCLUDE="l030 l126"
@@ -118,7 +119,11 @@ do_check_powerip() {
   # nameformat: poweripXX_PORT
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
-  debug "Check powerip state on $host port $port not yet available"
+  if [ "$PIP_MODE" = "json"]; then
+    debug "Check powerip state (json) on $host port $port not yet available"
+   else
+    debug "Check powerip state (url) on $host port $port not yet available"
+  fi
 }
 
 do_check() {
@@ -152,8 +157,15 @@ do_poweron_powerip() {
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
   debug "Set powerip $host port $port to ON state"
-  url="http://${host}/netio.cgi?pass=netio&output${port}=1"
-  curl -s $url >/dev/null
+  if [ "$PIP_MODE" = "json"]; then
+    cmd='{"Outputs":[{"ID":'${port}',"Action":1}]}'
+    url="http://netio:netio@${host}/netio.json"
+    curl --data $cmd -s $url >/dev/null
+    #debug "Poweron powerip (json) on $host port $port not yet available"
+   else
+    url="http://${host}/netio.cgi?pass=netio&output${port}=1"
+    curl -s $url >/dev/null
+  fi
 }
 
 do_poweron() {
@@ -186,8 +198,15 @@ do_reboot_powerip() {
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
   debug "switch off and back to on in $host port $port"
-  url="http://${host}/netio.cgi?pass=netio&output${port}=2&delay${port}=10000"
-  curl -s $url >/dev/null
+  if [ "$PIP_MODE" = "json"]; then
+    cmd='{"Outputs":[{"ID":'${port}',"Action":2,"Delay":10000}]}'
+    url="http://netio:netio@${host}/netio.json"
+    curl --data $cmd -s $url >/dev/null
+    # debug "Reboot (json) on $host port $port not yet available"
+   else
+    url="http://${host}/netio.cgi?pass=netio&output${port}=2&delay${port}=10000"
+    curl -s $url >/dev/null
+  fi
 }
 
 do_reboot() {
@@ -224,8 +243,15 @@ do_poweroff_powerip() {
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
   debug "Set powerip $host port $port to OFF state"
-  url="http://${host}/netio.cgi?pass=netio&output${port}=0"
-  curl -s $url >/dev/null
+  if [ "$PIP_MODE" = "json"]; then
+    cmd='{"Outputs":[{"ID":'${port}',"Action":0}]}'
+    url="http://netio:netio@${host}/netio.json"
+    curl --data $cmd -s $url >/dev/null
+    # debug "poweroff (json) on $host port $port not yet available"
+   else
+    url="http://${host}/netio.cgi?pass=netio&output${port}=0"
+    curl -s $url >/dev/null
+  fi
 }
 
 do_poweroff() {
