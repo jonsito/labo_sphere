@@ -119,7 +119,7 @@ do_check_powerip() {
   # nameformat: poweripXX_PORT
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
-  if [ "$PIP_MODE" = "json"]; then
+  if [ "$PIP_MODE" = "json" ]; then
     debug "Check powerip state (json) on $host port $port not yet available"
    else
     debug "Check powerip state (url) on $host port $port not yet available"
@@ -157,7 +157,7 @@ do_poweron_powerip() {
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
   debug "Set powerip $host port $port to ON state"
-  if [ "$PIP_MODE" = "json"]; then
+  if [ "$PIP_MODE" = "json" ]; then
     cmd='{"Outputs":[{"ID":'${port}',"Action":1}]}'
     url="http://netio:netio@${host}/netio.json"
     curl --data $cmd -s $url >/dev/null
@@ -198,7 +198,7 @@ do_reboot_powerip() {
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
   debug "switch off and back to on in $host port $port"
-  if [ "$PIP_MODE" = "json"]; then
+  if [ "$PIP_MODE" = "json" ]; then
     cmd='{"Outputs":[{"ID":'${port}',"Action":2,"Delay":10000}]}'
     url="http://netio:netio@${host}/netio.json"
     curl --data $cmd -s $url >/dev/null
@@ -243,7 +243,7 @@ do_poweroff_powerip() {
   host=`echo $1 | sed -e 's/_.*//g'`
   port=`echo $1 | sed -e 's/power.*_//g'`
   debug "Set powerip $host port $port to OFF state"
-  if [ "$PIP_MODE" = "json"]; then
+  if [ "$PIP_MODE" = "json" ]; then
     cmd='{"Outputs":[{"ID":'${port}',"Action":0}]}'
     url="http://netio:netio@${host}/netio.json"
     curl --data $cmd -s $url >/dev/null
