@@ -203,7 +203,7 @@ do_reboot_powerip() {
     url="http://netio:netio@${host}/netio.json"
     curl --data $cmd -s $url >/dev/null
     # debug "Reboot (json) on $host port $port not yet available"
-   else
+  else
     url="http://${host}/netio.cgi?pass=netio&output${port}=2&delay${port}=10000"
     curl -s $url >/dev/null
   fi
