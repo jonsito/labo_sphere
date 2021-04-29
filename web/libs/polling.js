@@ -70,7 +70,7 @@ function fireActionFromMap(action) {
 
 function firePowerIPActionFromMap(action) {
     // buscamos powerip/port
-    let powerip=$('#powerip').html();
+    let powerip='powerip'+$('#powerip').html();
     let pwport=$('#socket').html();
     let id=findTreeNodeByName(powerip);
     if (id<0) { console.log("invalid power ip name selected: "+powerip); return 0; }

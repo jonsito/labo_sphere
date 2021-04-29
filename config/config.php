@@ -7,11 +7,11 @@ class Configuration {
      * By default choose default home dir for apache user
      */
     // for Fedora
-    static $ssh_keypath="/usr/share/httpd/.ssh";
-    static $ldap_credentials="/usr/share/httpd/.ssh/ldap_config.php";
+    // static $ssh_keypath="/usr/share/httpd/.ssh";
+    // static $ldap_credentials="/usr/share/httpd/.ssh/ldap_config.php";
     // for Ubuntu
-    // static $ssh_keypath="/var/www/.ssh";
-    // static $ldap_credentials="/var/www/.ssh/ldap_config.php";
+    static $ssh_keypath="/var/www/.ssh";
+    static $ldap_credentials="/var/www/.ssh/ldap_config.php";
 
     /*
      * ldap_credentials.php must be a php file with these contents:
@@ -36,8 +36,8 @@ class Configuration {
      * al usuario "apache" del servidor donde se ejecuta esta aplicacion
      */
     static $vbox_vms = array(
-        "Local VBox Server" => "jantonio@localhost",
-        "Remote VB Server 1" => "jantonio@pepino.local"
+        "Servidor Maestro" => "root@maestro3.lab.dit.upm.es",
+        "Jonsy-lab (pruebas)" => "jantonio@jonsy-lab.lab.dit.upm.es"
     );
 
     /*
