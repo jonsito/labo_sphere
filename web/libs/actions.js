@@ -16,7 +16,10 @@ function delayAction(message,delay,callback) {
     },parseInt(delay)*1000)
 }
 
-function labo_action(action) {
+/*
+in powerip nodes an extra suffix is added to set port index; else no suffix
+ */
+function labo_action(action,suffix) {
     // comprobamos la seleccion
     var tg=$('#labo_treegrid');
     var node=tg.treegrid('getSelected');
@@ -49,7 +52,7 @@ function labo_action(action) {
         data: {
             Operation:action,
             id:node.id,
-            name:node.name,
+            name:(suffix==="")?node.name:node.name+"_"+suffix,
             parent:parent.name,
             level:node.level,
         },

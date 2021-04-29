@@ -65,7 +65,7 @@ function fireActionFromMap(action) {
     // en función de la acción solicitada llamamos a las rutinas correspondientes
     let tg=$('#labo_treegrid');
     tg.treegrid('select',id);
-    labo_action(action);
+    labo_action(action,"");
 }
 
 function firePowerIPActionFromMap(action) {
@@ -77,7 +77,7 @@ function firePowerIPActionFromMap(action) {
     // en función de la acción solicitada llamamos a las rutinas correspondientes
     let tg=$('#labo_treegrid');
     tg.treegrid('select',id);
-    labo_action(action);
+    labo_action(action,pwport);
 }
 
 function handleGlobalScores(state,servers,users) {
