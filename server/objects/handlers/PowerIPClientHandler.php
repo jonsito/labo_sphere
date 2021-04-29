@@ -146,3 +146,4 @@ class DesktopClientHandler extends ClientHandler {
     // groupConsole is handled in parent class
     function serverConsole($name) { return "Pending open webconsole for PowerIP {$name}"; }
 }
+?>
