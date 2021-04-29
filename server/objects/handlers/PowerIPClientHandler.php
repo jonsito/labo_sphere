@@ -1,5 +1,5 @@
 <?php
-class DesktopClientHandler extends ClientHandler {
+class PowerIPClientHandler extends ClientHandler {
     const MASTER_CMD="/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
     const MAESTRO="maestro3.lab.dit.upm.es";
 
@@ -10,7 +10,7 @@ class DesktopClientHandler extends ClientHandler {
     function enumerate(){
         $res=array();
         if ($this->location=='b123') { // labo edificio B
-            array_push($res,"powerip14");
+            array_push($res,"powerip14"); // "powerip4" real name
             for($i=1;$i<=3;$i++) array_push($res,sprintf("powerip%d",$i));
         } else if ($this->location=='a127') { // l101-l124
             array_push($res,"powerip5"); // no existe, pero se pone para probar

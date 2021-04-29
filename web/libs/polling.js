@@ -68,6 +68,18 @@ function fireActionFromMap(action) {
     labo_action(action);
 }
 
+function firePowerIPActionFromMap(action) {
+    // buscamos powerip/port
+    let powerip=$('#powerip').html();
+    let pwport=$('#socket').html();
+    let id=findTreeNodeByName(powerip);
+    if (id<0) { console.log("invalid power ip name selected: "+powerip); return 0; }
+    // en función de la acción solicitada llamamos a las rutinas correspondientes
+    let tg=$('#labo_treegrid');
+    tg.treegrid('select',id);
+    labo_action(action);
+}
+
 function handleGlobalScores(state,servers,users) {
     let st=state.split('/');
     $('#global_state').val("On:"+st[0]+" - Off:"+st[1]+" - Busy:"+st[2]+" - ???:"+st[3]+" - Total:"+st[4]);

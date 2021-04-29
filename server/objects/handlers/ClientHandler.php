@@ -7,6 +7,7 @@ require_once(__DIR__."/DesktopClientHandler.php");
 require_once(__DIR__."/MacOSXClientHandler.php");
 require_once(__DIR__."/ServerClientHandler.php");
 require_once(__DIR__."/VMWareClientHandler.php");
+require_once(__DIR__."/PowerIPClientHandler.php");
 
 abstract class ClientHandler {
     protected $location;
@@ -24,6 +25,7 @@ abstract class ClientHandler {
             case "DesktopClientHandler" : return new DesktopClientHandler($location);
             case "ServerClientHandler" : return new ServerClientHandler($location);
             case "VMWareClientHandler" : return new VMWareClientHandler($location);
+            case "PowerIPClientHandler" : return new PowerIPClientHandler($location);
         }
         return null; //error
     }
