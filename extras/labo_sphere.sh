@@ -39,7 +39,7 @@ stop_tunnel() {  # $1:source $2:destination
 }
 
 bgjob() {
-  do_log "launch bgjob $*"
+  do_log "launch bgjob '$*'"
   $* 2>&1 >>${REPORT} &
 }
 

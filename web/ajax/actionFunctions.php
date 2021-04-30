@@ -34,7 +34,7 @@ switch ($operation) {
     case "stop": $res=$a->stop($level); break; // stop host
     case "restart": $res=$a->restart($level); break; // stop host
     case "status": $res=$a->status($level); break; // status host
-    case "kill": $res=$a->kill($level,$node); break; // kill session(s) in requested node
+    case "kill": $res=$a->kill($level); break; // kill session(s) in requested node
     case "console": // fireup admin ssh terminal on host
         $res=$a->console($level);
         if (is_array($res)) {echo json_encode($res); return; }
