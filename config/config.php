@@ -7,11 +7,11 @@ class Configuration {
      * By default choose default home dir for apache user
      */
     // for Fedora
-    static $ssh_keypath="/usr/share/httpd/.ssh";
-    static $ldap_credentials="/usr/share/httpd/.ssh/ldap_config.php";
+    // static $ssh_keypath="/usr/share/httpd/.ssh";
+    // static $ldap_credentials="/usr/share/httpd/.ssh/ldap_config.php";
     // for Ubuntu
-    // static $ssh_keypath="/var/www/.ssh";
-    // static $ldap_credentials="/var/www/.ssh/ldap_config.php";
+    static $ssh_keypath="/var/www/.ssh";
+    static $ldap_credentials="/var/www/.ssh/ldap_config.php";
 
     /*
      * ldap_credentials.php must be a php file with these contents:
@@ -97,7 +97,6 @@ class Configuration {
         "Binario 4" => "cdc@binario4.lab.dit.upm.es",
         "Home de alumnos" => "cdc@recipiente10.lab.dit.upm.es",
     );
-
 
     /*
      * Arbol principal de maquinas y servicios

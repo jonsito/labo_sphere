@@ -93,15 +93,15 @@ if($res==false) { readfile(__DIR__."/../denied.html"); exit(0); }
     </span>
 	<span style="float:right;padding:5px">
 		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-redo'"
-           onclick="labo_action('start');">Start</a>
+           onclick="labo_action('start',"");">Start</a>
 		<a id="labo-startBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-reload'"
-           onclick="labo_action('restart');">Restart</a>
+           onclick="labo_action('restart',"");">Restart</a>
    		<a id="labo-stopBtn" href="#" class="easyui-linkbutton"  data-options="iconCls:'icon-undo'"
-           onclick="labo_action('stop');">Stop</a>
+           onclick="labo_action('stop',"");">Stop</a>
    		<a id="labo-statusBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-info'"
-           onclick="labo_action('status')">Status</a>
+           onclick="labo_action('status',"")">Status</a>
    		<a id="labo-consoleBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-console'"
-           onClick="labo_action('console');">SSH Console</a>
+           onClick="labo_action('console',"");">SSH Console</a>
    	</span>
 </div>
 

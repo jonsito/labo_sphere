@@ -63,9 +63,9 @@ echo "</p>"
     <div><strong>PowerIP: <span id="powerip"></span> Socket: <span id="socket"></span></strong></div>
     <div><strong>Hosts: </strong><span id="hostlist"></span></div>
     <div class="menu-sep"></div>
-    <div data-options="iconCls:'icon-on'" onclick="fireActionFromMap('poweron')">Power On</div>
-    <div data-options="iconCls:'icon-reload'" onclick="fireActionFromMap('restart')">Restart</div>
-    <div data-options="iconCls:'icon-off'" onclick="fireActionFromMap('poweroff')">Power Off</div>
+    <div data-options="iconCls:'icon-on'" onclick="firePowerIPActionFromMap('start')">Power On</div>
+    <div data-options="iconCls:'icon-reload'" onclick="firePowerIPActionFromMap('restart')">Restart</div>
+    <div data-options="iconCls:'icon-off'" onclick="firePowerIPActionFromMap('stop')">Power Off</div>
 </div>
 
 <script>

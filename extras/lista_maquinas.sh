@@ -5,7 +5,8 @@ EXIT=exit
 [ "${BASH_SOURCE[0]}" != "${0}" ] && EXIT=return
 
 # Lista de maquinas temporalmente fuera de servicvio
-EXCLUDE="l127 l128"
+# JAMC 13-28 Abril 2021 add 175-l186 para practicas de maquinas virtuales
+EXCLUDE="l127 l128 l169 l170 l171 l172 l173 l174 l175 l176 l177 l178 l179 l180 l181 l182 l183 l184 l185 l186"
 
 # A-127-2 equipos del 221 al 254.
 # el l221 es el del profesor

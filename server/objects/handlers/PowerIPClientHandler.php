@@ -47,11 +47,12 @@ class DesktopClientHandler extends ClientHandler {
     function hostStatus($name,$id=0) {
         // $command="/usr/bin/who";
         $command=self::MASTER_CMD." status '{$name}' >/dev/null 2>&1";
+        if (! array_key_exists($name,$this->tablanumeros)) {
+            $ip=gethostbyname("{$name}.lab.dit.upm.es");
+            if ($ip!==$name) $this->tablanumeros[$name]['ip']=$ip; // gethostbyname retorna $name si ip not found
+            else $this->tablanumeros[$name]['ip']="0.0.0.0"; // dummy value
+        }
         $ip=$this->tablanumeros[$name]['ip'];
-        /*
-        if (array_key_exists($name,$this->tablanumeros)) $ip=$this->tablanumeros[$name]['ip'];
-        else $ip=gethostbyname("{$name}.lab.dit.upm.es");
-        */
         $fp=$this->ssh_exec('root',self::MAESTRO,$command);
         if(!$fp) return array('id'=>$id,'name'=>$name,'ip'=>$ip,'status'=>'Off');
         $status="On";
@@ -145,3 +146,4 @@ class DesktopClientHandler extends ClientHandler {
     // groupConsole is handled in parent class
     function serverConsole($name) { return "Pending open webconsole for PowerIP {$name}"; }
 }
+?>
