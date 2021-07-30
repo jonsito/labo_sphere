@@ -10,10 +10,9 @@ class DesktopClientHandler extends ClientHandler {
     function enumerate(){
         $res=array();
         if ($this->location=='b123') { // labo edificio B
-            array_push($res,"powerip14");
-            for($i=1;$i<=3;$i++) array_push($res,sprintf("powerip%d",$i));
+            for($i=1;$i<=14;$i++) array_push($res,sprintf("powerip%d",$i));
         } else if ($this->location=='a127') { // l101-l124
-            array_push($res,"powerip5"); // no existe, pero se pone para probar
+            array_push($res,"powerip15"); // no existe, pero se pone para probar
         }
         return $res;
     }

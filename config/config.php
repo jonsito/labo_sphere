@@ -76,6 +76,14 @@ class Configuration {
         "Despachos y Acc. Remoto" => "extra"
     );
 
+    /*
+     * Lista de regletas de alimentacion inteligentes
+     */
+    static $powerip = array(
+        "Lab B-123" => "b123",
+        "Lab A-127" => "a127"
+    );
+
     /**
      * Servidores del laboratorio
      * Version web del "comprueba_estado.sh" de maestro3
@@ -90,13 +98,6 @@ class Configuration {
         "Home de alumnos" => "cdc@recipiente10.lab.dit.upm.es",
     );
 
-    /*
-     * Lista de regletas de alimentacion inteligentes
-     */
-    static $powerip = array(
-        "Lab B-123" => "b123",
-        "Lab A-127" => "a127"
-    );
 
     /*
      * Arbol principal de maquinas y servicios
