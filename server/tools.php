@@ -237,7 +237,7 @@ function escapeString($str) {
             case '\'': $a="\\"."'"; break;
             case '\b': $a="\\"."b"; break;
             case '\\': $a="\\"."\\"; break;
-            case '%': $a="\\".'%'; break;
+            // case '%': $a="\\".'%'; break;
             // case '_': $a="\\"."_"; break;
             default: $a=$str[$i]; break;
         }
@@ -319,7 +319,7 @@ function http_request($name,$type,$def,$esc=true) {
     if ($a===null) return null;
     switch ($type) {
         case "s": if ($a===_('-- Search --') ) $a=""; // filter "search" in searchbox  ( should already be done in js side)
-            if ($esc) return escapeString(strval($a));
+            if ($esc===true) return escapeString(strval($a));
             return strval($a);
         case "i": return intval($a);
         case "b":

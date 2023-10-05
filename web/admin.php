@@ -2,7 +2,7 @@
 require_once(__DIR__."/../server/tools.php");
 require_once(__DIR__."/../server/objects/AuthLDAP.php");
 $user=http_request("username","s","_invalid_");
-$pass=http_request("password","s","_invalid_");
+$pass=http_request("password","s","_invalid_",0); // do not escape chars!!
 $auth=new AuthLDAP();
 $res=false;
 // if defined DEBUG_USER and matches, jump directly into page

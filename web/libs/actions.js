@@ -128,7 +128,9 @@ function labo_session(mode,tipo,duration) {
                     $.messager.alert({
                         title:"Error",msg:"Cannot open admin desktop window",icon:"error",style:{right:'', bottom:250}
                     });
-                } else {
+                } else { // launch screensaver on remote session whenever open/close window
+		    window_desktop.onload=function(){  labo_session('host','tunel',-1); };
+		    window_desktop.onunload=function(){ labo_session('host','tunel',-1); };
                     window_desktop.focus();
                 }
             },500);

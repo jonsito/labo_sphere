@@ -16,27 +16,27 @@ class Configuration {
     /*
      * ldap_credentials.php must be a php file with these contents:
      * <?php
-     * define("LDAP_HOST","ldap20.lab.dit.upm.es");
-     * define("LDAP_SERVER","ldaps://ldap20.lab.dit.upm.es");
+     * define("LDAP_HOST","ldap-ng.lab.dit.upm.es");
+     * define("LDAP_SERVER","ldaps://ldap-ng.lab.dit.upm.es");
      * define("LDAP_PORT",636);
      * define("LDAP_VERSION",3);
-     * define("LDAP_AUTHDN","ou=people,dc=lab,dc=dit,dc=upm,dc=es");
-     * define("LDAP_QUERYDN","cn=config,dc=lab,dc=dit,dc=upm,dc=es");
+     * define("LDAP_AUTHDN","ou=Usuarios,dc=lab,dc=dit,dc=upm,dc=es");
+     * define("LDAP_QUERYDN","cn=ldap-ng,dc=lab,dc=dit,dc=upm,dc=es");
      * define("LDAP_QUERYPW","<clean_passwd_comes_here>");
      * define("ADMIN_USERS","comma,separated,list,of,users,allowed,to,enter,in,admin,pages");
      * define("DEBUG_USER","debug"); // used to skip LDAP auth. must be set to "" on deployment
      * ?>
      *  MUST be owned by apache user, with 400 permissions and not accesible from outside the server
-    */
-
-    /*
+     */
+   
+    /* 
      * Lista de servidores de maquinas virtuales VirtualBox
      * formato usuario@maquina
      * debe permitir el acceso sin password por ssh (authorized keys)
      * al usuario "apache" del servidor donde se ejecuta esta aplicacion
      */
     static $vbox_vms = array(
-        "Servidor Maestro" => "root@maestro.lab.dit.upm.es",
+        "Servidor Maestro" => "root@maestro3.lab.dit.upm.es",
         "Jonsy-lab (pruebas)" => "jantonio@jonsy-lab.lab.dit.upm.es"
     );
 
@@ -57,7 +57,7 @@ class Configuration {
 
     /*
      * Lista de equipos fisicos por zonas del laboratorio
-     * La lista de maquinas se obtiene consultando a maestro
+     * La lista de maquinas se obtiene consultando a maestro3
      */
     static $desktop_pcs = array(
         "Lab. B-123-1" => "b123_1",
@@ -78,24 +78,16 @@ class Configuration {
 
     /**
      * Servidores del laboratorio
-     * Version web del "comprueba_estado.sh" de maestro
+     * Version web del "comprueba_estado.sh" de maestro3
      */
     static $servers = array(
         "Servidor Web labo" => "cdc@www.lab.dit.upm.es",
-        "Maestro" => "cdc@maestro.lab.dit.upm.es",
+        "Maestro" => "cdc@maestro3.lab.dit.upm.es",
         "Binario 1" => "cdc@binario1.lab.dit.upm.es",
         "Binario 2" => "cdc@binario2.lab.dit.upm.es",
         "Binario 3" => "cdc@binario3.lab.dit.upm.es",
         "Binario 4" => "cdc@binario4.lab.dit.upm.es",
         "Home de alumnos" => "cdc@recipiente10.lab.dit.upm.es",
-    );
-
-    /*
-     * Lista de regletas de alimentacion inteligentes
-     */
-    static $powerip = array(
-        "Lab B-123" => "b123",
-        "Lab A-127" => "a127"
     );
 
     /*
@@ -105,12 +97,11 @@ class Configuration {
     static function getServicios()  {
         return array(
             "Servidores Virtualbox" => array("VboxClientHandler", Configuration::$vbox_vms),
-            "Servidores VMWare" => array("VMWareClientHandler", Configuration::$vmware_vms),
+	    "Servidores VMWare" => array("VMWareClientHandler", Configuration::$vmware_vms),
             "Equipos Mac-OSX" => array("MacOSXClientHandler", Configuration::$desktop_macs),
             "PC's del laboratorio" => array("DesktopClientHandler", Configuration::$desktop_pcs),
             "Equipos adicionales" => array("DesktopClientHandler", Configuration::$extra_pcs),
-            "Servidores Laboratorio" => array("ServerClientHandler", Configuration::$servers),
-            "Regletas PowerIP" => array("PowerIPClientHandler", Configuration::$powerip),
+            "Servidores Laboratorio" => array("ServerClientHandler", Configuration::$servers)
         );
     }
 }

@@ -5,8 +5,8 @@ require_once(__DIR__."/NetworkInterfaces.php");
 
 class ResourceHandler
 {
-    protected $remote_dir = "/home/operador/administracion/servicios_ubuntu-18.04/tools";
-    protected $remote_cmd = "/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
+    protected $remote_dir = "/home/operador/administracion/servicios_ubuntu-20.04/tools";
+    protected $remote_cmd = "/home/operador/administracion/servicios_ubuntu-20.04/tools/labo_sphere.sh";
     protected $user;
     protected $password;
     protected $myLogger;
@@ -20,12 +20,12 @@ class ResourceHandler
 
     /*
      * Call maestro to fire up required resources to launch ssh/vpn/tunnel
-     * Notice that provided ssh key should be restricted in host maestro3
+     * Notice that provided ssh key should be restricted in host maestro
      * to execute only script
      */
     protected function callMaestro($command,$multiline=false)
     {
-        $host = "maestro3.lab.dit.upm.es";
+        $host = "maestro.lab.dit.upm.es";
         $connection = @ssh2_connect($host, 22, array('hostkey' => 'ssh-rsa'));
         if (!$connection) {
             $this->myLogger->notice("Cannot ssh connect to server {$host}");

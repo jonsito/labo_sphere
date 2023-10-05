@@ -35,6 +35,11 @@ if ($host==="-") $host="&lt;host&gt;";
     </dt>
     <dd>
         <br/>
+	Algunas redes Wifi (como la red EDURoam utilizada en la UPM) <em>NO PERMITEN</em> el acceso directo a este servicio.<br/>
+	Para poder acceder desde dichas redes al servicio de acceso remoto de los laboratorios del Dit,es preciso utilizar el t&uacute;nel <a href="https://www.upm.es/UPM/ServiciosTecnologicos/vpn">UPMvpn</a> que ofrece la Universidad. Consulte las instrucciones del enlace para proceder a instalar y activar el software requerido
+    </dd>
+    <dd>
+        <br/>
         Es necesario el uso de un navegador actualizado: Firefox, Chrome, Safari, Edge.
                 La aplicaci&oacute;n web no funciona con Explorer o versiones antiguas de Android
     </dd>
@@ -42,7 +47,7 @@ if ($host==="-") $host="&lt;host&gt;";
         <br/>
         El alumno debe estar dado de alta ( tener cuenta ) en el laboratorio.
         En el caso de alumnos de cursos anteriores, la cuenta deber&aacute; esta renovada<br/>
-        Para darse de alta, renovar la cuenta, o restaurar la contrase&ntilde;a, acceder al siguiente <a href="https://wwww.lab.dit.upm.es/labng">enlace</a>
+        Para darse de alta, renovar la cuenta, o restaurar la contrase&ntilde;a, acceder al siguiente <a href="https://www.lab.dit.upm.es/labng">enlace</a>
     </dd>
     <dd>
         <br/>
@@ -90,7 +95,7 @@ if ($host==="-") $host="&lt;host&gt;";
                         <ul>
                             <li>Equipos del edificio A-127 (Para alumnos de primeros cursos)</li>
                             <li>Equipos del edificio B-123 (Para alumnos de &uacute;ltimos cursos)</li>
-                            <li>Equipos virtuales (Para prácticas sencillas que no requieran virtualizaci&oacute;n)</li>
+                            <li>Equipos para pr&aacute;cticas de FTEL (Fundamentos de Telem&aacute;tica)</li>
                             <li>Equipos Mac-OSX (Para alumnos que cursan asignaturas que requieren OSX)</li>
                             <li>Alternativamente se puede seleccionar un equipo concreto, para por ejemplo continuar una
                                 pr&aacute;ctica anterior que usa datos en disco local
@@ -453,7 +458,7 @@ if ($host==="-") $host="&lt;host&gt;";
     </dd>
     <dt class="faq" onclick="$(this).nextUntil('dt').toggle()">Para obtener informaci&oacute;n adicional</dt>
     <dd style="display:none">
-        Enviar correo electr&oacute;nico a &lt;guru@dit.upm.es&gt;<br/>
+        Enviar correo electr&oacute;nico a &lt;cdc_dit@autolistas.upm.es&gt;<br/>
         El correo deber&aacute; indicar el nombre del alumno, las asignaturas que cursa, y una <em>descripci&oacute;n <strong>detallada</strong>
             del problema</em> ( no basta con decir "no me funciona 'xxxx' ); y a ser posible, adjuntando capturas de pantalla (completa)
     </dd>

@@ -47,13 +47,13 @@ function getToolTip(name) {
     row=$('#labo_treegrid').treegrid('find',id);
     msg=     "Host:   "+name+
         "<br/>Model:  "+row.model+
-        "<br/>Status: "+row.status+
+        "<br/>Status: "+row.status+" ("+row.image+")"+
         "<br/>Uptime: "+row.uptime+
         "<br/>Server: "+row.server+
         "<br/>Network: "+row.network+
         "<br/>Load:   "+row.load+
         "<br/>Memory: "+row.meminfo+
-        "<br/>Users:  "+row.users;
+        "<br/>Users:  "+row.users.replaceAll(",","<br/>- ");
     return msg;
 }
 
@@ -95,7 +95,7 @@ function handleWSData(data) {
     for (let n=0;n<a.length;n++) {
         if (a[n]==="") continue; // empty, at end of data
         // analizamos cada data individual
-        [ host,state,server,users,load,meminfo,model,network ]= a[n].split(":");
+        [ host,state,server,users,load,meminfo,model,network,image ]= a[n].split(":");
         // buscamos el node ID que tiene el nombre recibido
         if(host==='l000') {
             handleGlobalScores(state,server,users);
@@ -114,9 +114,12 @@ function handleWSData(data) {
             row.status="On";
             days = parseInt(st/(60*60*24));
             hours = parseInt((st/(60*60)))%24;
+	    hp=(hours<10)?"0":"";
             minutes = parseInt(st/60)%60;
+	    mp=(minutes<10)?"0":"";
             seconds = parseInt(st)%60;
-            row.uptime=""+days+" days "+hours+":"+minutes+":"+seconds;
+	    sp=(seconds<10)?"0":"";
+            row.uptime=""+days+" days "+hp+hours+":"+mp+minutes+":"+sp+seconds;
         }
         if ( (users!=='-') && (users!=='') ) row.status="Busy";
         row.server=server;
@@ -125,6 +128,7 @@ function handleWSData(data) {
         row.meminfo=meminfo;
         row.model=model;
         row.network=network;
+	row.image=image;
         // and refresh gui
         tg.treegrid('refresh',id); // treegrid
         css=statusStyler(row.status,row,null).split(':'); // background-color:#XXXXX

@@ -38,7 +38,10 @@ switch ($operation) {
     case "console": // fireup admin ssh terminal on host
         $res=$a->console($level);
         if (is_array($res)) {echo json_encode($res); return; }
-        break;
+	break;
+    case "lock":
+        $duration = -1; // call screen saver to lock session
+        // no break
     case "fireup":  // fireup instance of type("desktop","console","tunel")
         // on close tunel, verify that user selected a host
         if ( ($type==='tunel') && ($duration==0) && ($node!=='host') ) {

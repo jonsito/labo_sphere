@@ -1,7 +1,7 @@
 <?php
-class DesktopClientHandler extends ClientHandler {
-    const MASTER_CMD="/home/operador/administracion/servicios_ubuntu-18.04/tools/labo_sphere.sh";
-    const MAESTRO="maestro3.lab.dit.upm.es";
+class PowerIPClientHandler extends ClientHandler {
+    const MASTER_CMD="/home/operador/administracion/servicios_ubuntu-20.04/tools/labo_sphere.sh";
+    const MAESTRO="maestro.lab.dit.upm.es";
 
     protected $tablanumeros=array();
     protected $status_table=array();
@@ -10,9 +10,10 @@ class DesktopClientHandler extends ClientHandler {
     function enumerate(){
         $res=array();
         if ($this->location=='b123') { // labo edificio B
-            for($i=1;$i<=14;$i++) array_push($res,sprintf("powerip%d",$i));
+            array_push($res,"powerip14"); // "powerip4" real name
+            for($i=1;$i<=3;$i++) array_push($res,sprintf("powerip%d",$i));
         } else if ($this->location=='a127') { // l101-l124
-            array_push($res,"powerip15"); // no existe, pero se pone para probar
+            array_push($res,"powerip5"); // no existe, pero se pone para probar
         }
         return $res;
     }
@@ -70,7 +71,7 @@ class DesktopClientHandler extends ClientHandler {
         $command=self::MASTER_CMD." start '{$name}' >/dev/null 2>&1";
         // $command="/usr/local/bin/wakeup.sh '{$name}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
-        if (!$res) return "Failed on start physical host '{$name}'";
+        if (!$res) return "Failed on start PowerIP host '{$name}'";
         return "";
     }
     // groupstart encender todos los interruptores de todos los powerip del labo indicado
@@ -82,7 +83,7 @@ class DesktopClientHandler extends ClientHandler {
         $group=Configuration::$powerip[$name];
         $command=self::MASTER_CMD." start '{$group}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
-        if (!$res) return "Failed on start host group: '{$name}'";
+        if (!$res) return "Failed on start PowerIP group: '{$name}'";
         return "";
     }
     function serverStart($name) { return ""; }
@@ -91,7 +92,7 @@ class DesktopClientHandler extends ClientHandler {
     function hostStop($name) {
         $command=self::MASTER_CMD." stop '{$name}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
-        if (!$res) return "Failed on stop physical host '{$name}'";
+        if (!$res) return "Failed on stop PowerIP host '{$name}'";
         return "";
     }
 
@@ -104,7 +105,7 @@ class DesktopClientHandler extends ClientHandler {
         $group=Configuration::$desktop_pcs[$name];
         $command=self::MASTER_CMD." stop '{$group}' >/dev/null 2>&1";
         $res=$this->ssh_exec_noreturn('root',self::MAESTRO,$command);
-        if (!$res) return "Failed on stop host group: '{$name}'";
+        if (!$res) return "Failed on stop PowerIP group: '{$name}'";
         return "";
     }
     function serverStop($name) { return ""; }

@@ -72,7 +72,19 @@ if ($admin<0) {
             var isIE = /MSIE|Trident/.test(window.navigator.userAgent);
             if ( isIE ) {
                 setTimeout(function() { window.location.href="/labo_sphere/inv_browser.html"; },0);
-            }
+	    }
+	    // check that user can launch and open Desktop connection
+	    /*
+	    let socket = new WebSocket("wss://acceso.lab.dit.upm.es:6001");
+	    socket.onopen = function(e) {
+		    console.log("testing wss Conection: success");
+		    socket.close();
+	    };
+	    socket.onerror = function(error) {
+		    setTimeout(function() { window.location.href="/labo_sphere/inv_conn.html"; },0);
+		    socket.close();
+	    };
+	    */
             // prepare all easyui objects
             $('#sesion_host').textbox({
                 value:'',
@@ -102,9 +114,9 @@ if ($admin<0) {
             });
             $('#labo').combobox({
                 height:18,
-                width:150,
+                width:200,
                 panelHeight:'auto',
-                value:'a127',
+                value:'ftel',
                 onChange: function(newValue,oldValue) { $('#selected_sesion').val(newValue); }
             });
             $('#username').textbox({
@@ -116,18 +128,16 @@ if ($admin<0) {
             $('#username').textbox('textbox').bind('keydown', function(e){
                 if (e.keyCode === 13){   // when press ENTER key, accept the inputed value.
                     $('#username').textbox( 'setValue', $(this).val() );
-                    $('#password').passwordbox('textbox').focus();
+                    $('#password').textbox('textbox').focus();
                 }
             });
-            $('#password').passwordbox({
-                prompt: 'Password',
-                showEye: true,
-                checkInterval: 1,
-                lastDelay: 1
+            $('#password').textbox({
+          	    prompt: 'Password',
+		validType: 'length[8,64]'
             });
-            $('#password').passwordbox('textbox').bind('keydown', function(e){
+            $('#password').textbox('textbox').bind('keydown', function(e){
                 if (e.keyCode === 13){   // when press ENTER key, accept the inputed value.
-                    $('#password').passwordbox( 'setValue', $(this).val() );
+                    $('#password').textbox( 'setValue', $(this).val() );
                     acceder('tunel');
                 }
             });
@@ -169,14 +179,19 @@ if ($admin<0) {
         function acceder(tipo) { // desktop, console, tunel
             // if ok then ask for selected session/option
             var username=$('#username').textbox('getValue');
-            var password=$('#password').passwordbox('getValue');
+            var password=$('#password').textbox('getValue');
             var duration=$('#duration').combobox('getValue');
             var mode=$('#selected_sesion').val(); // input hidden
             var host=$('#sesion_host').textbox('getValue');
             if(username==="" || password==="") {
                 $.messager.alert("Error","Debe indicar usuario y contrase&ntilde;a","error");
                 return;
-            }
+	    }
+	    if(username.indexOf('@')>=0 ) {
+		let malo=username.substring(username.indexOf('@'));
+                $.messager.alert("Error","Debe indicar solamente el nombre de usuario,<br/>&nbsp;<br/>NO incluya '"+malo+"'","error");
+                return;
+	    }
             if(mode.indexOf('virtual_')>=0) {
                 $.messager.alert("No disponible","El despliegue de m&aacute;quinas virtuales no est&aacute; todav&iacute;a disponible","error");
                 return;
@@ -265,7 +280,7 @@ if ($admin<0) {
 <body onload="initialize()">
 <form id="formulario" method="POST" action="web/admin.php" >
 
-    <input type="hidden" name="sesion" id="selected_sesion" value="a127A"/>
+    <input type="hidden" name="sesion" id="selected_sesion" value="ftel"/>
     <input type="hidden" name="sesion" id="countdown" value="0"/>
 
     <div class="cabecera">
@@ -284,13 +299,13 @@ if ($admin<0) {
                     </h2>
                     <p>
                         Por favor: introduzca los credenciales de su cuenta del laboratorio<br/>
-                        Si no tiene cuenta, o no recuerda la contrase&ntilde;a, pulse <a href="http://www.lab.dit.upm.es/labng">aqu&iacute;</a>
+                        Si no tiene cuenta, o no recuerda la contrase&ntilde;a, pulse <a href="https://www.lab.dit.upm.es/cuentas">aqu&iacute;</a>
                         <br/>
                         <span style="display:inline-block;width:400px;text-align:right;padding:10px">
                             <label for="username">Nombre de usuario</label>
                             <input type="text" name="username" id="username" value=""/> <br/>
                             <label for="password">Contrase&ntilde;a</label>
-                            <input type="text" name="password" id="password" value=""/>
+                            <input type="password" name="password" id="password" value=""/>
                         </span>
                     </p>
 
@@ -304,10 +319,12 @@ if ($admin<0) {
                             <label for="family_labo">Acceso a equipos del laboratorio</label>
                             <span id="labo_span" style="text-align:center;display:none">
                                 <select id="labo" name="labo" class="easyui-combobox">
-                                    <option value="a127" selected="selected">Lab. Edificio A</option>
-                                    <option value="b123">Lab. Edificio B</option>
-                                    <option value="macs">Equipos Mac-OSX</option>
-                                    <option value="remoto">Puestos virtuales</option>
+                                    <option value="ftel" selected="selected">Fundam. de Telem&aacute;tica</option>
+				    <option value="lab">Resto de asignaturas</option> 
+				    <option value="upm">Escritorio UPM</option>
+				    <!--
+				    <option value="macs">Equipos con sistema Mac-OSX</option>
+				    -->
                                 </select>
                             </span>
                         </li>
@@ -317,9 +334,11 @@ if ($admin<0) {
                             <label for="family_newvm">Desplegar una m&aacute;quina virtual</label>
                             <span id="virtual_span" style="text-align:center;display:none">
                                 <select id="virtual" name="virtual" class="easyui-combobox">
-                                    <option value="virtual_ftel" selected="selected">Ubuntu FTEL</option>
+                                    <option value="virtual_ftel" selected="selected">Ubuntu (FTEL)</option>
+                                    <option value="virtual_lab">Ubuntu (Gen&eacute;rico)</option>
+                                    <option value="virtual_upm">Escritorio UPM</option>
                                     <option value="virtual_mac">Mac OSX-Catalina</option>
-                                    <option value="virtual_windows10">Windows 10 Pro</option>
+                                    <option value="virtual_win">Windows 10 Pro</option>
                                 </select>
                             </span>
                         </li>
@@ -329,7 +348,8 @@ if ($admin<0) {
                             <label for="sesion_host">Acceso al equipo:</label>
                             <input name="host" value="" id="sesion_host" size="4" maxlength="4"/>
                         </li>
-                        <li id="admin_radio" style="display:none"><input type="radio" name="family" id="family_admin" value="admin" onclick="selectFamily('admin');"/>
+			<li id="admin_radio" style="display:none">
+			    <input type="radio" name="family" id="family_admin" value="admin" onclick="selectFamily('admin');"/>
                             <label for="family_admin">Acceso (restringido) al interfaz de gesti&oacute;n</label>
                         </li>
 
